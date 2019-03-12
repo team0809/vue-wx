@@ -1,0 +1,94 @@
+<import src="wxParse$47c980a6" /><template name="goods$290102f0">
+  <view class="_div data-v-a9c562b2 goods">
+    <view class="_div data-v-a9c562b2 swiper"><button class="_button data-v-a9c562b2 share" hover-class="none" open-type="share" value>分享商品</button></view>
+    <view class="_div data-v-a9c562b2 swiper-b">
+      <view class="_div data-v-a9c562b2 item">30天无忧退货</view>
+      <view class="_div data-v-a9c562b2 item">48小时快速退款</view>
+      <view class="_div data-v-a9c562b2 item">满88元免邮费</view>
+    </view>
+    <view class="_div data-v-a9c562b2 quan-warp">
+      <view class="_div data-v-a9c562b2 text1"> 券后价 <label class="_span data-v-a9c562b2">
+          <view class="_i data-v-a9c562b2">¥</view>29.99
+        </label></view>
+      <view class="_div data-v-a9c562b2 text2"> 已售86.9万 </view>
+      <view class="_div data-v-a9c562b2 text3"> 天猫价 ¥32.99 </view>
+    </view>
+    <view class="_div data-v-a9c562b2 goods-info">
+      <view class="_div data-v-a9c562b2 c">
+        <view class="_p data-v-a9c562b2">{{info.name}}</view>
+        <view class="_p data-v-a9c562b2">{{info.goods_brief}}</view>
+        <view class="_p data-v-a9c562b2">￥{{info.retail_price}}</view>
+        <view wx:if="{{brand.name}}" class="_div data-v-a9c562b2 brand">
+          <view class="_p data-v-a9c562b2">{{brand.name}}</view>
+        </view>
+      </view>
+    </view>
+    <view bindtap="handleProxy" class="_div data-v-a9c562b2 section-nav" data-eventid="{{'0'}}" data-comkey="{{$k}}">
+      <view class="_div data-v-a9c562b2">请选择规格数量</view>
+      <view class="_div data-v-a9c562b2"></view>
+    </view>
+    <view wx:if="{{attribute.length!=0}}" class="_div data-v-a9c562b2 attribute">
+      <view class="_div data-v-a9c562b2 head"> 商品参数 </view>
+      <view wx:key="index" key="{{index}}" class="_div data-v-a9c562b2 item" wx:for="{{attribute}}" wx:for-index="index" wx:for-item="item">
+        <view class="_div data-v-a9c562b2">{{item.name}}</view>
+        <view class="_div data-v-a9c562b2">{{item.value}}</view>
+      </view>
+    </view>
+    <view wx:if="{{goods_desc}}" class="_div data-v-a9c562b2 detail"><template data="{{...$root[$kk+'0'], $root}}" is="wxParse$47c980a6"></template></view>
+    <view class="_div data-v-a9c562b2 common-problem">
+      <view class="_div data-v-a9c562b2 h">
+        <view class="_div data-v-a9c562b2 line"></view> <text class="_text data-v-a9c562b2 title">常见问题</text>
+        <view class="_div data-v-a9c562b2 line"></view>
+      </view>
+      <view class="_div data-v-a9c562b2 b">
+        <view class="_div data-v-a9c562b2 item" wx:key="index" key="{{index}}" wx:for="{{issueList}}" wx:for-index="index" wx:for-item="item">
+          <view class="_div data-v-a9c562b2 question-box"><text class="_text data-v-a9c562b2 spot"></text> <text class="_text data-v-a9c562b2 question">{{item.question}}</text></view>
+          <view class="_div data-v-a9c562b2 answer">
+            {{item.answer}}
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="_div data-v-a9c562b2 common-problem">
+      <view class="_div data-v-a9c562b2 h">
+        <view class="_div data-v-a9c562b2 line"></view> <text class="_text data-v-a9c562b2 title">大家都在看</text>
+        <view class="_div data-v-a9c562b2 line"></view>
+      </view>
+      <view class="_div data-v-a9c562b2 sublist">
+        <view bindtap="handleProxy" wx:key="subindex" key="{{subindex}}" data-eventid="{{'1-'+subindex}}" data-comkey="{{$k}}" wx:for="{{productList}}" wx:for-index="subindex" wx:for-item="subitem" class="_div data-v-a9c562b2">
+          <image src="{{subitem.list_pic_url}}" alt class="_img data-v-a9c562b2"></image>
+          <view class="_p data-v-a9c562b2">{{subitem.name}}</view>
+          <view class="_p data-v-a9c562b2">￥{{subitem.retail_price}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="_div data-v-a9c562b2 bottom-fixed">
+      <view bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}" class="_div data-v-a9c562b2">
+        <view class="_div data-v-a9c562b2 collect {{[collectFlag ? 'active' : '']}}"></view>
+      </view>
+      <view class="_div data-v-a9c562b2 nbnav4" bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}">领取优惠券</view>
+    </view>
+    <view hidden="{{!(showpop)}}" bindtap="handleProxy" class="_div data-v-a9c562b2 pop" data-eventid="{{'4'}}" data-comkey="{{$k}}"></view>
+    <view class="_div data-v-a9c562b2 attr-pop {{[showpop ? 'fadeup' : 'fadedown']}}">
+      <view class="_div data-v-a9c562b2 top">
+        <view class="_div data-v-a9c562b2 left">
+          <image src="{{info.primary_pic_url}}" alt class="_img data-v-a9c562b2"></image>
+        </view>
+        <view class="_div data-v-a9c562b2 right">
+          <view class="_div data-v-a9c562b2">
+            <view class="_p data-v-a9c562b2">价格￥{{info.retail_price}}</view>
+            <view class="_p data-v-a9c562b2">请选择数量</view>
+          </view>
+        </view>
+        <view bindtap="handleProxy" class="_div data-v-a9c562b2 close" data-eventid="{{'5'}}" data-comkey="{{$k}}"> X </view>
+      </view>
+      <view class="_div data-v-a9c562b2 b">
+        <view class="_p data-v-a9c562b2">数量</view>
+        <view class="_div data-v-a9c562b2 count">
+          <view bindtap="handleProxy" class="_div data-v-a9c562b2 cut" data-eventid="{{'6'}}" data-comkey="{{$k}}">-</view> <input class="_input data-v-a9c562b2 number" disabled value="{{number}}" bindinput="handleProxy" data-eventid="{{'7'}}" data-comkey="{{$k}}" />
+          <view bindtap="handleProxy" class="_div data-v-a9c562b2 add" data-eventid="{{'8'}}" data-comkey="{{$k}}">+</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

@@ -1,0 +1,1 @@
+<import src="../../components/search$71011a0c" /><template is="search$71011a0c" data="{{ ...$root['0'], $root }}"/>

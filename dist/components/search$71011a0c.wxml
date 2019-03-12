@@ -1,0 +1,54 @@
+<template name="search$71011a0c">
+  <view class="_div data-v-b5c56466 search">
+    <view class="_div data-v-b5c56466 head">
+      <view class="_div data-v-b5c56466"><label class="_span data-v-b5c56466 iconfont iconsousuo"></label> <input type="text" confirm-type="search" focus="true" value="{{words}}" bindinput="handleProxy" bindfocus="handleProxy" bindconfirm="handleProxy" placeholder="商品搜索" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_input data-v-b5c56466" /> <label bindtap="handleProxy" class="_span data-v-b5c56466 iconfont iconguanbi del" src="/static/images/del-icon.png" data-eventid="{{'1'}}" data-comkey="{{$k}}"></label></view>
+      <view bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}" class="_div data-v-b5c56466">取消</view>
+    </view>
+    <view class="_div data-v-b5c56466 searchtips" wx:if="{{words}}">
+      <view bindtap="handleProxy" wx:if="{{tipsData.length!=0}}" data-value="{{item.name}}" wx:key="index" key="{{index}}" data-eventid="{{'3-'+index}}" data-comkey="{{$k}}" wx:for="{{tipsData}}" wx:for-index="index" wx:for-item="item" class="_div data-v-b5c56466">
+        {{ item.name }}
+      </view>
+      <view wx:if="{{tipsData.length==0}}" class="_div data-v-b5c56466 nogoods"> 数据库暂无此类商品... </view>
+    </view>
+    <view class="_div data-v-b5c56466 history" wx:if="{{historyData.length!=0}}">
+      <view class="_div data-v-b5c56466 t">
+        <view class="_div data-v-b5c56466">历史记录</view>
+        <view bindtap="handleProxy" data-eventid="{{'4'}}" data-comkey="{{$k}}" class="_div data-v-b5c56466"><label class="_span data-v-b5c56466 iconfont iconshanchu"></label></view>
+      </view>
+      <view class="_div data-v-b5c56466 cont">
+        <view bindtap="handleProxy" data-value="{{item.keyword}}" wx:key="index" key="{{index}}" data-eventid="{{'5-'+index}}" data-comkey="{{$k}}" wx:for="{{historyData}}" wx:for-index="index" wx:for-item="item" class="_div data-v-b5c56466">
+          {{item.keyword}}
+        </view>
+      </view>
+    </view>
+    <view class="_div data-v-b5c56466 history hotsearch">
+      <view class="_div data-v-b5c56466 t">
+        <view class="_div data-v-b5c56466">热门搜索</view>
+      </view>
+      <view class="_div data-v-b5c56466 cont">
+        <view bindtap="handleProxy" data-value="{{item.keyword}}" wx:key="index" key="{{index}}" data-eventid="{{'6-'+index}}" data-comkey="{{$k}}" wx:for="{{hotData}}" wx:for-index="index" wx:for-item="item" class="_div data-v-b5c56466 {{[0 == index ? 'active' : '']}}">
+          {{item.keyword}}
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{listData.length!=0}}" class="_div data-v-b5c56466 goodsList">
+      <view class="_div data-v-b5c56466 sortnav">
+        <view bindtap="handleProxy" data-eventid="{{'7'}}" data-comkey="{{$k}}" class="_div data-v-b5c56466 {{[0 == nowIndex ? 'active' : '']}}">综合<label class="_span data-v-b5c56466 iconfont iconpaixu"></label></view>
+        <view bindtap="handleProxy" class="_div data-v-b5c56466 price {{[1 == nowIndex ? 'active' : '', order == 'desc' ? 'desc' : 'asc']}}" data-eventid="{{'8'}}" data-comkey="{{$k}}">价格<label class="_span data-v-b5c56466 iconfont iconpaixu"></label></view>
+        <view bindtap="handleProxy" data-eventid="{{'9'}}" data-comkey="{{$k}}" class="_div data-v-b5c56466 {{[2 == nowIndex ? 'active' : '']}}">分类<label class="_span data-v-b5c56466 iconfont iconpaixu"></label></view>
+      </view>
+      <view class="_div data-v-b5c56466 sortlist">
+        <view bindtap="handleProxy" wx:key="index" key="{{index}}" class="_div data-v-b5c56466 item {{[listData.length % 2 == 0 ? 'active' : 'none']}}" data-eventid="{{'10-'+index}}" data-comkey="{{$k}}" wx:for="{{listData}}" wx:for-index="index" wx:for-item="item">
+          <view class="_div data-v-b5c56466 img-box">
+            <image src="{{item.list_pic_url}}" alt class="_img data-v-b5c56466"></image>
+            <view class="_div data-v-b5c56466 coupon-wrapper theme-bg-color-1"> 券 <view class="_i data-v-b5c56466">￥</view>
+              <view class="_b data-v-b5c56466">20</view>
+            </view>
+          </view>
+          <view class="_p data-v-b5c56466 name">{{item.name}}</view>
+          <view class="_div data-v-b5c56466 price-wrapper"><label class="_span data-v-b5c56466 span1">￥<label class="_span data-v-b5c56466">29.9</label></label> <label class="_span data-v-b5c56466 price_yj">￥49.9</label> <label class="_span data-v-b5c56466 price_right">销量 100</label></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

@@ -1,0 +1,8 @@
+<template name="brandlist$a7efe4d2">
+  <view class="_div data-v-6c1a9394 brand">
+    <view bindtap="handleProxy" wx:key="index" key="{{index}}" class="_div data-v-6c1a9394 list" data-eventid="{{'0-'+index}}" data-comkey="{{$k}}" wx:for="{{listData}}" wx:for-index="index" wx:for-item="item">
+      <image src="{{item.app_list_pic_url}}" alt class="_img data-v-6c1a9394"></image>
+      <view class="_div data-v-6c1a9394 info"><label class="_span data-v-6c1a9394">{{item.name}}</label> <label class="_span data-v-6c1a9394">|</label> <label class="_span data-v-6c1a9394">{{item.floor_price}}元起</label></view>
+    </view>
+  </view>
+</template>
