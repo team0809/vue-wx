@@ -1,3 +1,7 @@
+export {
+  api
+} from "./api";
+
 function formatNumber(n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
@@ -31,13 +35,33 @@ function request(url, method, data, header = {}) {
     title: '加载中' //数据请求前loading
   })
   return new Promise((resolve, reject) => {
+    // 默认值
+    let _header = { 'content-type': 'application/json'};
+
+    //token
+    let token = getStorageAuthToken();
+    if(token!=''){
+      _header['x-auth-token'] = token;
+    }
+
+     //固定信息
+     let base = {
+      clientType: 'WechatMiniprogram',
+      userId: getStorageOpenid(),
+      version: '1.0.0',
+      time: new Date().getTime()
+    };
+
+    _header['base']=JSON.stringify(base);
+
+    //合并
+    Object.assign(_header,header);
+
     wx.request({
-      url: host + url, //仅为示例，并非真实的接口地址
+      url: url.indexOf('http')==0?url:host + url, //仅为示例，并非真实的接口地址
       method: method,
       data: data,
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
+      header: _header,
       success: function (res) {
         wx.hideLoading();
         resolve(res.data)
@@ -57,6 +81,13 @@ export function get(url, data) {
 }
 export function post(url, data) {
   return request(url, 'POST', data)
+}
+
+export function fget(url, data) {
+  return request(url, 'GET', data,{ "Content-Type": "application/x-www-form-urlencoded"})
+}
+export function fpost(url, data) {
+  return request(url, 'POST', data,{ "Content-Type": "application/x-www-form-urlencoded"})
 }
 
 //-------------------------------------------------------------------------请求的封装
@@ -95,9 +126,6 @@ export function getStorageOpenid() {
   }
 }
 
-
-
-
 export function getOpenid() {
   // wx.login({
   //   success: res => {
@@ -124,4 +152,13 @@ export function getOpenid() {
   //   fail: () => {},
   //   complete: () => {}
   // });
+}
+
+export function getStorageAuthToken(){
+    const authToken = wx.getStorageSync("authToken");
+    if (authToken) {
+      return authToken;
+    } else {
+      return ''
+    }
 }

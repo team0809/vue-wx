@@ -1,1 +1,1 @@
-<import src="../../components/collectlist$5a6d603a" /><template is="collectlist$5a6d603a" data="{{ ...$root['0'], $root }}"/>
+<import src="../../components/index$73e2a510" /><template is="index$73e2a510" data="{{ ...$root['0'], $root }}"/>

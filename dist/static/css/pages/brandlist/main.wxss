@@ -1,27 +1,27 @@
 @import "/static/css/vendor.wxss";
 
-.brand .list.data-v-6c1a9394 {
+.brand .list.data-v-59874feb {
   width: 750rpx;
   height: 416rpx;
   position: relative;
   margin-bottom: 4rpx;
 }
-.brand .list ._img.data-v-6c1a9394 {
+.brand .list ._img.data-v-59874feb {
   width: 100%;
   height: 100%;
 }
-.brand .list .info.data-v-6c1a9394 {
+.brand .list .info.data-v-59874feb {
   text-align: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
 }
-.brand .list .info ._span.data-v-6c1a9394 {
+.brand .list .info ._span.data-v-59874feb {
   color: #fff;
   font-size: 35rpx;
   font-weight: bold;
 }
-.brand .list .info ._span.data-v-6c1a9394:nth-child(2) {
+.brand .list .info ._span.data-v-59874feb:nth-child(2) {
   padding: 0 5rpx;
 }

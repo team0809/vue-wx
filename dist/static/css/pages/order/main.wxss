@@ -1,9 +1,9 @@
 @import "/static/css/vendor.wxss";
 
-.order.data-v-52bda89f {
+.order.data-v-51a564d4 {
   overflow-x: hidden;
 }
-.order .order-nav.data-v-52bda89f {
+.order .order-nav.data-v-51a564d4 {
   height: 100rpx;
   background: #fff;
   margin-bottom: 10rpx;
@@ -12,7 +12,7 @@
   z-index: 54;
   width: 100%;
 }
-.order .order-nav ._li.data-v-52bda89f {
+.order .order-nav ._li.data-v-51a564d4 {
   box-sizing: border-box;
   float: left;
   width: 25%;
@@ -20,12 +20,12 @@
   line-height: 100rpx;
   height: 100rpx;
 }
-.order .order-nav .cur.data-v-52bda89f {
+.order .order-nav .cur.data-v-51a564d4 {
   border-bottom: 4rpx solid #FE0000;
   color: #FE0000;
   font-weight: bold;
 }
-.order .seladdress.data-v-52bda89f {
+.order .seladdress.data-v-51a564d4 {
   width: 100%;
   min-height: 166rpx;
   background: url("http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-bd30f2bfeb.png") 0 0 repeat-x #fff;
@@ -35,15 +35,15 @@
   text-align: center;
   line-height: 166rpx;
 }
-.order .address.data-v-52bda89f {
+.order .address.data-v-51a564d4 {
   background: url("http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-bd30f2bfeb.png") 0 0 repeat-x #fff;
   padding: 50rpx 0 30rpx 0;
   margin-bottom: 20rpx;
 }
-.order .address .item.data-v-52bda89f {
+.order .address .item.data-v-51a564d4 {
   padding: 0 20rpx;
 }
-.order .address .item .addresslist.data-v-52bda89f {
+.order .address .item .addresslist.data-v-51a564d4 {
   width: 100%;
   position: relative;
   transition: all 300ms ease;
@@ -51,7 +51,7 @@
   justify-content: space-between;
   align-items: center;
 }
-.order .address .item .addresslist ._div.data-v-52bda89f:nth-child(1) {
+.order .address .item .addresslist ._div.data-v-51a564d4:nth-child(1) {
   width: 100rpx;
   text-align: center;
   overflow: hidden;
@@ -59,7 +59,7 @@
   white-space: nowrap;
   align-self: flex-start;
 }
-.order .address .item .addresslist ._div:nth-child(1) .moren.data-v-52bda89f {
+.order .address .item .addresslist ._div:nth-child(1) .moren.data-v-51a564d4 {
   width: 60rpx;
   height: 30rpx;
   border: 1rpx solid #b4282d;
@@ -68,11 +68,11 @@
   color: #b4282d;
   margin: 10rpx auto 0 auto;
 }
-.order .address .item .addresslist .info.data-v-52bda89f {
+.order .address .item .addresslist .info.data-v-51a564d4 {
   padding: 0 20rpx;
   flex: 1;
 }
-.order .address .item .addresslist .info ._p.data-v-52bda89f:nth-child(2) {
+.order .address .item .addresslist .info ._p.data-v-51a564d4:nth-child(2) {
   margin-top: 5rpx;
   color: #666;
   overflow: hidden;
@@ -81,104 +81,104 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.order .address .item .addresslist ._div.data-v-52bda89f:nth-child(3) {
+.order .address .item .addresslist ._div.data-v-51a564d4:nth-child(3) {
   width: 50rpx;
   height: 50rpx;
   margin: 0 20rpx;
   background: url("http://yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-right-596d39df1e.png") no-repeat;
   background-size: 100% 100%;
 }
-.order .orderbox.data-v-52bda89f {
+.order .orderbox.data-v-51a564d4 {
   padding: 0 30rpx;
   background: #ffffff;
 }
-.order .orderbox .item.data-v-52bda89f {
+.order .orderbox .item.data-v-51a564d4 {
   padding: 30rpx 0;
   display: flex;
   justify-content: space-between;
   border-bottom: 1rpx solid #d9d9d9;
 }
-.order .orderbox .item.data-v-52bda89f:last-child {
+.order .orderbox .item.data-v-51a564d4:last-child {
   border: none;
 }
-.order .cartlist.data-v-52bda89f {
+.order .cartlist.data-v-51a564d4 {
   background: #fff;
   margin-bottom: 110rpx;
   margin-top: 110rpx;
 }
-.order .cartlist .odr-time.data-v-52bda89f {
+.order .cartlist .odr-time.data-v-51a564d4 {
   color: #aaa;
   font-size: 22rpx;
   margin-top: 8rpx;
 }
-.order .cartlist .odr-numb.data-v-52bda89f {
+.order .cartlist .odr-numb.data-v-51a564d4 {
   color: #aaa;
   font-size: 22rpx;
   margin-top: 8rpx;
 }
-.order .cartlist .odr-numb ._span.data-v-52bda89f {
+.order .cartlist .odr-numb ._span.data-v-51a564d4 {
   display: inline;
   border: 1rpx solid #666;
   padding: 3rpx 10rpx;
   margin-left: 8rpx;
   border-radius: 100rpx;
 }
-.order .cartlist .monery-bom.data-v-52bda89f {
+.order .cartlist .monery-bom.data-v-51a564d4 {
   margin-top: 16rpx;
   height: 36rpx;
   line-height: 36rpx;
 }
-.order .cartlist .monery-bom ._span.data-v-52bda89f {
+.order .cartlist .monery-bom ._span.data-v-51a564d4 {
   display: inline-block;
   color: #aaa;
   font-size: 22rpx;
 }
-.order .cartlist .monery-bom ._i.data-v-52bda89f {
+.order .cartlist .monery-bom ._i.data-v-51a564d4 {
   display: inline-block;
   float: right;
   color: #FE0000;
   font-size: 22rpx;
 }
-.order .cartlist .item.data-v-52bda89f {
+.order .cartlist .item.data-v-51a564d4 {
   padding: 20rpx 0;
   border-bottom: 1rpx solid #f4f4f4;
   position: relative;
 }
-.order .cartlist .item .con.data-v-52bda89f {
+.order .cartlist .item .con.data-v-51a564d4 {
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: all 300ms ease;
 }
-.order .cartlist .item .con .left.data-v-52bda89f {
+.order .cartlist .item .con .left.data-v-51a564d4 {
   display: flex;
   align-items: center;
   width: 100%;
 }
-.order .cartlist .item .con .left .img.data-v-52bda89f {
+.order .cartlist .item .con .left .img.data-v-51a564d4 {
   width: 220rpx;
   height: 220rpx;
   display: block;
   background: #f4f4f4;
   margin-left: 20rpx;
 }
-.order .cartlist .item .con .left .img ._img.data-v-52bda89f {
+.order .cartlist .item .con .left .img ._img.data-v-51a564d4 {
   width: 100%;
   height: 100%;
 }
-.order .cartlist .item .con .left .info.data-v-52bda89f {
+.order .cartlist .item .con .left .info.data-v-51a564d4 {
   padding: 20rpx;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   flex: 1;
 }
-.order .cartlist .item .con .left .info ._p.data-v-52bda89f {
+.order .cartlist .item .con .left .info ._p.data-v-51a564d4 {
   line-height: 40rpx;
 }
-.order .cartlist .item .con .right.data-v-52bda89f {
+.order .cartlist .item .con .right.data-v-51a564d4 {
   padding-right: 50rpx;
 }
-.order .bottom.data-v-52bda89f {
+.order .bottom.data-v-51a564d4 {
   position: fixed;
   bottom: 0;
   height: 100rpx;
@@ -187,12 +187,12 @@
   background: #fff;
   font-size: 32repx;
 }
-.order .bottom ._div.data-v-52bda89f:nth-child(1) {
+.order .bottom ._div.data-v-51a564d4:nth-child(1) {
   flex: 1;
   line-height: 100rpx;
   padding-left: 20rpx;
 }
-.order .bottom ._div.data-v-52bda89f:nth-child(2) {
+.order .bottom ._div.data-v-51a564d4:nth-child(2) {
   width: 200rpx;
   height: 100rpx;
   text-align: center;

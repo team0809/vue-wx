@@ -1,1 +1,1 @@
-<import src="../../components/cart$7f1bf7c4" /><template is="cart$7f1bf7c4" data="{{ ...$root['0'], $root }}"/>
+<import src="../../components/index$d40ddd98" /><template is="index$d40ddd98" data="{{ ...$root['0'], $root }}"/>

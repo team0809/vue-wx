@@ -20,8 +20,8 @@ export default {
       watermark: { timestamp: 1535513485, appid: "wx601ce71bde7b9add" }
     };
     var openId = userInfo.openId;
-    wx.setStorageSync("userInfo", userInfo);
-    wx.setStorageSync("openId", openId);
+    //wx.setStorageSync("userInfo", userInfo);
+    //wx.setStorageSync("openId", openId);
     console.log("app created and cache logs by setStorageSync");
     //获取openid
 

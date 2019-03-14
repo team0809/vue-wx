@@ -1,12 +1,12 @@
 @import "/static/css/vendor.wxss";
 
-.addaddress.data-v-c46784d0 {
+.addaddress.data-v-00cada83 {
   position: absolute;
   width: 100%;
   height: 100%;
   background: #fff;
 }
-.addaddress .item.data-v-c46784d0 {
+.addaddress .item.data-v-00cada83 {
   width: 690rpx;
   height: 70rpx;
   line-height: 70rpx;
@@ -14,20 +14,20 @@
   padding: 10rpx 0;
   border-bottom: 1rpx solid #f4f4f4;
 }
-.addaddress .item ._input.data-v-c46784d0 {
+.addaddress .item ._input.data-v-00cada83 {
   width: 100%;
   height: 100%;
 }
-.addaddress .itemend.data-v-c46784d0 {
+.addaddress .itemend.data-v-00cada83 {
   margin-top: 40rpx;
   display: flex;
   justify-content: space-between;
   border: none;
 }
-.addaddress .itemend ._div.data-v-c46784d0:nth-child(2) {
+.addaddress .itemend ._div.data-v-00cada83:nth-child(2) {
   color: green;
 }
-.addaddress .bottom.data-v-c46784d0 {
+.addaddress .bottom.data-v-00cada83 {
   position: absolute;
   bottom: 0;
   left: 0;

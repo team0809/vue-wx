@@ -1,44 +1,44 @@
 @import "/static/css/vendor.wxss";
 
-.picture.data-v-2ed8b320 {
+.picture.data-v-6fc0e26a {
   width: 100%;
   margin-bottom: 30rpx;
 }
-.picture ._h3.data-v-2ed8b320 {
+.picture ._h3.data-v-6fc0e26a {
   color: red;
   text-align: left;
   text-indent: 1em;
   border-bottom: 1rpx solid #999;
   padding: 15rpx 0;
 }
-.picture .btn.data-v-2ed8b320 {
+.picture .btn.data-v-6fc0e26a {
   display: flex;
   margin-top: 10rpx;
 }
-.userinfo.data-v-2ed8b320 {
+.userinfo.data-v-6fc0e26a {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.userinfo-avatar.data-v-2ed8b320 {
+.userinfo-avatar.data-v-6fc0e26a {
   width: 128rpx;
   height: 128rpx;
   margin: 20rpx;
   border-radius: 50%;
 }
-.userinfo-nickname.data-v-2ed8b320 {
+.userinfo-nickname.data-v-6fc0e26a {
   color: #aaa;
 }
-.usermotto.data-v-2ed8b320 {
+.usermotto.data-v-6fc0e26a {
   margin-top: 300rpx;
 }
-.form-control.data-v-2ed8b320 {
+.form-control.data-v-6fc0e26a {
   display: block;
   padding: 0 24rpx;
   margin-bottom: 10rpx;
   border: 1rpx solid #ccc;
 }
-.counter.data-v-2ed8b320 {
+.counter.data-v-6fc0e26a {
   display: inline-block;
   margin: 20rpx auto;
   padding: 10rpx 20rpx;

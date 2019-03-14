@@ -1,6 +1,6 @@
 @import "/static/css/vendor.wxss";
 
-.collection .title.data-v-af5f45ce {
+.collection .title.data-v-b5b544e4 {
   padding: 40rpx 0;
   text-align: center;
   background: #fff;
@@ -8,39 +8,39 @@
   font-size: 36rpx;
   font-weight: bold;
 }
-.collection .sublist.data-v-af5f45ce {
+.collection .sublist.data-v-b5b544e4 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 730rpx;
   margin: 0 auto;
 }
-.collection .sublist ._div.data-v-af5f45ce {
+.collection .sublist ._div.data-v-b5b544e4 {
   width: 360rpx;
   background: #fff;
   margin-bottom: 10rpx;
   padding-bottom: 10rpx;
 }
-.collection .sublist ._div ._img.data-v-af5f45ce {
+.collection .sublist ._div ._img.data-v-b5b544e4 {
   display: block;
   width: 302rpx;
   height: 302rpx;
   margin: 0 auto;
 }
-.collection .sublist ._div ._p.data-v-af5f45ce {
+.collection .sublist ._div ._p.data-v-b5b544e4 {
   margin-bottom: 5rpx;
   text-indent: 1em;
 }
-.collection .sublist ._div ._p.data-v-af5f45ce:nth-child(2) {
+.collection .sublist ._div ._p.data-v-b5b544e4:nth-child(2) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 98%;
 }
-.collection .sublist ._div ._p.data-v-af5f45ce:nth-child(3) {
+.collection .sublist ._div ._p.data-v-b5b544e4:nth-child(3) {
   color: #9c3232;
 }
-.collection .sublist .last.data-v-af5f45ce {
+.collection .sublist .last.data-v-b5b544e4 {
   display: block;
   width: 302rpx;
   height: 302rpx;
@@ -51,7 +51,7 @@
   justify-content: center;
   flex-wrap: wrap;
 }
-.collection .sublist .last ._p.data-v-af5f45ce {
+.collection .sublist .last ._p.data-v-b5b544e4 {
   height: 33rpx;
   width: 100%;
   line-height: 33rpx;
@@ -59,7 +59,7 @@
   font-size: 33rpx;
   text-align: center;
 }
-.collection .sublist .last .icon.data-v-af5f45ce {
+.collection .sublist .last .icon.data-v-b5b544e4 {
   display: inline-block;
   width: 70rpx;
   height: 70rpx;
@@ -67,6 +67,6 @@
   background-size: 100% 100%;
   margin-top: 60rpx;
 }
-.collection .sublist ._div.data-v-af5f45ce:nth-child(2n) {
+.collection .sublist ._div.data-v-b5b544e4:nth-child(2n) {
   margin-left: 10rpx;
 }

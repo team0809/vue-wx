@@ -1,65 +1,65 @@
 @import "/static/css/vendor.wxss";
 
-.branddetail .banner.data-v-0d89622e {
+.branddetail .banner.data-v-13df6144 {
   width: 100%;
   height: 290rpx;
   position: relative;
 }
-.branddetail .banner ._img.data-v-0d89622e {
+.branddetail .banner ._img.data-v-13df6144 {
   width: 100%;
   height: 100%;
 }
-.branddetail .banner .info.data-v-0d89622e {
+.branddetail .banner .info.data-v-13df6144 {
   text-align: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate3d(-50%, -50%, 0);
 }
-.branddetail .banner .info ._span.data-v-0d89622e {
+.branddetail .banner .info ._span.data-v-13df6144 {
   font-size: 38rpx;
   color: #fff;
   border-bottom: 5rpx solid #fff;
   padding: 5rpx;
 }
-.branddetail .info-desc.data-v-0d89622e {
+.branddetail .info-desc.data-v-13df6144 {
   background: #fff;
   padding: 42rpx 32rpx;
   font-size: 30rpx;
   color: #666;
   text-align: center;
 }
-.branddetail .sortlist.data-v-0d89622e {
+.branddetail .sortlist.data-v-13df6144 {
   margin-top: 20rpx;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.branddetail .sortlist .item.data-v-0d89622e {
+.branddetail .sortlist .item.data-v-13df6144 {
   width: 372.5rpx;
   margin-bottom: 5rpx;
   text-align: center;
   background: #fff;
   padding: 15rpx 0;
 }
-.branddetail .sortlist .item ._img.data-v-0d89622e {
+.branddetail .sortlist .item ._img.data-v-13df6144 {
   display: block;
   width: 302rpx;
   height: 302rpx;
   margin: 0 auto;
 }
-.branddetail .sortlist .item .name.data-v-0d89622e {
+.branddetail .sortlist .item .name.data-v-13df6144 {
   margin: 15rpx 0 22rpx 0;
   text-align: center;
   padding: 0 20rpx;
   font-size: 24rpx;
 }
-.branddetail .sortlist .item .price.data-v-0d89622e {
+.branddetail .sortlist .item .price.data-v-13df6144 {
   text-align: center;
   font-size: 30rpx;
   color: #b4282d;
 }
-.branddetail .none.data-v-0d89622e {
+.branddetail .none.data-v-13df6144 {
   text-align: center;
   color: #999;
   font-size: 32rpx;

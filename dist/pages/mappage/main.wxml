@@ -1,1 +1,1 @@
-<import src="../../components/mappage$70123dc6" /><template is="mappage$70123dc6" data="{{ ...$root['0'], $root }}"/>
+<import src="../../components/index$776acf73" /><template is="index$776acf73" data="{{ ...$root['0'], $root }}"/>

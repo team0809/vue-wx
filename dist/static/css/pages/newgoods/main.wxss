@@ -1,66 +1,66 @@
 @import "/static/css/vendor.wxss";
 
-.newgoods .banner.data-v-9e07f44a {
+.newgoods .banner.data-v-4a42e186 {
   width: 100%;
   height: 278rpx;
 }
-.newgoods .banner ._img.data-v-9e07f44a {
+.newgoods .banner ._img.data-v-4a42e186 {
   width: 100%;
   height: 100%;
 }
-.newgoods .sortnav.data-v-9e07f44a {
+.newgoods .sortnav.data-v-4a42e186 {
   display: flex;
   background: #fff;
   width: 100%;
   height: 78rpx;
   line-height: 78rpx;
 }
-.newgoods .sortnav ._div.data-v-9e07f44a {
+.newgoods .sortnav ._div.data-v-4a42e186 {
   width: 250rpx;
   height: 100%;
   text-align: center;
 }
-.newgoods .sortnav .active.data-v-9e07f44a {
+.newgoods .sortnav .active.data-v-4a42e186 {
   color: #b4282d;
 }
-.newgoods .sortnav .price.data-v-9e07f44a {
+.newgoods .sortnav .price.data-v-4a42e186 {
   background: url(//yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/no-3127092a69.png) 165rpx center no-repeat;
   background-size: 15rpx 21rpx;
 }
-.newgoods .sortnav .active.desc.data-v-9e07f44a {
+.newgoods .sortnav .active.desc.data-v-4a42e186 {
   background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/down-95e035f3e5.png) 165rpx center no-repeat;
   background-size: 15rpx 21rpx;
 }
-.newgoods .sortnav .active.asc.data-v-9e07f44a {
+.newgoods .sortnav .active.asc.data-v-4a42e186 {
   background: url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/up-636b92c0a5.png) 165rpx center no-repeat;
   background-size: 15rpx 21rpx;
 }
-.newgoods .sortlist.data-v-9e07f44a {
+.newgoods .sortlist.data-v-4a42e186 {
   margin-top: 20rpx;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.newgoods .sortlist .item.data-v-9e07f44a {
+.newgoods .sortlist .item.data-v-4a42e186 {
   width: 372.5rpx;
   margin-bottom: 5rpx;
   text-align: center;
   background: #fff;
   padding: 15rpx 0;
 }
-.newgoods .sortlist .item ._img.data-v-9e07f44a {
+.newgoods .sortlist .item ._img.data-v-4a42e186 {
   display: block;
   width: 302rpx;
   height: 302rpx;
   margin: 0 auto;
 }
-.newgoods .sortlist .item .name.data-v-9e07f44a {
+.newgoods .sortlist .item .name.data-v-4a42e186 {
   margin: 15rpx 0 22rpx 0;
   text-align: center;
   padding: 0 20rpx;
   font-size: 24rpx;
 }
-.newgoods .sortlist .item .price.data-v-9e07f44a {
+.newgoods .sortlist .item .price.data-v-4a42e186 {
   text-align: center;
   font-size: 30rpx;
   color: #b4282d;
