@@ -13,7 +13,7 @@
       <swiper class="swiper-container" indicator-dots="true" autoplay="true" interval="3000" circular="true" duration="500">
         <block v-for="(item, index) in banner " :key="index">
           <swiper-item class="swiper-item">
-            <image :src="item.image_url" class="slide-image" />
+            <image :src="item.imgSrc" class="slide-image" />
           </swiper-item>
         </block>
       </swiper>
@@ -24,7 +24,7 @@
         <span>&nbsp;</span> 大家都在领
       </div>
       <div class="u-right">
-        <span>1111119999</span>  大家都在领
+        <span></span>
       </div>
     </div>
     <div class="our-cont">
@@ -35,30 +35,30 @@
         <span>&nbsp;</span> 优惠列表
       </div>
       <div class="u-right">
-        <span>1111119999</span>  更多
+        <span></span> 
       </div>
     </div>
     <div @click="goodsDetail(item.id)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
-      <image class="imgs" :src="item.list_pic_url" alt="" />
+      <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
       <div class="list-cont">
         <div class="goods_title">
-          {{item.name}}
+          {{item.goodsName}}
         </div>
         <div class="result_tm icon">
           <image class="imgs-icon" src="../../../static/list-img/1.jpg" alt="" />
           <span class="icon">包邮</span>
         </div>
         <div class="col-yuan">
-          <span> 原价 ¥59.8</span>
-          <span class="fr">已售2.6万件</span>
+          <span> 原价 ¥{{item.salePrice/100}}</span>
+          <span class="fr">已售{{item.volume}}万件</span>
         </div>
         <div class="col-money">
           <p class="p-fr">
-            <i class="quan">10元券</i>
+            <i class="quan">{{item.couponPrice/100}}元券</i>
           </p>
           券后 
           <span class="s-k">
-            <i>¥</i>5.1
+            <i>¥</i>{{(item.salePrice-item.couponPrice)/100}}
           </span>
         </div>
       </div>
@@ -69,6 +69,7 @@
 <script>
 import amapFile from "../../utils/amap-wx";
 import { get } from "../../utils";
+import { api } from "../../utils/api";
 import { mapState, mapMutations } from "vuex";
 export default {
   onShow() {
@@ -83,12 +84,17 @@ export default {
   data() {
     return {
       banner: [],
-      channel: [],
-      brandList: [],
-      newGoods: [],
       hotGoods: [],
       topicList: [],
-      newCategoryList: []
+      newCategoryList: [],
+      //参数
+      params:{
+        //热卖商品
+        hotGoods:{
+          pageIndex:1,
+          pageSize:20
+        }
+      }
     };
   },
   components: {},
@@ -143,14 +149,13 @@ export default {
       });
     },
     async getData() {
-      const data = await get("/index/index");
-      this.banner = data.banner;
-      this.channel = data.channel;
-      this.brandList = data.brandList;
-      this.newGoods = data.newGoods;
-      this.hotGoods = data.hotGoods;
-      this.topicList = data.topicList;
-      this.newCategoryList = data.newCategoryList;
+      //const data = await get("/index/index");
+      //默认数据
+      const defaultInfo = await api.defaultInfo();
+      this.banner = defaultInfo.banners;
+      this.topicList = defaultInfo.hotNews;
+      //热门商品
+      this.hotGoods = await api.hotGoods(this.params.hotGoods);
     },
     goodsDetail(id) {
       wx.navigateTo({

@@ -162,3 +162,27 @@ export function getStorageAuthToken(){
       return ''
     }
 }
+
+//-------------------------------------------搜索记录---------------------------------------------------
+
+const searchHistory = {
+  add:function(key){
+      let keyArray =wx.getStorageSync("user_search_history");
+      if(keyArray){
+        keyArray = JSON.parse(keyArray);
+      }else{
+        keyArray = [];
+      }
+      keyArray.unshift(key);
+      wx.setStorageSync("user_search_history",JSON.stringify(keyArray));
+  },
+  clear:function(){
+    wx.setStorageSync("user_search_history","[]");
+  },
+  get: function(){
+    let keyArray =wx.getStorageSync("user_search_history");
+    return keyArray? JSON.parse(keyArray):[];
+  }
+}
+
+export {searchHistory}

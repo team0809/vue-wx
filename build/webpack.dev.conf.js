@@ -63,6 +63,14 @@ module.exports = merge(baseWebpackConfig, {
         ) || count > 1
       }
     }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        drop_debugger: true,
+        drop_console: true
+      },
+      sourceMap: true
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']

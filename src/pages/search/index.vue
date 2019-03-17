@@ -10,11 +10,8 @@
       <div @click="cancel">取消</div>
     </div>
     <div class="searchtips" v-if="words">
-      <div @click="searchWords" v-if="tipsData.length!=0" :data-value="item.name" v-for="(item,index) in tipsData" :key="index">
-        {{ item.name }}
-      </div>
-      <div v-if="tipsData.length==0" class="nogoods">
-        数据库暂无此类商品...
+      <div @click="searchWords" v-if="tipsData.length!=0">
+      搜索"{{ tipsData }}"
       </div>
     </div>
     <div class="history" v-if="historyData.length!=0">
@@ -25,8 +22,8 @@
         </div>
       </div>
       <div class="cont">
-        <div @click="searchWords" :data-value="item.keyword" v-for="(item,index) in historyData" :key="index">
-          {{item.keyword}}
+        <div @click="searchWords" :data-value="item" v-for="(item,index) in historyData" :key="index">
+          {{item}}
         </div>
       </div>
     </div>
@@ -35,8 +32,8 @@
         <div>热门搜索</div>
       </div>
       <div class="cont">
-        <div @click="searchWords" v-for="(item,index) in hotData" :data-value="item.keyword" :class="{active:0==index}" :key="index">
-          {{item.keyword}}
+        <div @click="searchWords" v-for="(item,index) in hotData" :data-value="item" :class="{active:0==index}" :key="index">
+          {{item}}
         </div>
       </div>
     </div>
@@ -48,18 +45,18 @@
         <div @click="changeTab(2)" :class="[2==nowIndex ?'active':'']">分类<span class="iconfont iconpaixu"></span></div>
       </div>
       <div class="sortlist">
-        <div @click="goodsDetail(item.id)" v-for="(item, index) in listData" :key="index" :class="[(listData.length)%2==0?'active':'none']" class="item">
+        <div @click="goodsDetail(item.goodsId)" v-for="(item, index) in listData" :key="index" :class="[(listData.length)%2==0?'active':'none']" class="item">
           <div class="img-box">
-            <img :src="item.list_pic_url" alt="">
+            <img :src="item.thumbnailImgUrl" alt="">
           <div class="coupon-wrapper theme-bg-color-1">
-            券 <i>￥</i><b>20</b>
+            券 <i>￥</i><b>{{item.couponPrice}}</b>
           </div>
           </div>
-          <p class="name">{{item.name}}</p>
+          <p class="name">{{item.goodsName}}</p>
           <div class="price-wrapper">
-            <span class="span1">￥<span>29.9</span></span>
-            <span class="price_yj">￥49.9</span>
-            <span class="price_right">销量 100</span>
+            <span class="span1">￥<span>{{item.salePrice - item.couponPrice}}</span></span>
+            <span class="price_yj">￥{{item.salePrice}}</span>
+            <span class="price_right">销量 {{item.volume}}</span>
           </div>
           <!-- <p class="price">￥{{item.retail_price}}</p> -->
         </div>
@@ -71,8 +68,10 @@
 <script>
 import {
   post,
-  get
+  get,
+  searchHistory,
 } from "../../utils";
+import { api } from "../../utils/api";
 export default {
   created() { },
   mounted() {
@@ -85,7 +84,7 @@ export default {
       words: "",
       historyData: [],
       hotData: [],
-      tipsData: [],
+      tipsData: '',
       listData: [],
       openid: "",
       order: "",
@@ -118,12 +117,13 @@ export default {
     },
     async getlistData() {
       //获取商品列表
-      const data = await get("/search/helperaction", {
-        keyword: this.words,
-        order: this.order
-      });
-      this.listData = data.keywords;
-      this.tipsData = [];
+      // const data1 = await get("/search/helperaction", {
+      //   keyword: this.words,
+      //   order: this.order
+      // });
+      const goodsData = await api.searchGoods({condition:{keyword:this.words,goodsType:1}});
+      this.listData = goodsData;
+      this.tipsData = '';
     },
     changeTab(index) {
       this.nowIndex = index;
@@ -135,37 +135,31 @@ export default {
       this.getlistData();
     },
     async clearHistory() {
-      const data = await post("/search/clearhistoryAction", {
-        openId: this.openid
-      });
-      console.log(data);
-      if (data) {
-        this.historyData = [];
-      }
+      //清除搜索历史
+     searchHistory.clear();
+     this.historyData = [];
     },
     async searchWords(e) {
       var vaule = e.currentTarget.dataset.value;
       this.words = vaule || this.words;
-      const data = await post("/search/addhistoryaction", {
-        openId: this.openid,
-        keyword: vaule || this.words
-      });
-      console.log(data);
+      //添加历史搜索历史
+      searchHistory.add(this.words)
       //获取历史数据
       this.getHotData();
       //获取商品列表
       this.getlistData();
     },
     async getHotData(first) {
-      const data = await get("/search/indexaction?openId=" + this.openid);
-      this.hotData = data.hotKeywordList;
-      this.historyData = data.historyData;
+      const data =  await api.hotKeyword();
+      this.hotData = data;
+      //搜索历史
+      this.historyData = searchHistory.get();
     },
     async tipsearch(e) {
       const data = await get("/search/helperaction", {
         keyword: this.words
       });
-      this.tipsData = data.keywords;
+      this.tipsData = this.words;
     },
     topicDetail(id) {
       wx.navigateTo({
