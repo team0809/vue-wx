@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <!-- 搜索 -->
-    <div class="search">
+    <div class="search" style="display:none">
       <div @click="toMappage">{{cityName}}</div>
       <div @click="toSearch">
         <input type="text" placeholder="搜索商品">
@@ -9,59 +9,74 @@
       </div>
     </div>
     <!-- banner轮播图 -->
-    <div class="swiper">
+    <div class="swiper" style="display:none">
       <swiper class="swiper-container" indicator-dots="true" autoplay="true" interval="3000" circular="true" duration="500">
         <block v-for="(item, index) in banner " :key="index">
           <swiper-item class="swiper-item">
-            <image :src="item.imgSrc" class="slide-image" />
+            <image :src="item.image_url" class="slide-image" />
           </swiper-item>
         </block>
       </swiper>
     </div>
     <!-- 大家都在领 -->
-    <div class="user-title">
+    <div class="user-title" style="display:none">
       <div class="u-left">
         <span>&nbsp;</span> 大家都在领
       </div>
       <div class="u-right">
-        <span></span>
+        <span>1111119999</span>  大家都在领
       </div>
     </div>
-    <div class="our-cont">
+    <div class="our-cont" style="display:none">
     </div>
     <!-- 优惠列表 -->
-    <div class="user-title">
+    <div class="user-title" style="display:none">
       <div class="u-left">
         <span>&nbsp;</span> 优惠列表
       </div>
       <div class="u-right">
-        <span></span> 
+        <span>1111119999</span>  更多
       </div>
     </div>
-    <div @click="goodsDetail(item.id)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
-      <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
+    <div style="display:none" @click="goodsDetail(item.id)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
+      <image class="imgs" :src="item.list_pic_url" alt="" />
       <div class="list-cont">
         <div class="goods_title">
-          {{item.goodsName}}
+          {{item.name}}
         </div>
         <div class="result_tm icon">
           <image class="imgs-icon" src="../../../static/list-img/1.jpg" alt="" />
           <span class="icon">包邮</span>
         </div>
         <div class="col-yuan">
-          <span> 原价 ¥{{item.salePrice/100}}</span>
-          <span class="fr">已售{{item.volume}}万件</span>
+          <span> 原价 ¥59.8</span>
+          <span class="fr">已售2.6万件</span>
         </div>
         <div class="col-money">
           <p class="p-fr">
-            <i class="quan">{{item.couponPrice/100}}元券</i>
+            <i class="quan">10元券</i>
           </p>
           券后 
           <span class="s-k">
-            <i>¥</i>{{(item.salePrice-item.couponPrice)/100}}
+            <i>¥</i>5.1
           </span>
         </div>
       </div>
+    </div>
+    <!-- 弹窗 -->
+    <div class="index-warps">
+      <div class="index-concant">
+        <div class="title-img">
+          <image class="imgs" src="../../../static/images/tanch-title-bg.png" />
+        </div>
+        <div class="copy-cont">
+          <p>sd;ldadaosw多看看sd;ldadaosw多看看sd;ldadaosw多看看sd;ldadaosw多看看sd;ldadaosw多看看sd;ldadaosw多看看</p>
+        </div>
+        <div class="copy-bnt">
+          <button>取消</button><button class="bnt-rihgt">去搜索</button>
+        </div>
+      </div>
+      <div class="wx-gallery"></div>
     </div>
   </div>
 </template>
@@ -69,7 +84,6 @@
 <script>
 import amapFile from "../../utils/amap-wx";
 import { get } from "../../utils";
-import { api } from "../../utils/api";
 import { mapState, mapMutations } from "vuex";
 export default {
   onShow() {
@@ -84,17 +98,12 @@ export default {
   data() {
     return {
       banner: [],
+      channel: [],
+      brandList: [],
+      newGoods: [],
       hotGoods: [],
       topicList: [],
-      newCategoryList: [],
-      //参数
-      params:{
-        //热卖商品
-        hotGoods:{
-          pageIndex:1,
-          pageSize:20
-        }
-      }
+      newCategoryList: []
     };
   },
   components: {},
@@ -149,13 +158,14 @@ export default {
       });
     },
     async getData() {
-      //const data = await get("/index/index");
-      //默认数据
-      const defaultInfo = await api.defaultInfo();
-      this.banner = defaultInfo.banners;
-      this.topicList = defaultInfo.hotNews;
-      //热门商品
-      this.hotGoods = await api.hotGoods(this.params.hotGoods);
+      const data = await get("/index/index");
+      this.banner = data.banner;
+      this.channel = data.channel;
+      this.brandList = data.brandList;
+      this.newGoods = data.newGoods;
+      this.hotGoods = data.hotGoods;
+      this.topicList = data.topicList;
+      this.newCategoryList = data.newCategoryList;
     },
     goodsDetail(id) {
       wx.navigateTo({

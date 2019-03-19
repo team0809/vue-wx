@@ -42,10 +42,11 @@
         }
     }
     .searchtips {
+        position: absolute;
         width: 100%;
-        margin-top:4rpx;
+        top: 91rpx;
         left: 0;
-        margin-bottom: 10rpx;
+        bottom: 0;
         box-sizing: border-box;
         padding: 0 32rpx;
         z-index: 9;
@@ -53,7 +54,7 @@
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         div {
-            padding: 25rpx 0;
+            padding: 20rpx 0;
         }
         .nogoods {
             text-align: center;

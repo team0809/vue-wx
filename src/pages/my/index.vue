@@ -4,33 +4,52 @@
       <img @click="toLogin" :src="avator" alt="">
       <div @click="toLogin">
         <p>{{userInfo.nickName}}</p>
-        <p v-if="userInfo.nickname">点击登录</p>
-        <p v-else>微信用户</p>
+        <p class="integral" v-if="userInfo.nickname">点击登录</p>
+        <p class="integral" v-else>积分：1000</p>
       </div>
     </div>
-    <div class="my-monery-list">
-      <p>
-        ¥ <i>10</i>
-        <span>昨日收益</span>
-      </p>
-      <p>
-        ¥ <i>101</i>
-        <span>今日收益</span>
-      </p>
-    </div>
-    <div class="my-monery-list">
-      <p>
-        上月结算 <i class="numb">¥10</i>
-      </p>
-      <p>
-        本月结算 <i class="numb">¥101</i>
-      </p>
+    <div class="list-w">
+      <div class="my-monery-list">
+        <p>
+          ¥ <i>10</i>
+          <span>昨日收益</span>
+        </p>
+        <p>
+          ¥ <i>101</i>
+          <span>今日收益</span>
+        </p>
+      </div>
+      <div class="my-monery-list bottom-radius">
+        <p>
+          上月结算 <i class="numb">¥10</i>
+        </p>
+        <p>
+          本月结算 <i class="numb">¥101</i>
+        </p>
+      </div>
     </div>
     <div class="iconlist">
       <div @click="goTo(item.url)" v-for="(item, index) in listData" :key="index">
         <span class="iconfont" :class="item.icon"></span>
-        <span>{{item.title}}</span>
+        <span class="text">{{item.title}}</span>
       </div>
+    </div>
+    <div class="wx-shouquan">
+      <div class="concant">
+        <h1>微信授权</h1>
+        <div class="sq-info">
+          <img :src="avator" alt="">
+          <p>授权信息呢的了卡雷拉斯授权信息呢的了卡雷拉斯授权信息呢的了卡雷拉斯授权信息呢的了卡雷拉斯</p>
+        </div>
+        <div class="sq-info-dev">
+          <span>申请获取您的信息：</span>
+          <p>用户昵称：1111</p>
+        </div>
+        <div class="bnt-info">
+          <button>取消</button><button class="bnt-rihgt">接受授权</button>
+        </div>
+      </div>
+      <div class="wx-gallery"></div>
     </div>
   </div>
 </template>

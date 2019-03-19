@@ -1,10 +1,11 @@
 .my {
   .myinfo {
     width: 100%;
-    height: 204rpx;
+    height: 226rpx;
     display: flex;
     align-items: center;
-    background: linear-gradient(-90deg,#FE0000,#fbaa58);
+    //background: linear-gradient(-90deg,#FE0000,#fbaa58);
+    background: #ff6364 ;
     padding: 0 30rpx;
     box-sizing: border-box;
     img {
@@ -19,18 +20,28 @@
         font-size: 30rpx;
         margin-bottom: 10rpx
       }
-      p:nth-child(2) {
-        font-size: 28rpx;
+      .integral{
+        padding:6rpx 20rpx;
+        color:#fff;background-color:rgba(0,0,0,0.1);border-radius:50rpx;font-size:22rpx
       }
     }
+  }
+  .list-w{
+    background-color:#ff6364;width:92%;
+    padding:0 4%;
+    margin-bottom:calc(11vw + 10rpx);
+    border-radius:0 0 50% 50%;
+    margin-top: -3rpx;
   }
   .my-monery-list{
     display: flex;
     align-items: center;
     background: #fff;
     //border-bottom: 1rpx solid rgba(0, 0, 0, 0.15);
-    margin-bottom: 10rpx;
+    // margin-bottom: 10rpx;
+    box-shadow: 0 0 20rpx rgba(0,0,0,0.15);
     padding: 18rpx 0;
+    border-radius: 22rpx 22rpx 0 0;
     p{
       font-size: 24rpx;
       color: #666;
@@ -52,36 +63,119 @@
       }
     }
   }
+  .my-monery-list.bottom-radius{
+    border-radius: 0 0 22rpx 22rpx;
+  }
   .iconlist {
     display: flex;
     align-items: center;
     background: #fff;
     flex-wrap: wrap;
+    width: 95%;
+    margin-top: -30rpx;
     .iconfont{
-      font-size: 38rpx;
+      font-size: 42rpx;
+      color: #FE0000;
+      margin-right: 10rpx;
     }
     div {
-      width: 33.33%;
-      padding: 50rpx 0;
-      text-align: center;
-      border-right: 1rpx solid rgba(0, 0, 0, .15);
-      border-bottom: 1rpx solid rgba(0, 0, 0, .15);
+      width: 100%;
+      padding: 20rpx 30rpx;
+      border-bottom: 1rpx solid rgba(196, 195, 195, 0.15);
       box-sizing: border-box;
+      margin: 0 auto;
       span {
-        display: block;
+        display: inline-block;
       }
-      span:nth-child(1) {
-        margin-bottom: 10rpx;
+      .text{
+        position: relative;
+        top: -6rpx;
       }
     }
-    div:nth-child(3n+3) {
-      border-right: none;
+  }
+  .list-style{
+    width: 100%;
+    border-top: rgb(235, 233, 233) solid 10rpx;
+    margin: 0 auto;
+    
+  }
+}
+.wx-shouquan{
+  .concant{
+    border-radius: 12rpx;
+    background: #fff;
+    z-index: 9999;
+    position: absolute;
+    width: 88%;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    h1{
+      border-bottom: 1rpx solid rgba(128, 126, 126, 0.15);
+      text-align: center;
+      padding: 18rpx 0;
+      font-size: 38rpx;
     }
-    div:nth-last-child(1) {
-      border-bottom: none;
+    .sq-info{
+      text-align: center;
+      padding: 18px 0;
+      border-bottom: 1rpx solid rgba(128, 126, 126, 0.15);
+      img{
+        width: 100rpx;
+        height: 100rpx;
+        border-radius: 50%;
+      }
+      p{
+        margin-top: 8rpx;
+        padding: 0 50rpx;
+        color: #333;
+        font-size: 24rpx;
+        text-align: left;
+      }
     }
-    div:nth-last-child(2) {
-      border-bottom: none;
+    .sq-info-dev{
+      padding: 8px 0;
+      span{
+        color: rgba(134, 133, 133, 1);
+        padding: 0 50rpx;
+        font-size: 26rpx;
+      }
+      p{
+        margin-top: 8rpx;
+        padding: 0 50rpx;
+        color: #333;
+        font-size: 26rpx;
+        text-align: left;
+      }
     }
+    .bnt-info{
+      border-top: 1rpx solid rgba(128, 126, 126, 0.15);
+      margin-top: 12rpx;
+      height: 86rpx;
+      button{
+        text-align: center;
+        width: 49%;
+        color: #333;
+        font-size: 32rpx;
+        display: inline-block;
+        height: 86rpx;
+      }
+      .bnt-rihgt{
+        color: rgb(109, 211, 13);
+        border-left: 1rpx solid rgba(128, 126, 126, 0.15);
+      }
+    }
+  }
+  .wx-gallery{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 8888;
+    width: 100%;
+    height: 100%;
   }
 }
