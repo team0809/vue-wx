@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <!-- 搜索 -->
-    <div class="search" style="display:none">
+    <div class="search">
       <div @click="toMappage">{{cityName}}</div>
       <div @click="toSearch">
         <input type="text" placeholder="搜索商品">
@@ -9,7 +9,7 @@
       </div>
     </div>
     <!-- banner轮播图 -->
-    <div class="swiper" style="display:none">
+    <div class="swiper">
       <swiper class="swiper-container" indicator-dots="true" autoplay="true" interval="3000" circular="true" duration="500">
         <block v-for="(item, index) in banner " :key="index">
           <swiper-item class="swiper-item">
@@ -19,7 +19,7 @@
       </swiper>
     </div>
     <!-- 大家都在领 -->
-    <div class="user-title" style="display:none">
+    <div class="user-title">
       <div class="u-left">
         <span>&nbsp;</span> 大家都在领
       </div>
@@ -27,10 +27,10 @@
         <span>1111119999</span>  大家都在领
       </div>
     </div>
-    <div class="our-cont" style="display:none">
+    <div class="our-cont">
     </div>
     <!-- 优惠列表 -->
-    <div class="user-title" style="display:none">
+    <div class="user-title">
       <div class="u-left">
         <span>&nbsp;</span> 优惠列表
       </div>
@@ -38,7 +38,7 @@
         <span>1111119999</span>  更多
       </div>
     </div>
-    <div style="display:none" @click="goodsDetail(item.id)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
+    <div @click="goodsDetail(item.id)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
       <image class="imgs" :src="item.list_pic_url" alt="" />
       <div class="list-cont">
         <div class="goods_title">
