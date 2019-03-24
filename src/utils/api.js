@@ -21,6 +21,11 @@ const api = {
       const data = await fpost(apiHost+"user/codeLogin",param);
       return checkData(data);
     },
+    // 保存微信用户信息
+    async saveUserInfo(param){
+      const data = await post(apiHost+"user/saveWXUser",param);
+      return checkData(data);
+    },
     // 首页默认数据
     async defaultInfo(param){
       const data = await fpost(apiHost+"home/defaultInfo",param);
@@ -43,8 +48,12 @@ const api = {
     //热词
     async hotKeyword(param){
       const data = await fpost(apiHost+"goods/hotKeyword",param);
-      console.log(data);
       return checkData(data);
+    },
+    //订单列表
+    async orderList(param){
+      const data = await post(apiHost+"order/list",param);
+      return checkData(data).rows;
     }
 }
 

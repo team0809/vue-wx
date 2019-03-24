@@ -2,6 +2,10 @@ export {
   api
 } from "./api";
 
+import {client} from "./wechat";
+
+export {client}
+
 function formatNumber(n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
@@ -39,7 +43,7 @@ function request(url, method, data, header = {}) {
     let _header = { 'content-type': 'application/json'};
 
     //token
-    let token = getStorageAuthToken();
+    let token = userOption.getAouthToken();
     if(token!=''){
       _header['x-auth-token'] = token;
     }
@@ -47,7 +51,7 @@ function request(url, method, data, header = {}) {
      //固定信息
      let base = {
       clientType: 'WechatMiniprogram',
-      userId: getStorageOpenid(),
+      userId: userOption.getUserInfo().id,
       version: '1.0.0',
       time: new Date().getTime()
     };
@@ -154,6 +158,48 @@ export function getOpenid() {
   // });
 }
 
+const userOption = {
+  setUserInfo(userInfo){
+    let user = {
+      id:userInfo.id,
+      userNo: userInfo.userNo,
+      nickname: userInfo.nickname,
+      icon: userInfo.icon,
+      userType: userInfo.type,
+      mobile: userInfo.mobile
+    };
+    client.setStorageSync("storage_user_info",JSON.stringify(user));
+  },
+  getUserInfo(){
+    let userStr = client.getStorageSync("storage_user_info");
+    if(userStr==undefined || userStr==""){
+      return {};
+    }else{
+      return JSON.parse(userStr);
+    }
+  },
+  setAouthToken(tokenKey){
+    client.setStorageSync("storage_auth_token",tokenKey);
+  },
+  getAouthToken(){
+    let authStr = client.getStorageSync("storage_auth_token");
+    if(authStr==undefined){
+      return "";
+    }
+    return authStr;
+  },
+  aouthLogin(){
+    let userInfo = userOption.getUserInfo();
+    return !(userInfo.nickname==undefined ||userInfo.nickname==null);
+  },
+  codeLogin(){
+    let userInfo = userOption.getUserInfo();
+    return !(userInfo.id==undefined);
+  }
+}
+
+export {userOption}
+
 export function getStorageAuthToken(){
     const authToken = wx.getStorageSync("authToken");
     if (authToken) {
@@ -163,18 +209,21 @@ export function getStorageAuthToken(){
     }
 }
 
+
 //-------------------------------------------搜索记录---------------------------------------------------
 
 const searchHistory = {
   add:function(key){
       let keyArray =wx.getStorageSync("user_search_history");
-      if(keyArray){
-        keyArray = JSON.parse(keyArray);
-      }else{
-        keyArray = [];
-      }
-      keyArray.unshift(key);
-      wx.setStorageSync("user_search_history",JSON.stringify(keyArray));
+      if(keyArray.indexOf(key+"\"")==-1){
+        if(keyArray){
+          keyArray = JSON.parse(keyArray);
+        }else{
+          keyArray = [];
+        }
+        keyArray.unshift(key);
+        wx.setStorageSync("user_search_history",JSON.stringify(keyArray));
+    }
   },
   clear:function(){
     wx.setStorageSync("user_search_history","[]");

@@ -1,11 +1,10 @@
 <template>
   <div class="my">
     <div class="myinfo">
-      <img @click="toLogin" :src="avator" alt="">
-      <div @click="toLogin">
-        <p>{{userInfo.nickName}}</p>
-        <p class="integral" v-if="userInfo.nickname">点击登录</p>
-        <p class="integral" v-else>积分：1000</p>
+      <img :src="userInfo.icon" alt="">
+      <div>
+        <p>{{userInfo.nickname}}</p>
+        <p class="integral" >邀请码: {{userInfo.userNo}}</p>
       </div>
     </div>
     <div class="list-w">
@@ -34,19 +33,14 @@
         <span class="text">{{item.title}}</span>
       </div>
     </div>
-    <div class="wx-shouquan">
+    <div class="wx-shouquan" v-if="aouth.show">
       <div class="concant">
-        <h1>微信授权</h1>
+        <h1>微信登录授权</h1>
         <div class="sq-info">
-          <img :src="avator" alt="">
-          <p>授权信息呢的了卡雷拉斯授权信息呢的了卡雷拉斯授权信息呢的了卡雷拉斯授权信息呢的了卡雷拉斯</p>
-        </div>
-        <div class="sq-info-dev">
-          <span>申请获取您的信息：</span>
-          <p>用户昵称：1111</p>
+          <img :src="aouthImg" alt="">
         </div>
         <div class="bnt-info">
-          <button>取消</button><button class="bnt-rihgt">接受授权</button>
+          <button open-type="getUserInfo" @getuserinfo="aouthLogin" class="bnt-rihgt bnt-max">授权</button>
         </div>
       </div>
       <div class="wx-gallery"></div>
@@ -58,7 +52,10 @@
   import {
     get,
     toLogin,
-    login
+    login,
+    client,
+    userOption,
+    api
   } from "../../utils";
   export default {
     onShow() {
@@ -70,12 +67,19 @@
       }
     },
     created() {},
-    mounted() {},
+    mounted() {
+      //登录
+      let userInfo = userOption.getUserInfo();
+      if(userInfo.nickname==undefined){
+        this.aouthLogin();
+      }else{
+        this.userInfo =userInfo;
+      }
+    },
     data() {
       return {
-        avator: "http://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png",
+        aouthImg:"/static/images/wechat-aouth.png",
         allcheck: false,
-        listData: [],
         Listids: [],
         userInfo: {},
         listData: [{
@@ -83,11 +87,6 @@
             icon: "icondingdan",
             url: "/pages/order/main"
           },
-          // {
-          //   title: "优惠券",
-          //   icon: "icon-youhuiquan",
-          //   url: ""
-          // },
           {
             title: "我的粉丝",
             icon: "iconfensi",
@@ -103,31 +102,26 @@
             icon: "icondizhi",
             url: "/pages/address/main"
           },
-          // {
-          //   title: "联系客服",
-          //   icon: "icon-lianxikefu",
-          //   url: ""
-          // },
-          // {
-          //   title: "帮助中心",
-          //   icon: "icon-bangzhuzhongxin",
-          //   url: ""
-          // },
           {
             title: "意见反馈",
             icon: "iconyijianfankui",
             url: "/pages/feedback/main"
           }
-        ]
+        ],
+        aouth:{
+          show:false
+        }
       };
     },
     components: {},
     methods: {
       goTo(url) {
-        if (toLogin()) {
-          wx.navigateTo({
+        if (userOption.aouthLogin()) {
+          client.navigateTo({
             url: url
           });
+        }else{
+          this.aouthLogin();
         }
       },
       toLogin() {
@@ -135,6 +129,42 @@
           wx.navigateTo({
             url: "/pages/login/main"
           });
+        }
+      },
+      //授权登录
+      async aouthLogin(){
+        var settings =  await client.getSetting();
+        console.log(settings);
+        if(settings.authSetting['scope.userInfo']){
+          var loginRes =  await client.login();
+          var userRes = await client.getUserInfo();
+          console.log(loginRes);
+          console.log(userRes);
+          if(userRes!=null){
+            //隐藏弹出层
+            this.aouth.show = false;
+            //获取用户信息
+            const subData ={
+                  code: loginRes.code,
+                  tpNick: userRes.userInfo.nickName,
+                  tpIcon: userRes.userInfo.avatarUrl,
+                  tpSex: userRes.userInfo.gender,
+                  tpProvince: userRes.userInfo.province,
+                  tpCity: userRes.userInfo.city,
+                };
+                console.log(subData);
+            //保存用户信息
+            let userData = await api.saveUserInfo(subData);
+            if(userData!=null){
+              userOption.setUserInfo(userData);
+              //设置用户信息
+              this.userInfo =userOption.getUserInfo();
+            }
+          }
+          console.log(userRes);
+        }else{
+          //提示用户授权
+          this.aouth.show = true;
         }
       }
     },

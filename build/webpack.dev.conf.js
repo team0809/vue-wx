@@ -36,7 +36,8 @@ module.exports = merge(baseWebpackConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': config.dev.env
+      'process.env': config.dev.env,
+      IS_DEV:JSON.stringify(true)
     }),
 
     // copy from ./webpack.prod.conf.js
@@ -62,14 +63,6 @@ module.exports = merge(baseWebpackConfig, {
           module.resource.indexOf('node_modules') >= 0
         ) || count > 1
       }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_debugger: true,
-        drop_console: true
-      },
-      sourceMap: true
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',

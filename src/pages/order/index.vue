@@ -2,109 +2,58 @@
   <div class="order">
     <div class="order-nav">
       <ul>
-        <li class="cur">全部</li>
-        <li>已付款</li>
-        <li>已结算</li>
-        <li>已失效</li>
+        <li :class="currentStatus==0?'cur':''" v-on:click="orderList(0,true)">全部</li>
+        <li :class="currentStatus==2?'cur':''" v-on:click="orderList(2,true)">已付款</li>
+        <li :class="currentStatus==5?'cur':''" v-on:click="orderList(5,true)">已结算</li>
+        <li :class="currentStatus==4?'cur':''" v-on:click="orderList(4,true)">已失效</li>
       </ul>
     </div>
-    <!-- <div @click="toAddressList" v-if="address.name" class="address">
-      <div class="item">
-        <div class="list">
-          <div class="addresslist">
-            <div>
-              <span>{{address.name}}</span>
-              <div v-if="address.is_default" class="moren">
-                默认
-              </div>
-            </div>
-            <div class="info">
-              <p>{{address.mobile}}</p>
-              <p>{{address.address+address.address_detail}}</p>
-            </div>
-            <div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div @click="toAdd" v-else class="seladdress">
-      请选择收货地址
-    </div> -->
-    <!-- <div class="orderbox">
-      <div class="item">
-        <div>商品合计</div>
-        <div>￥{{allprice}}</div>
-      </div>
-      <div class="item">
-        <div>运费</div>
-        <div>免运费</div>
-      </div>
-      <div class="item">
-        <div>优惠券</div>
-        <div>暂无</div>
-      </div>
-    </div> -->
     <div class="cartlist">
       <div class="item" v-for="(item,index) in listData" :key="index">
         <div class="con">
           <div class="left">
             <div class="img">
-              <img :src="item.list_pic_url" alt="">
+              <img :src="item.goodsImgUrl" alt="">
             </div>
             <div class="info">
-              <p>{{item.goods_name}}</p>
+              <p>{{item.goodsName}}</p>
               <!-- <p>￥{{item.retail_price}}</p> -->
-              <p class="odr-time">创建日期：10100011</p>
-              <p class="odr-numb">订单号：111110100011 <span>复制</span></p>
+              <p class="odr-time">创建日期：{{item.createTime}}</p>
+              <p class="odr-numb">订单号：{{item.orderNum}} <span v-on:click="copyOrderNum(item.orderNum)">复制</span></p>
               <div class="monery-bom">
-                <span>消费金额 ¥100</span><i>预估价 ¥1008</i>
+                <span>订单金额 ¥{{item.orderPrice}}</span><i>预估收入 ¥{{item.userPromotionAmount}}</i>
               </div>
             </div>
           </div>
-          <!-- <div class="right">
-            <div class="num">
-              x{{item.number}}
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
-    <!-- <div class="bottom">
-      <div>
-        实付 : ￥{{allprice}}
-      </div>
-      <div @click="pay">
-        支付
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script>
   import {
-    get,
-    post,
-    login,
-    getStorageOpenid
+    api,
+    client
   } from "../../utils";
   export default {
     onShow() {
-      if (wx.getStorageSync("addressId")) {
-        this.addressId = wx.getStorageSync("addressId");
-      }
-      this.openId = getStorageOpenid();
-
-      this.getDetail();
+     
     },
     created() {},
-    mounted() {},
+    mounted() {
+      this.orderList(0,true)
+    },
     data() {
       return {
         addressId: "",
         openId: "",
         allprice: "",
         listData: [],
-        address: {}
+        address: {},
+        pageIndex:1,
+        currentCount:0,
+        currentStatus:1
       };
     },
     components: {},
@@ -128,18 +77,36 @@
           url: "/pages/addaddress/main"
         });
       },
-      async getDetail() {
-        const data = await get("/order/detailAction", {
-          openId: this.openId,
-          addressId: this.addressId
-        });
-        console.log(data);
-
-        if (data) {
-          this.allprice = data.allPrise;
-          this.listData = data.goodsList;
-          this.address = data.address;
+      async orderList(status,clearPageIndex) {
+         if(clearPageIndex==true && this.currentStatus==status){
+           return;
+         }
+        //清空pageIndex
+        if(clearPageIndex==true){
+          this.pageIndex=1;
+          this.listData=[];
         }
+        this.currentStatus = status;
+        //请求参数
+        let req = {
+          pageSize:10,
+          pageIndex:this.pageIndex,
+          condition:{orderStatus:status}
+        };
+        //获取数据
+        let ordesList = await api.orderList(req);
+        //当前获取条数
+        this.currentCount=ordesList.length;
+        //+1
+        if(this.currentCount>0){
+          this.pageIndex++;
+          ordesList.forEach(element => {
+            this.listData.push(element);
+          });
+        }
+      },
+      copyOrderNum(orderNum){
+        client.setClipboardData(orderNum);
       }
     },
     computed: {}
