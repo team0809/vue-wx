@@ -4,7 +4,7 @@ import {
     fpost,
     fget
   } from "./index";
-const apiHost="http://localhost:8020/web-api/";
+const apiHost="http://dev.wgb.wxcard.com.cn/web-api/";
 
 function checkData(resp){
   if(resp.code==0){
