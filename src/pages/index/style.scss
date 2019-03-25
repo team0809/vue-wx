@@ -76,6 +76,14 @@
         line-height: 1.6;
         overflow: hidden;
         text-overflow: ellipsis;
+        .platform{
+          color: white;
+          display: inline-block;
+          padding:4rpx 14rpx;
+          background:-webkit-linear-gradient(211.3deg, #f54d23, #f8285c);
+          background:linear-gradient(-121.3deg, #f54d23, #f8285c);
+          font-size:20rpx;
+        }
       }
       .imgs-icon{
         width: 42rpx;

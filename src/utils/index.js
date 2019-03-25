@@ -188,13 +188,22 @@ const userOption = {
     }
     return authStr;
   },
-  aouthLogin(){
+  hasAouthLogin(){
     let userInfo = userOption.getUserInfo();
     return !(userInfo.nickname==undefined ||userInfo.nickname==null);
   },
-  codeLogin(){
+  async codeLogin(){
     let userInfo = userOption.getUserInfo();
-    return !(userInfo.id==undefined);
+    if(userInfo.id==undefined){
+      let loginRes = await client.login();
+      console.log(loginRes)
+      let loginData = await api.codeLogin({code:loginRes.code});
+      //保存登录信息
+     if(loginData!=null){
+       userOption.setUserInfo(loginData.userInfo);
+       userOption.setAouthToken(loginData.token);
+     }
+    }
   }
 }
 

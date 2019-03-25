@@ -38,26 +38,26 @@
         <span></span> 
       </div>
     </div>
-    <div @click="goodsDetail(item.id)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
+    <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
       <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
       <div class="list-cont">
         <div class="goods_title">
-          {{item.goodsName}}
+         <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
         </div>
         <div class="result_tm icon">
-          <span class="icon">拼多多</span>
+          <span class="icon"></span>
         </div>
         <div class="col-yuan">
-          <span> 原价 ¥{{item.salePrice/100}}</span>
+          <span> 原价 ¥{{item.salePrice}}</span>
           <span class="fr">已售{{item.volume}}万件</span>
         </div>
         <div class="col-money">
           <p class="p-fr">
-            <i class="quan">{{item.couponPrice/100}}元券</i>
+            <i class="quan">{{item.couponPrice}}元券</i>
           </p>
           券后 
           <span class="s-k">
-            <i>¥</i>{{(item.salePrice-item.couponPrice)/100}}
+            <i>¥</i>{{item.couponAfterPrice}}
           </span>
         </div>
       </div>
@@ -146,16 +146,7 @@ export default {
     },
     async init(){
       //用户登录
-      if(!userOption.codeLogin()){
-        let loginRes = await client.login();
-        console.log(loginRes)
-        let loginData = await api.codeLogin({code:loginRes.code});
-        //保存登录信息
-       if(loginData!=null){
-              userOption.setUserInfo(loginData.userInfo);
-              userOption.setAouthToken(loginData.token);
-       }
-      }
+      await userOption.codeLogin();
 
       //获取剪贴板内容
       let clipboardData = await client.getClipboardData();
@@ -205,9 +196,9 @@ export default {
       //热门商品
       this.hotGoods = await api.hotGoods(this.params.hotGoods);
     },
-    goodsDetail(id) {
+    goodsDetail(id,type) {
       wx.navigateTo({
-        url: "/pages/goods/main?id=" + id
+        url: "/pages/goods/main?goodsId=" + id+"&goodsType="+type
       });
     },
     categoryList(id) {

@@ -50,6 +50,8 @@
     }
   }
 
+ 
+
   .goods-info {
     width: 750rpx;
     background: #fff;
@@ -95,13 +97,29 @@
       }
     }
   }
+  .info-block{
+    padding: 18rpx 24rpx;
+    background: white;
+    .goods-title{
+      padding-bottom:5rpx;
+      background:white;
+      .platform{
+        color: white;
+        display: inline-block;
+        padding:4rpx 14rpx;
+        background:-webkit-linear-gradient(211.3deg, #f54d23, #f8285c);
+        background:linear-gradient(-121.3deg, #f54d23, #f8285c);
+        font-size:20rpx;
+      }
+    }
+
+  }
   .quan-warp{
-    margin: 16rpx 0;
     color: #666;
     overflow: hidden;
     clear: both;
     background: #fff;
-    padding: 10rpx;
+    padding: 10rpx 0rpx;
     .text1{
       font-size: 24rpx;
       height: 36rpx;
@@ -110,7 +128,19 @@
       width: 50%;
       float: left;
       margin-bottom: 10rpx;
-      span,i{
+      span.quan-after{
+        display:inline-block;
+        font-size:20rpx;
+        border:solid 1rpx red;
+        border-radius:6rpx;
+        padding:0rpx 8rpx;
+        height:28rpx;
+        line-height:28rpx;
+        margin-right:10rpx;
+        position:relative;
+        top:-2rpx;
+      }
+      span, i{
         display: inline-block;
         font-size: 34rpx;
         i{
@@ -129,14 +159,26 @@
       width: 50%;
       float: right;
       margin-bottom: 10rpx;
+      text-align:right;
     }
     .text3{
       font-size: 24rpx;
       height: 36rpx;
       line-height: 36rpx;
-      width: 50%;
+      margin-right: 20rpx;
       color: #888;
       float: left;
+      text-decoration: line-through;
+    }
+    .text4{
+      font-size: 24rpx;
+      height: 36rpx;
+      line-height: 36rpx;
+      color: white;
+      float: left;
+      background:-webkit-linear-gradient(211.3deg, #f54d23, #f8285c);
+      background:linear-gradient(-121.3deg, #f54d23, #f8285c);
+      padding:0 16rpx;
     }
   }
   .coupon-box{
@@ -144,10 +186,7 @@
     position: relative;
     box-shadow: 6px 4px 18px 0 rgba(255,102,201,.53);
     border-radius: 6px;
-    margin-top: 5px;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-bottom: 30px;
+    margin: 20rpx;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
@@ -232,6 +271,16 @@
       background-color: #fff;
       top: 26px;
   }
+  .detail-desc{
+    padding:20rpx 24rpx;
+    background:white;
+    .context{
+      background:#f5f5f5;
+      padding:20rpx;
+      color:#9e9a9a;
+    }
+  }
+
   .nbnav2{
     background: #FB874E;
     color: #fff;

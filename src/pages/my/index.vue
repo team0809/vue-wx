@@ -68,12 +68,11 @@
     },
     created() {},
     mounted() {
-      //登录
-      let userInfo = userOption.getUserInfo();
-      if(userInfo.nickname==undefined){
+      //是否授权登录
+      if(!userOption.hasAouthLogin()){
         this.aouthLogin();
       }else{
-        this.userInfo =userInfo;
+        this.userInfo = userOption.getUserInfo();
       }
     },
     data() {

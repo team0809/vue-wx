@@ -4,7 +4,7 @@ import {
     fpost,
     fget
   } from "./index";
-const apiHost="http://dev.wgb.wxcard.com.cn/web-api/";
+const apiHost="http://localhost:8020/web-api/"; //"http://dev.wgb.wxcard.com.cn/web-api/";
 
 function checkData(resp){
   if(resp.code==0){
@@ -54,6 +54,11 @@ const api = {
     async orderList(param){
       const data = await post(apiHost+"order/list",param);
       return checkData(data).rows;
+    },
+    //商品详情
+    async goodsDetail(param){
+      const data = await post(apiHost+"goods/goodsDetail",param);
+      return checkData(data);
     }
 }
 
