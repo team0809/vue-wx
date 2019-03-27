@@ -115,7 +115,7 @@
     components: {},
     methods: {
       goTo(url) {
-        if (userOption.aouthLogin()) {
+        if (userOption.hasAouthLogin()) {
           client.navigateTo({
             url: url
           });

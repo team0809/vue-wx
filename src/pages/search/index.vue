@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-
+    <div class="search-head">
       <div class="head">
         <div>
           <span class="iconfont iconsousuo"></span>
@@ -10,9 +10,14 @@
         </div>
         <div @click="cancel">取消</div>
       </div>
-
+      <div class="sortnav" v-if="showCommodity==1">
+        <div @click="changeTab(0)" :class="[0==nowIndex ?'active':'']">综合</div>
+        <div @click="changeTab(1)" class="price" :class="[1==nowIndex ?'active':'', order =='desc'? 'desc':'asc']">价格<span class="iconfont iconpaixu"></span></div>
+        <div @click="changeTab(3)" :class="[3==nowIndex ?'active':'', order =='desc'? 'desc':'asc']">销量<span class="iconfont iconpaixu"></span></div>
+      </div>
+    </div>
       <!--历史记录-->
-      <div v-show="showCommodity==0">
+      <div v-if="showCommodity==0">
         <div class="searchtips" v-if="words">
           <div @click="searchWords" v-if="tipsData.length!=0" style="color:orange">
           搜索："{{ tipsData }}"
@@ -45,11 +50,6 @@
 
     <!--商品列表  -->
     <div v-if="showCommodity==1" class="goodsList">
-      <div class="sortnav">
-        <div @click="changeTab(0)" :class="[0==nowIndex ?'active':'']">综合</div>
-        <div @click="changeTab(1)" class="price" :class="[1==nowIndex ?'active':'', order =='desc'? 'desc':'asc']">价格<span class="iconfont iconpaixu"></span></div>
-        <div @click="changeTab(3)" :class="[3==nowIndex ?'active':'', order =='desc'? 'desc':'asc']">销量<span class="iconfont iconpaixu"></span></div>
-      </div>
       <div class="sortlist">
         <div @click="goodsDetail(item.goodsId)" v-for="(item, index) in listData" :key="index" :class="[(listData.length)%2==0?'active':'none']" class="item">
           <div class="img-box">
@@ -96,6 +96,10 @@ export default {
       this.showCommodity=0
     }
   },
+  //滚动底部
+  onReachBottom(){
+      this.getlistData(false);
+  },
   data() {
     return {
       nowIndex: 0,
@@ -110,6 +114,9 @@ export default {
       isHot: "",
       isNew: "",
       searchParam:{
+        canLoadGoods:true,
+        pageSize:20,
+        pageIndex:1,
         sortType:0
       }
     };
@@ -130,6 +137,7 @@ export default {
       this.words = "";
       this.listData = [];
       this.tipsData = [];
+      this.showCommodity = 2;
     },
     inputFocus() {
       //商品清空
@@ -138,8 +146,30 @@ export default {
       //展示搜索提示信息
       this.tipsearch();
     },
-    async getlistData() {
-      this.listData = await api.searchGoods({condition:{keyword:this.words,goodsType:1,sortType:this.searchParam.sortType}});
+    async getlistData(hasNewLoad) {
+      //重新查询数据
+      if(hasNewLoad==true){
+        this.searchParam.pageSize=20;
+        this.searchParam.pageIndex=1;
+        this.listData=[];
+      }
+      if(this.searchParam.canLoadGoods==false){
+        return;
+      }
+      this.searchParam.canLoadGoods=false;
+      let goodsData = await api.searchGoods({
+          pageSize:this.searchParam.pageSize,
+          pageIndex:this.searchParam.pageIndex,
+          condition:{keyword:this.words,goodsType:1,sortType:this.searchParam.sortType}
+        }
+      );
+      this.searchParam.canLoadGoods=true;
+      this.searchParam.pageIndex++;
+      //滚动拖动数据
+      goodsData.forEach((item)=>{
+        this.listData.push(item)
+      });
+
       this.showCommodity = this.listData.length>0 ? 1 : 2;
       this.tipsData = '';
     },
@@ -157,7 +187,7 @@ export default {
         case 1: this.searchParam.sortType = (this.order=="asc")?1:2;break;
         case 3: this.searchParam.sortType = (this.order=="asc")?3:4;break;
       }
-      this.getlistData();
+      this.getlistData(true);
     },
     async clearHistory() {
       //清除搜索历史
@@ -172,7 +202,7 @@ export default {
       //获取历史数据
       this.getHotData();
       //获取商品列表
-      this.getlistData();
+      this.getlistData(true);
     },
     async getHotData(first) {
       const data =  await api.hotKeyword();

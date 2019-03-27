@@ -38,32 +38,32 @@
         <span></span> 
       </div>
     </div>
-    <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
-      <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
-      <div class="list-cont">
-        <div class="goods_title">
-         <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
+      <scroll-view @scrolltolower="toLower" :scroll-y="true">
+        <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
+          <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
+          <div class="list-cont">
+            <div class="goods_title">
+            <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
+            </div>
+            <div class="result_tm icon">
+              <span class="icon"></span>
+            </div>
+            <div class="col-yuan">
+              <span> 原价 ¥{{item.salePrice}}</span>
+              <span class="fr">已售{{item.volume}}万件</span>
+            </div>
+            <div class="col-money">
+              <p class="p-fr">
+                <i class="quan">{{item.couponPrice}}元券</i>
+              </p>
+              券后 
+              <span class="s-k">
+                <i>¥</i>{{item.couponAfterPrice}}
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="result_tm icon">
-          <span class="icon"></span>
-        </div>
-        <div class="col-yuan">
-          <span> 原价 ¥{{item.salePrice}}</span>
-          <span class="fr">已售{{item.volume}}万件</span>
-        </div>
-        <div class="col-money">
-          <p class="p-fr">
-            <i class="quan">{{item.couponPrice}}元券</i>
-          </p>
-          券后 
-          <span class="s-k">
-            <i>¥</i>{{item.couponAfterPrice}}
-          </span>
-        </div>
-      </div>
-    </div>
-
-
+      </scroll-view>
     <!-- 弹窗 -->
     <div class="index-warps" v-show="clipboard.show">
       <div class="index-concant">
@@ -90,14 +90,6 @@ import { mapState, mapMutations } from "vuex";
 export default {
   onShow() {
   },
-  computed: {
-    ...mapState(["cityName"])
-  },
-  mounted() {
-    this.init();
-    this.getCityName();
-    this.getData();
-  },
   data() {
     return {
       banner: [],
@@ -107,8 +99,10 @@ export default {
       imgs:{
         layerSerachImg:"/static/images/tanch-title-bg.png",
       },
+      listLoading:false,
       //参数
       params:{
+        canLoadHotGoods:true,
         //热卖商品
         hotGoods:{
           pageIndex:1,
@@ -120,6 +114,18 @@ export default {
         data:'',
       }
     };
+  },
+  computed: {
+    ...mapState(["cityName"])
+  },
+  mounted() {
+    this.init();
+    this.getCityName();
+    this.getHotGoodsData();
+  },
+  //滚动底部
+  onReachBottom(){ 
+      this.getHotGoodsData();
   },
   components: {},
   methods: {
@@ -157,6 +163,13 @@ export default {
           //清空剪贴板
           await client.setClipboardData("");
       }
+      //默认数据
+      const defaultInfo = await api.defaultInfo();
+      this.banner = defaultInfo.banners;
+      this.topicList = defaultInfo.hotNews;
+    },
+    toLower(){
+      console.log(1231231);
     },
     getCityName() {
       return;
@@ -187,14 +200,25 @@ export default {
         url: "/pages/search/main"
       });
     },
-    async getData() {
-      //const data = await get("/index/index");
-      //默认数据
-      const defaultInfo = await api.defaultInfo();
-      this.banner = defaultInfo.banners;
-      this.topicList = defaultInfo.hotNews;
+    async getHotGoodsData() {
+      if(this.params.canLoadHotGoods==false){
+        return;
+      }
       //热门商品
-      this.hotGoods = await api.hotGoods(this.params.hotGoods);
+      this.params.canLoadHotGoods=false;
+      let goodsData = await api.hotGoods(this.params.hotGoods);
+      //是否还有数据加载
+      if(goodsData.length==this.params.hotGoods.pageSize){
+        this.params.canLoadHotGoods=true;
+         //分页数+1
+        this.params.hotGoods.pageIndex++;
+      }
+      //添加到数据集
+      if(goodsData!=null){
+        goodsData.forEach((item)=>{
+          this.hotGoods.push(item);
+        })
+      }
     },
     goodsDetail(id,type) {
       wx.navigateTo({
