@@ -151,9 +151,10 @@ export default {
       });
     },
     async init(){
+      
       //用户登录
-      await userOption.codeLogin();
-
+      let userInfo = userOption.codeLogin();
+      
       //获取剪贴板内容
       let clipboardData = await client.getClipboardData();
       console.log('剪贴板内容：'+clipboardData);

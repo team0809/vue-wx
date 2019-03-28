@@ -53,7 +53,7 @@
         address: {},
         pageIndex:1,
         currentCount:0,
-        currentStatus:1
+        currentStatus:-1
       };
     },
     components: {},
@@ -78,11 +78,12 @@
         });
       },
       async orderList(status,clearPageIndex) {
-         if(clearPageIndex==true && this.currentStatus==status){
-           return;
-         }
         //清空pageIndex
         if(clearPageIndex==true){
+          //重复点击
+          if(this.currentStatus==status){
+            return;
+          }
           this.pageIndex=1;
           this.listData=[];
         }

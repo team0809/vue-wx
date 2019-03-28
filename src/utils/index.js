@@ -1,10 +1,10 @@
-export {
+import {
   api
 } from "./api";
 
 import {client} from "./wechat";
 
-export {client}
+export {client,api}
 
 function formatNumber(n) {
   const str = n.toString()
@@ -192,12 +192,13 @@ const userOption = {
     let userInfo = userOption.getUserInfo();
     return !(userInfo.nickname==undefined ||userInfo.nickname==null);
   },
-  async codeLogin(){
+ async codeLogin(){
     let userInfo = userOption.getUserInfo();
     if(userInfo.userId==undefined){
       let loginRes = await client.login();
       console.log(loginRes)
       let loginData = await api.codeLogin({code:loginRes.code});
+      console.log(loginData)
       //保存登录信息
      if(loginData!=null){
        userOption.setUserInfo(loginData.userInfo);
