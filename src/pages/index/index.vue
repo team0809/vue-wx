@@ -221,7 +221,7 @@ export default {
       }
     },
     goodsDetail(id,type) {
-      wx.navigateTo({
+      client.navigateTo({
         url: "/pages/goods/main?goodsId=" + id+"&goodsType="+type
       });
     },

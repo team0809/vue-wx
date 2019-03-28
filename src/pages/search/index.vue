@@ -51,7 +51,7 @@
     <!--商品列表  -->
     <div v-if="showCommodity==1" class="goodsList">
       <div class="sortlist">
-        <div @click="goodsDetail(item.goodsId)" v-for="(item, index) in listData" :key="index" :class="[(listData.length)%2==0?'active':'none']" class="item">
+        <div @click="goodsDetail(item.goodsId,item.goodsType.type)" v-for="(item, index) in listData" :key="index" :class="[(listData.length)%2==0?'active':'none']" class="item">
           <div class="img-box">
             <img :src="item.thumbnailImgUrl" alt="">
           <div class="coupon-wrapper theme-bg-color-1">
@@ -123,9 +123,9 @@ export default {
   },
   components: {},
   methods: {
-    goodsDetail(id) {
-      client.navigateTo({
-        url: "/pages/goods/main?id=" + id
+    goodsDetail(id,type) {
+       client.navigateTo({
+        url: "/pages/goods/main?goodsId=" + id+"&goodsType="+type
       });
     },
     cancel() {

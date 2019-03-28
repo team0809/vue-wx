@@ -98,18 +98,22 @@ export default {
     userOption.codeLogin();
     this.goodsId = this.$root.$mp.query.goodsId || 6849491165;
     this.goodsType = this.$root.$mp.query.goodsType || 1;
+    this.shareUserId = this.$root.$mp.query.userId || -1;
+    //商品详情
     this.goodsDetail();
+    //粉丝
+    this.fansAdd(shareUserId);
   },
   //商品转发
   onShareAppMessage() {
-    console.log(this.info.name);
-    console.log(this.info.id);
-    console.log(this.gallery[0].img_url);
-
+    console.log(this.goodsInfo.name);
+    console.log(this.goodsInfo.id);
+    console.log(this.goodsInfo.goodsImg[0]);
+   let userId = userOption.getUserInfo().userId;
     return {
-      title: this.info.name,
-      path: "/pages/goods/main?id=" + this.info.id,
-      imageUrl: this.gallery[0].img_url //拿第一张商品的图片
+      title: this.goodsInfo.name,
+      path: "/pages/goods/main?goodsId=" + this.goodsInfo.id+"&goodsType="+this.goodsInfo.goodsType.type+"&userId="+userId,
+      imageUrl: this.goodsInfo.goodsImg[0] //拿第一张商品的图片
     };
   },
   methods: {
@@ -154,6 +158,9 @@ export default {
         couponEndTime:data.couponEndTime,
         goodsType:data.goodsType
       };      
+    },
+    async fansAdd(shareUsreId){
+      const data = await api.fansAdd({shareUserId:shareUsreId})
     },
     showType() {
       this.showpop = !this.showpop;

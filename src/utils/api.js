@@ -59,6 +59,11 @@ const api = {
     async goodsDetail(param){
       const data = await post(apiHost+"goods/goodsDetail",param);
       return checkData(data);
+    },
+    //添加粉丝
+    async fansAdd(param){
+      const data = await post(apiHost+"user/fansAdd",param);
+      return checkData(data);
     }
 }
 

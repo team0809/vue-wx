@@ -161,7 +161,7 @@ export function getOpenid() {
 const userOption = {
   setUserInfo(userInfo){
     let user = {
-      id:userInfo.id,
+      userId:userInfo.id,
       userNo: userInfo.userNo,
       nickname: userInfo.nickname,
       icon: userInfo.icon,
@@ -194,7 +194,7 @@ const userOption = {
   },
   async codeLogin(){
     let userInfo = userOption.getUserInfo();
-    if(userInfo.id==undefined){
+    if(userInfo.userId==undefined){
       let loginRes = await client.login();
       console.log(loginRes)
       let loginData = await api.codeLogin({code:loginRes.code});
