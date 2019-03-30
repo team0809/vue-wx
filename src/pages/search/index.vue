@@ -58,9 +58,9 @@
             券 <i>￥</i><b>{{item.couponPrice}}</b>
           </div>
           </div>
-          <p class="name">{{item.goodsName}}</p>
+          <p class="name"><span class="platform">{{item.goodsType.name}}</span>{{item.goodsName}}</p>
           <div class="price-wrapper">
-            <span class="span1">￥<span>{{item.salePrice - item.couponPrice}}</span></span>
+            <span class="span1">￥<span>{{item.couponAfterPrice}}</span></span>
             <span class="price_yj">￥{{item.salePrice}}</span>
             <span class="price_right">销量 {{item.volume}}</span>
           </div>
@@ -160,18 +160,20 @@ export default {
       let goodsData = await api.searchGoods({
           pageSize:this.searchParam.pageSize,
           pageIndex:this.searchParam.pageIndex,
-          condition:{keyword:this.words,goodsType:1,sortType:this.searchParam.sortType}
+          condition:{keyword:this.words,goodsType:1,sortType:this.searchParam.sortType,hasCoupon:true}
         }
       );
-      this.searchParam.canLoadGoods=true;
-      this.searchParam.pageIndex++;
-      //滚动拖动数据
-      goodsData.forEach((item)=>{
-        this.listData.push(item)
-      });
+      if(goodsData.length>0){
+        this.searchParam.canLoadGoods=true;
+        this.searchParam.pageIndex++;
+        //滚动拖动数据
+        goodsData.forEach((item)=>{
+          this.listData.push(item)
+        });
 
-      this.showCommodity = this.listData.length>0 ? 1 : 2;
-      this.tipsData = '';
+        this.showCommodity = this.listData.length>0 ? 1 : 2;
+        this.tipsData = '';
+      }
     },
     changeTab(index) {
       this.nowIndex = index;

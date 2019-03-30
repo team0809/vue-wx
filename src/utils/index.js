@@ -44,6 +44,7 @@ function request(url, method, data, header = {}) {
 
     //token
     let token = userOption.getAouthToken();
+    console.log("token:"+token);
     if(token!=''){
       _header['x-auth-token'] = token;
     }
@@ -51,7 +52,7 @@ function request(url, method, data, header = {}) {
      //固定信息
      let base = {
       clientType: 'WechatMiniprogram',
-      userId: userOption.getUserInfo().id,
+      userId: userOption.getUserInfo().userId,
       version: '1.0.0',
       time: new Date().getTime()
     };

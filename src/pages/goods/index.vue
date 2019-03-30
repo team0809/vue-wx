@@ -63,27 +63,24 @@
 
     <div class="bottom-fixed">
       <!--主页按钮-->
-      <div class="homes">
+      <div class="homes" v-on:click="home">
         <span class="iconfont iconshouye"></span>
         <p class="pm">首页</p>
       </div>
-      <div class="share-box">
-        <p class="pms">返现¥ {{goodsInfo.promotionPrice}}</p>
-        <span class="iconfont iconfenxiang"></span> 分享
-      </div>
-      <div class="nbnav4" @click="quanFun">
+      <div class="nbnav4" @click="openApp(goodsInfo)">
         <p class="buy-text">省¥ {{goodsInfo.couponPrice}}</p>
-        <p class="buy-bnt">优惠购买</p>
+        <p class="buy-bnt">领优惠券</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { api,userOption } from "../../utils";
+import { api,userOption,client } from "../../utils";
 export default {
   data() {
     return {
+      shareUserId:-1,
       goodsId:0,
       goodsType:1,
       goodsInfo:{
@@ -102,7 +99,7 @@ export default {
     //商品详情
     this.goodsDetail();
     //粉丝
-    this.fansAdd(shareUserId);
+    this.fansAdd(this.shareUserId);
   },
   //商品转发
   onShareAppMessage() {
@@ -117,28 +114,19 @@ export default {
     };
   },
   methods: {
-    quanFun() {
-      
-    },
-    togoodsDetail(id) {
-      wx.redirectTo({ url: "/pages/goods/main?id=" + id });
-    },
-    add() {
-      this.number = this.number + 1;
-    },
-    reduce() {
-      if (this.number > 1) {
-        this.number = this.number - 1;
-      } else {
-        return false;
-      }
+    //跳转至首页
+    home(){
+      client.navigateTo({url: "/pages/index/main"});
     },
     async goodsDetail() {
       const data = await api.goodsDetail({goodsId: this.goodsId,goodsType: this.goodsType});
       if(data.goodsId==undefined){
         return;
       }
-
+      let goodsLinks = data.goodsUrl.split('!@#');
+      if(goodsLinks.length!=2){
+        goodsLinks = ['',data.goodsUrl];
+      }
       this.goodsInfo ={
         goodsId: data.goodsId,
         goodsName: data.goodsName,
@@ -151,7 +139,8 @@ export default {
         goodsEvalCount:data.goodsEvalCount,
         goodsImg:data.goodsImg,
         goodsDesc:data.goodsDesc,
-        goodsUrl:data.goodsUrl,
+        miniAppId:goodsLinks[0],
+        goodsUrl:goodsLinks[1],
         promotionPrice:data.promotionPrice,
         couponAfterPrice:data.couponAfterPrice,
         couponStartTime:data.couponStartTime,
@@ -162,8 +151,12 @@ export default {
     async fansAdd(shareUsreId){
       const data = await api.fansAdd({shareUserId:shareUsreId})
     },
-    showType() {
-      this.showpop = !this.showpop;
+   async openApp(goodsInfo){
+     let openState = await client.navigateToMiniProgram({
+            appId:goodsInfo.miniAppId,
+            path:goodsInfo.goodsUrl
+      });
+      console.log(openState);
     }
   },
   computed: {}

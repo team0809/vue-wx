@@ -60,20 +60,16 @@
   export default {
     onShow() {
       // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
-      if (login()) {
-        this.userInfo = login();
-        console.log(this.userInfo);
-        this.avator = this.userInfo.avatarUrl;
-      }
-    },
-    created() {},
-    mounted() {
-      //是否授权登录
+       //是否授权登录
       if(!userOption.hasAouthLogin()){
         this.aouthLogin();
       }else{
         this.userInfo = userOption.getUserInfo();
       }
+    },
+    created() {},
+    mounted() {
+     
     },
     data() {
       return {

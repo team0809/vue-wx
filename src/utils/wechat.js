@@ -69,6 +69,21 @@ const wechat = {
     },
     setStorageSync(key,value){
         wx.setStorageSync(key,value);
+    },
+    navigateToMiniProgram(param){
+        return new Promise((resolve,reject)=>{
+            wx.navigateToMiniProgram({
+                appId:param.appId,
+                path:param.path,
+                extraData:param.extraData,
+                success:function(res){
+                    resolve(res);
+                },
+                fail:function(){
+                    reject(null);
+                }
+            })
+          });
     }
 }
 

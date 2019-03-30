@@ -64,6 +64,7 @@ export default {
           "text": "我的"
         }
       ]
-    }
+    },
+    "navigateToMiniProgramAppIdList":["wx32540bd863b27570"]
   }
 }

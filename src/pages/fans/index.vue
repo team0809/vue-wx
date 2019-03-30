@@ -12,13 +12,13 @@
         <div class="con">
           <div class="left">
             <div class="img">
-              <img :src="item.fansId" alt="">
+              <img :src="item.icon" alt="">
             </div>
             <div class="info">
-              <p>{{item.fansId}}</p>
+              <p>{{item.nickName}}</p>
               <!-- <p>￥{{item.retail_price}}</p> -->
-              <p class="odr-time">日期：10100011</p>
-              <p class="odr-numb">电话：111110100011 </p>
+              <p class="odr-time">时间：{{item.createTime}}</p>
+              <!-- <p class="odr-numb">电话：111110100011 </p> -->
               <!-- <div class="monery-bom">
                 <span>消费金额 ¥100</span><i>预估价 ¥1008</i>
               </div> -->

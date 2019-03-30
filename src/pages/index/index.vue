@@ -106,7 +106,8 @@ export default {
         //热卖商品
         hotGoods:{
           pageIndex:1,
-          pageSize:20
+          pageSize:20,
+          hasCoupon:true
         }
       },
       clipboard:{
@@ -209,7 +210,7 @@ export default {
       this.params.canLoadHotGoods=false;
       let goodsData = await api.hotGoods(this.params.hotGoods);
       //是否还有数据加载
-      if(goodsData.length==this.params.hotGoods.pageSize){
+      if(goodsData.length>0){
         this.params.canLoadHotGoods=true;
          //分页数+1
         this.params.hotGoods.pageIndex++;

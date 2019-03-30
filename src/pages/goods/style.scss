@@ -302,9 +302,10 @@
     z-index: 10;
     div.homes {
       height: 100rpx;
-      width: 24%;
+      width: 30%;
       color: #f54d23;
       text-align: center;
+      padding-top:12rpx;
       .iconfont {
         font-size: 36rpx;
         color: #f54d23;
@@ -337,7 +338,7 @@
       background: -webkit-linear-gradient(211.3deg,#f54d23,#f8285c);
       background: linear-gradient(-121.3deg,#f54d23,#f8285c);
       color: #fff;
-      width: 44%;
+      width: 70%;
       text-align: center;
       .buy-text{
         font-size: 28rpx;
