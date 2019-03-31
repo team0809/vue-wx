@@ -84,6 +84,22 @@ const wechat = {
                 }
             })
           });
+    },
+    setNavigationBarTitle(title){
+        return new Promise((resolve,reject)=>{
+            wx.setNavigationBarTitle({
+                title:title,
+                success:function(res){
+                    resolve(res);
+                },
+                fail:function(){
+                    reject(null);
+                }
+            })
+          });
+    },
+    pageScrollTo(param){
+        wx.pageScrollTo(param);
     }
 }
 

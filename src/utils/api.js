@@ -69,6 +69,10 @@ const api = {
     async fansAdd(param){
       const data = await post(apiHost+"user/fansAdd",param);
       return checkData(data);
+    },
+    async goodsCategory(param){
+      const data = await post(apiHost+"goods/categoryList",param);
+      return checkData(data);
     }
 }
 

@@ -2,9 +2,8 @@
   <div class="index">
     <!-- 搜索 -->
     <div class="search">
-      <div @click="toMappage">{{cityName}}</div>
       <div @click="toSearch">
-        <input type="text" placeholder="搜索商品">
+        <input type="text" placeholder="商品搜索">
         <span class="icon iconfont iconsousuo"></span>
       </div>
     </div>
@@ -38,32 +37,32 @@
         <span></span> 
       </div>
     </div>
-      <scroll-view @scrolltolower="toLower" :scroll-y="true">
-        <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
-          <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
-          <div class="list-cont">
-            <div class="goods_title">
-            <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
-            </div>
-            <div class="result_tm icon">
-              <span class="icon"></span>
-            </div>
-            <div class="col-yuan">
-              <span> 原价 ¥{{item.salePrice}}</span>
-              <span class="fr">已售{{item.volume}}万件</span>
-            </div>
-            <div class="col-money">
-              <p class="p-fr">
-                <i class="quan">{{item.couponPrice}}元券</i>
-              </p>
-              券后 
-              <span class="s-k">
-                <i>¥</i>{{item.couponAfterPrice}}
-              </span>
-            </div>
-          </div>
+
+    <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
+      <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
+      <div class="list-cont">
+        <div class="goods_title">
+        <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
         </div>
-      </scroll-view>
+        <div class="col-yuan">
+          <span>
+            <span class="afprice">
+              <i>¥</i>{{item.couponAfterPrice}}
+            </span>
+            <span class="price"> ¥{{item.salePrice}} </span>
+          </span>
+          <span class="fr">已售{{item.volume}}件</span>
+        </div>
+        <div class="col-money">
+          <p class="p-fr">
+            <i class="quan">{{item.couponPrice}}元券</i>
+          </p>
+          <span class="s-k">
+            <i>返现 ¥</i>{{item.promotionPrice}}
+          </span>
+        </div>
+      </div>
+    </div>
     <!-- 弹窗 -->
     <div class="index-warps" v-show="clipboard.show">
       <div class="index-concant">
@@ -121,7 +120,6 @@ export default {
   },
   mounted() {
     this.init();
-    this.getCityName();
     this.getHotGoodsData();
   },
   //滚动底部
@@ -172,30 +170,6 @@ export default {
     },
     toLower(){
       console.log(1231231);
-    },
-    getCityName() {
-      return;
-      var _this = this;
-      var myAmapFun = new amapFile.AMapWX({
-        key: "e545e7f79a643f23aef187add14e4548"
-      });
-      myAmapFun.getRegeo({
-        success: function (data) {
-          //成功回调
-          console.log(data);
-          // data[0].regeocodeData.formatted_address
-          // _this.cityName = data[0].regeocodeData.formatted_address;
-          _this.update({ cityName: data[0].regeocodeData.formatted_address });
-        },
-        fail: function (info) {
-          //失败回调
-          console.log(info);
-          //如果用户拒绝授权
-          // 默认为北京
-          _this.cityName = "北京市";
-          _this.update({ cityName: "北京市" });
-        }
-      });
     },
     toSearch() {
       wx.navigateTo({

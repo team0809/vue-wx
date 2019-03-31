@@ -10,16 +10,27 @@
         </div>
         <div @click="cancel">取消</div>
       </div>
-      <div class="sortnav" v-if="showCommodity==1">
-        <div @click="changeTab(0)" :class="[0==nowIndex ?'active':'']">综合</div>
-        <div @click="changeTab(1)" class="price" :class="[1==nowIndex ?'active':'', order =='desc'? 'desc':'asc']">价格<span class="iconfont iconpaixu"></span></div>
-        <div @click="changeTab(3)" :class="[3==nowIndex ?'active':'', order =='desc'? 'desc':'asc']">销量<span class="iconfont iconpaixu"></span></div>
+      <div class="order-nav" v-if="showCommodity==1">
+        <ul>
+            <li :class="sort.sortIndex==0?'cur':''" v-on:click="changeTab(0)">综合</li>
+            <li :class="sort.sortIndex==1?'cur':''" v-on:click="changeTab(1)">价格
+              <span :class="(sort.sortIndex==1?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
+              <span :class="(sort.sortIndex==1?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span></li>
+            <li :class="sort.sortIndex==2?'cur':''" v-on:click="changeTab(2)">券额
+              <span :class="(sort.sortIndex==2?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
+              <span :class="(sort.sortIndex==2?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span>
+            </li>
+            <li :class="sort.sortIndex==3?'cur':''" v-on:click="changeTab(3)">销量
+              <span :class="(sort.sortIndex==3?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
+              <span :class="(sort.sortIndex==3?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span>
+            </li>
+        </ul>
       </div>
     </div>
       <!--历史记录-->
-      <div v-if="showCommodity==0">
-        <div class="searchtips" v-if="words">
-          <div @click="searchWords" v-if="tipsData.length!=0" style="color:orange">
+      <div v-if="showCommodity==0" class="history-block">
+        <div class="searchtips" v-if="tipsData.length!=0">
+          <div @click="searchWords"  style="color:orange">
           搜索："{{ tipsData }}"
           </div>
         </div>
@@ -50,27 +61,35 @@
 
     <!--商品列表  -->
     <div v-if="showCommodity==1" class="goodsList">
-      <div class="sortlist">
-        <div @click="goodsDetail(item.goodsId,item.goodsType.type)" v-for="(item, index) in listData" :key="index" :class="[(listData.length)%2==0?'active':'none']" class="item">
-          <div class="img-box">
-            <img :src="item.thumbnailImgUrl" alt="">
-          <div class="coupon-wrapper theme-bg-color-1">
-            券 <i>￥</i><b>{{item.couponPrice}}</b>
+      <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in listData" :key="index">
+        <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
+        <div class="list-cont">
+          <div class="goods_title">
+          <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
           </div>
+          <div class="col-yuan">
+            <span>
+              <span class="afprice">
+                <i>¥</i>{{item.couponAfterPrice}}
+              </span>
+              <span class="price"> ¥{{item.salePrice}} </span>
+            </span>
+            <span class="fr">已售{{item.volume}}件</span>
           </div>
-          <p class="name"><span class="platform">{{item.goodsType.name}}</span>{{item.goodsName}}</p>
-          <div class="price-wrapper">
-            <span class="span1">￥<span>{{item.couponAfterPrice}}</span></span>
-            <span class="price_yj">￥{{item.salePrice}}</span>
-            <span class="price_right">销量 {{item.volume}}</span>
+          <div class="col-money">
+            <p class="p-fr">
+              <i class="quan">{{item.couponPrice}}元券</i>
+            </p>
+            <span class="s-k">
+              <i>返现 ¥</i>{{item.promotionPrice}}
+            </span>
           </div>
-          <!-- <p class="price">￥{{item.retail_price}}</p> -->
         </div>
       </div>
     </div>
     <!--未找到商品-->
     <div v-if="showCommodity==2" class="goodsList">
-       未找搜索您到相关宝贝
+      未搜索到相关商品！请尝试更改商品标题重试
     </div>
   </div>
 </template>
@@ -98,7 +117,9 @@ export default {
   },
   //滚动底部
   onReachBottom(){
+    if(this.listData.length!=0){
       this.getlistData(false);
+    }
   },
   data() {
     return {
@@ -113,6 +134,7 @@ export default {
       order: "",
       isHot: "",
       isNew: "",
+      sort:{sortIndex:0,order:'desc'},
       searchParam:{
         canLoadGoods:true,
         pageSize:20,
@@ -146,15 +168,15 @@ export default {
       //展示搜索提示信息
       this.tipsearch();
     },
-    async getlistData(hasNewLoad) {
+    async getlistData(hasNewLoad) { 
+      if(this.searchParam.canLoadGoods==false){
+        return;
+      }
       //重新查询数据
       if(hasNewLoad==true){
         this.searchParam.pageSize=20;
         this.searchParam.pageIndex=1;
         this.listData=[];
-      }
-      if(this.searchParam.canLoadGoods==false){
-        return;
       }
       this.searchParam.canLoadGoods=false;
       let goodsData = await api.searchGoods({
@@ -170,24 +192,28 @@ export default {
         goodsData.forEach((item)=>{
           this.listData.push(item)
         });
-
         this.showCommodity = this.listData.length>0 ? 1 : 2;
         this.tipsData = '';
       }
     },
     changeTab(index) {
-      this.nowIndex = index;
-
-      if (index != 0) {
-        this.order = this.order == "asc" ? "desc" : "asc";
+     if (index !== 0) {
+        if(this.sort.sortIndex==index){
+          this.sort.order = this.sort.order == "asc" ? "desc" : "asc";
+        }else{
+          this.sort.order = "asc";
+        }
       }
-
+      this.sort.sortIndex = index;
       switch(index){
         //综合排序
         case 0: this.searchParam.sortType =0; break;
         //价格升序或降序
-        case 1: this.searchParam.sortType = (this.order=="asc")?1:2;break;
-        case 3: this.searchParam.sortType = (this.order=="asc")?3:4;break;
+        case 1: this.searchParam.sortType = (this.sort.order=="asc")?1:2;break;
+         //券额
+        case 2: this.searchParam.sortType = (this.sort.order=="asc")?5:6;break;
+        //销量
+        case 3: this.searchParam.sortType = (this.sort.order=="asc")?3:4;break;
       }
       this.getlistData(true);
     },
@@ -216,12 +242,8 @@ export default {
       // const data = await get("/search/helperaction", {
       //   keyword: this.words
       // });
+      console.log(this.words);
       this.tipsData = this.words;
-    },
-    topicDetail(id) {
-      client.navigateTo({
-        url: "/pages/topicdetail/main?id=" + id
-      });
     }
   },
   computed: {}
