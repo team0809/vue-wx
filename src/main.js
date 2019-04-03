@@ -25,7 +25,7 @@ export default {
     "window": {
       "backgroundTextStyle": "light",
       "navigationBarBackgroundColor": "#fff",
-      "navigationBarTitleText": "优惠券小程序",
+      "navigationBarTitleText": "网购宝",
       "navigationBarTextStyle": "black"
     },
     "tabBar": {

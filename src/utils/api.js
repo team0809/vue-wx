@@ -70,8 +70,19 @@ const api = {
       const data = await post(apiHost+"user/fansAdd",param);
       return checkData(data);
     },
+    //获取分类列表
     async goodsCategory(param){
       const data = await post(apiHost+"goods/categoryList",param);
+      return checkData(data);
+    },
+    //账户明细
+    async accountDetails(param){
+      const data = await post(apiHost+"account/list",param);
+      return checkData(data).rows;
+    },
+    //个人中心
+    async centerInfo(param){
+      const data = await post(apiHost+"user/centerInfo",param);
       return checkData(data);
     }
 }

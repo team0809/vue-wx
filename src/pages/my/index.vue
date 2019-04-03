@@ -10,20 +10,20 @@
     <div class="list-w">
       <div class="my-monery-list">
         <p>
-          ¥ <i>10</i>
-          <span>昨日收益</span>
+          ¥ <i>{{centerInfo.currentMountEstimateAmount}}</i>
+          <span>本月预估</span>
         </p>
         <p>
-          ¥ <i>101</i>
+          ¥ <i>{{centerInfo.todayAmount}}</i>
           <span>今日收益</span>
         </p>
       </div>
       <div class="my-monery-list bottom-radius">
         <p>
-          上月结算 <i class="numb">¥10</i>
+          上月预估 <i class="numb">¥{{centerInfo.lastMonthEstimateAmount}}</i>
         </p>
         <p>
-          本月结算 <i class="numb">¥101</i>
+          上月结算 <i class="numb">¥{{centerInfo.lastMonthBalanceAmount}}</i>
         </p>
       </div>
     </div>
@@ -57,27 +57,15 @@
     userOption,
     api
   } from "../../utils";
-  export default {
-    onShow() {
-      // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
-       //是否授权登录
-      if(!userOption.hasAouthLogin()){
-        this.aouthLogin();
-      }else{
-        this.userInfo = userOption.getUserInfo();
-      }
-    },
-    created() {},
-    mounted() {
-     
-    },
+  export default { 
     data() {
       return {
         aouthImg:"/static/images/wechat-aouth.png",
         allcheck: false,
         Listids: [],
         userInfo: {},
-        listData: [{
+        listData: [
+          {
             title: "我的订单",
             icon: "icondingdan",
             url: "/pages/order/main"
@@ -86,6 +74,11 @@
             title: "我的粉丝",
             icon: "iconfensi",
             url: "/pages/fans/main"
+          },
+           {
+            title: "收支明细",
+            icon: "iconfensi",
+            url: "/pages/myPayDetail/main"
           },
           {
             title: "我的收藏",
@@ -105,8 +98,20 @@
         ],
         aouth:{
           show:false
-        }
+        },
+        centerInfo:{},
       };
+    },
+    onShow() {
+      // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
+       //是否授权登录
+      if(!userOption.hasAouthLogin()){
+        this.aouthLogin();
+      }else{
+        this.userInfo = userOption.getUserInfo();
+      }
+      //加载个人中心数据
+      this.initCenterInfo();
     },
     components: {},
     methods: {
@@ -161,6 +166,12 @@
           //提示用户授权
           this.aouth.show = true;
         }
+      },
+      //加载个人中心数据
+      async initCenterInfo(){
+          let centerInfo = await api.centerInfo();
+          this.centerInfo = centerInfo;
+          console.log(centerInfo);
       }
     },
     computed: {}
