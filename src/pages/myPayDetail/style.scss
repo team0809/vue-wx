@@ -103,11 +103,7 @@
     background: #fff;
     margin-bottom: 110rpx;
     margin-top: 110rpx;
-    .odr-time{
-      color: #aaa;
-      font-size: 22rpx;
-      margin-top: 8rpx;
-    }
+
     .odr-numb{
       color: #aaa;
       font-size: 22rpx;
@@ -150,23 +146,44 @@
           align-items: center;
           width: 100%;
           .img {
-            width: 150rpx;
-            height: 150rpx;
+            width: 100rpx;
+            height: 100rpx;
             display: block;
-            background: #f4f4f4;
             margin-left: 20rpx;
             img {
               width: 100%;
               height: 100%;
             }
+            
           }
           .info {
-            padding: 20rpx;
+            padding: 0rpx 20rpx;
             -webkit-box-flex: 1;
             -webkit-flex: 1;
             flex: 1;
+            position: relative;
             p {
               line-height: 40rpx;
+            }
+            .price{
+              color: #FE0000;
+              font-weight: bold;
+            }
+            .odr-desc{
+              color: #aaa;
+              font-size: 24rpx;
+              margin-top: 8rpx;
+            }
+            .type{
+              display:block;
+              padding:6rpx 26rpx;
+              background-color:#fc3f78;
+              font-size:20rpx;
+              text-align:center;
+              top:-19rpx;
+              right:0rpx;
+              position:absolute;
+              color:white;
             }
           }
         }

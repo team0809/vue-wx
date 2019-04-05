@@ -27,6 +27,26 @@
       </div>
     </div>
     <div class="our-cont">
+       <div class="hidden">
+          <div class="item" v-for="(item,index) in topicList" :key="index">
+              <div class="icon">
+                <img :src="item.icon" />
+                <span>{{item.nickname}}</span>
+              </div>
+              <div class="time">
+                {{item.timeText}}
+              </div>
+              <div class="desc" v-if="item.type==1">
+                领取<span class="price">{{item.amount}}元优惠券</span>
+              </div>
+              <div class="desc" v-else-if="item.type==2">
+                获得返利<span class="price">{{item.amount}}元</span>
+              </div>
+              <div class="desc" v-else-if="item.type==3">
+                提现<span class="price">{{item.amount}}元</span>
+              </div>
+          </div>
+      </div>
     </div>
     <!-- 优惠列表 -->
     <div class="user-title">

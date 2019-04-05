@@ -12,10 +12,13 @@
         <div class="con">
           <div class="left">
             <div class="img">
+              <img :src="item.icon" />
             </div>
             <div class="info">
-              <p>{{item.amount}}</p>
-              <p class="odr-time">时间：{{item.createTime}}</p>
+              <p class="price">￥{{item.amount}}</p>
+              <p class="odr-desc">时间：{{item.createTime}}</p>
+              <p class="odr-desc">{{item.orderText}}</p>
+              <span class="type">{{item.typeText}}</span>
             </div>
           </div>
         </div>
@@ -71,8 +74,15 @@
         this.currentCount=accountList.length;
         if(this.currentCount>0){
           this.pageIndex++;
-          accountList.forEach(element => {
-            this.listData.push(element);
+          accountList.forEach(item => {
+            switch(item.refType){
+              case 1: item.icon = "/static/images/icon_amount_order.png";item.orderText='订单返利';break;
+              case 2: item.icon = "/static/images/icon_amount_reward.png";item.orderText='活动赏金';break;
+              case 3: item.icon = "/static/images/icon_amount_withdraw.png";item.orderText='提现';break;
+              default: item.icon = "/static/images/icon_amount_order.png";item.orderText='订单返利';break;
+            }
+            item.typeText= item.inOrOut==0?'收入':'支出';
+            this.listData.push(item);
           });
         }
       }

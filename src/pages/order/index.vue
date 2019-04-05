@@ -21,7 +21,7 @@
               <p class="odr-time">创建日期：{{item.createTime}}</p>
               <p class="odr-numb">订单号：{{item.orderNum}} <span v-on:click="copyOrderNum(item.orderNum)">复制</span></p>
               <div class="monery-bom">
-                <span>订单金额 ¥{{item.orderPrice}}</span><i>预估收入 ¥{{item.userPromotionAmount}}</i>
+                <span>订单金额 ¥{{item.orderPrice}}</span><i>预估返现 ¥{{item.userPromotionAmount}}</i>
               </div>
             </div>
           </div>
