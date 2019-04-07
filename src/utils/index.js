@@ -34,7 +34,7 @@ export {
   host
 }
 //请求封装
-function request(url, method, data, header = {}) {
+ function request(url, method, data, header = {}) {
   wx.showLoading({
     title: '加载中' //数据请求前loading
   })
@@ -67,13 +67,27 @@ function request(url, method, data, header = {}) {
       method: method,
       data: data,
       header: _header,
-      success: function (res) {
+      success: async function (res) {
         wx.hideLoading();
-        resolve(res.data)
+        if(res.statusCode==200){
+          resolve(res.data);
+        }else{
+          //401 要求登录
+         if(res.statusCode==401 && url.indexOf('codeLogin')==-1){
+            let login = await userOption.codeLogin(true);
+            console.log(login);
+            //再次请求接口
+            let data = await request(url,method,data,header);
+            console.log(data);
+            //返回数据
+            resolve(data);
+         };
+        }
       },
       fail: function (error) {
+        console.log(error);
         wx.hideLoading();
-        reject(false)
+        reject(error)
       },
       complete: function () {
         wx.hideLoading();
@@ -81,18 +95,18 @@ function request(url, method, data, header = {}) {
     })
   })
 }
-export function get(url, data) {
-  return request(url, 'GET', data)
+export  function get(url, data) {
+  return  request(url, 'GET', data)
 }
-export function post(url, data) {
-  return request(url, 'POST', data)
+export  function post(url, data) {
+  return  request(url, 'POST', data)
 }
 
-export function fget(url, data) {
-  return request(url, 'GET', data,{ "Content-Type": "application/x-www-form-urlencoded"})
+export  function fget(url, data) {
+  return  request(url, 'GET', data,{ "Content-Type": "application/x-www-form-urlencoded"})
 }
-export function fpost(url, data) {
-  return request(url, 'POST', data,{ "Content-Type": "application/x-www-form-urlencoded"})
+export  function fpost(url, data) {
+  return  request(url, 'POST', data,{ "Content-Type": "application/x-www-form-urlencoded"})
 }
 
 //-------------------------------------------------------------------------请求的封装
@@ -167,6 +181,7 @@ const userOption = {
       nickname: userInfo.nickname,
       icon: userInfo.icon,
       userType: userInfo.type,
+      typeText:userInfo.typeText,
       mobile: userInfo.mobile
     };
     client.setStorageSync("storage_user_info",JSON.stringify(user));
@@ -193,8 +208,11 @@ const userOption = {
     let userInfo = userOption.getUserInfo();
     return !(userInfo.nickname==undefined ||userInfo.nickname==null);
   },
- async codeLogin(){
+  async codeLogin(clearOld){
     let userInfo = userOption.getUserInfo();
+    if(clearOld==true){
+      userInfo ={};
+    }
     if(userInfo.userId==undefined){
       let loginRes = await client.login();
       console.log(loginRes)
@@ -204,7 +222,19 @@ const userOption = {
      if(loginData!=null){
        userOption.setUserInfo(loginData.userInfo);
        userOption.setAouthToken(loginData.token);
+       return true;
+     }else{
+       return false;
      }
+    }
+    return true;
+  },
+  async loginOut(){
+    let loginOut = await api.loginOut();
+    //清空登录信息
+    if(loginOut==true){
+      client.setStorageSync("storage_user_info","");
+      client.setStorageSync("storage_auth_token","");
     }
   }
 }

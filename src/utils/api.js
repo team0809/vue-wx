@@ -2,11 +2,13 @@ import {
     post,
     get,
     fpost,
-    fget
+    fget,
+    userOption
   } from "./index";
 const apiHost="http://localhost:8020/web-api/"; //"http://dev.wgb.wxcard.com.cn/web-api/";
 
 function checkData(resp){
+  console.log(resp);
   if(resp.code==0){
     return resp.data
   }else{
@@ -19,6 +21,11 @@ const api = {
     // 微信Code登录
     async codeLogin (param) {
       const data = await fpost(apiHost+"user/codeLogin",param);
+      return checkData(data);
+    },
+    // 退出登录
+    async loginOut (param) {
+      const data = await fpost(apiHost+"user/loginOut",param);
       return checkData(data);
     },
     // 保存微信用户信息

@@ -3,7 +3,7 @@
     <div class="myinfo">
       <img :src="userInfo.icon" alt="">
       <div>
-        <p>{{userInfo.nickname}}</p>
+        <p>{{userInfo.nickname}}<span class="type">{{userInfo.typeText}}</span></p>
         <p class="integral" >邀请码: {{userInfo.userNo}}</p>
       </div>
     </div>
