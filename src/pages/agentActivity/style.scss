@@ -1,14 +1,18 @@
 .page{
   background: white;
   width: 100%;
-  background-size: 100%;
-  position: absolute;
-  z-index: 1;
+  padding-bottom: 30rpx;
+
+  .background{
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+  }
 
   .content{
     position: relative;
     z-index: 2;
-    padding:0rpx 20rpx 30rpx 20rpx;
+    padding:0rpx 20rpx 0rpx 20rpx;
 
     .title{
       font-size: 60rpx;
@@ -57,6 +61,12 @@
             height: 160rpx;
             position: relative;
             float: left;
+            img{
+              position:absolute;
+              z-index: 1;
+              width: 160rpx;
+              height: 160rpx;
+            }
             .price{
               position:absolute;
               width:100%;
@@ -65,6 +75,7 @@
               font-size:50rpx;
               color:white;
               font-weight:800;
+              z-index: 2;
               span{
                 font-size: 24rpx;
               }
@@ -77,6 +88,7 @@
               font-size:20rpx;
               color: #ffc38d;
               font-weight: bold;
+              z-index: 2;
             }
           }
 
@@ -112,7 +124,7 @@
 
   .desc{
     margin-top:80rpx;
-    background-color:#94949440;
+    background-color:rgba(148,148,148,0.25);
     padding:20rpx;
     z-index:3;
     position:relative;

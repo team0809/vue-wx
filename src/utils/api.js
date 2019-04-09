@@ -91,6 +91,16 @@ const api = {
     async centerInfo(param){
       const data = await post(apiHost+"user/centerInfo",param);
       return checkData(data);
+    },
+    //活动
+    async currentActivity(param){
+      const data = await post(apiHost+"activity/current",param);
+      return checkData(data);
+    },
+    //报名参与活动
+    async signUpActivity(param){
+      const data = await fpost(apiHost+"activity/signUpActivity",param);
+      return checkData(data);
     }
 }
 

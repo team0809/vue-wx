@@ -235,7 +235,9 @@ const userOption = {
     if(loginOut==true){
       client.setStorageSync("storage_user_info","");
       client.setStorageSync("storage_auth_token","");
+      return true;
     }
+    return false;
   }
 }
 

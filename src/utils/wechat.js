@@ -100,6 +100,18 @@ const wechat = {
     },
     pageScrollTo(param){
         wx.pageScrollTo(param);
+    },
+    getSystemInfo(){
+        return new Promise((resolve,reject)=>{
+            wx.getSystemInfo({
+                success:function(res){
+                    resolve(res);
+                },
+                fail:function(){
+                    reject(null);
+                }
+            })
+          });
     }
 }
 
