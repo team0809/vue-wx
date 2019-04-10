@@ -109,6 +109,7 @@
                   let codeLogin = await userOption.codeLogin();
                 }
               }
+              client.showToast({title:'活动报名成功'});
             }
           }
       }

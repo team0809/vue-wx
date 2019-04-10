@@ -112,6 +112,10 @@ const wechat = {
                 }
             })
           });
+    },
+    //title,icon,duration
+    showToast(param){
+      wx.showToast(param);
     }
 }
 

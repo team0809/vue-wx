@@ -79,21 +79,6 @@
             title: "收支明细",
             icon: "iconfensi",
             url: "/pages/myPayDetail/main"
-          },
-          {
-            title: "我的收藏",
-            icon: "iconshoucang",
-            url: "/pages/collectlist/main"
-          },
-          {
-            title: "地址管理",
-            icon: "icondizhi",
-            url: "/pages/address/main"
-          },
-          {
-            title: "意见反馈",
-            icon: "iconyijianfankui",
-            url: "/pages/feedback/main"
           }
         ],
         aouth:{

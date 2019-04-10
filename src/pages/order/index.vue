@@ -10,7 +10,8 @@
     </div>
     <div class="cartlist">
       <div class="item" v-for="(item,index) in listData" :key="index">
-        <div class="con">
+        <!--我的订单-->
+        <div class="con" v-if="item.balanceType==0">
           <div class="left">
             <div class="img">
               <img :src="item.goodsImgUrl" alt="">
@@ -26,6 +27,44 @@
             </div>
           </div>
         </div>
+
+        <!--粉丝订单-->
+         <div class="con" v-if="item.balanceType==1 || item.balanceType==2">
+            <div class="left">
+            <div class="img">
+              <img :src="item.goodsImgUrl" alt="">
+            </div>
+            <div class="info">
+              <p>{{item.balanceType==1?'直属粉丝订单':'推荐粉丝订单'}}</p>
+              <!-- <p>￥{{item.retail_price}}</p> -->
+              <p class="odr-time">创建日期：{{item.createTime}}</p>
+              <p class="odr-numb">订单号：{{item.orderNum}} <span v-on:click="copyOrderNum(item.orderNum)">复制</span></p>
+              <div class="monery-bom">
+                <span>订单金额 ¥{{item.orderPrice}}</span><i>预估返现 ¥{{item.balanceAmount}}</i>
+              </div>
+            </div>
+          </div>
+         </div>
+
+         <!--活动奖励-->
+         <div class="con" v-if="item.balanceType==3">
+            <div class="left">
+            <div class="img">
+              <img :src="item.goodsImgUrl" alt="">
+            </div>
+            <div class="info">
+              <p v-if="item.activityType==1">拉新活动</p>
+              <p v-else-if="item.activityType==2">订单活动</p>
+              <p v-else>返现活动</p>
+              <!-- <p>￥{{item.retail_price}}</p> -->
+              <p class="odr-time">发放日期：{{item.createTime}}</p>
+              <div class="monery-bom">
+                <i>奖励金额 ¥{{item.balanceAmount}}</i>
+              </div>
+            </div>
+          </div>
+         </div>
+
       </div>
     </div>
   </div>
