@@ -23,7 +23,23 @@
         <span>&nbsp;</span> 大家都在领
       </div>
       <div class="u-right">
-        <span></span>
+        <span>1111</span>2222
+      </div>
+    </div>
+    <!-- 领取的内容 -->
+    <div class="user-ling-list">
+      <div class="user-wrapper" v-for="im in 10">
+        <div class="swiper-cent">
+          <div class="cent">
+            <a href="" class="img">
+              <img src="https://img.alicdn.com/imgextra/i3/752144829/TB2Sz6fs7KWBuNjy1zjXXcOypXa_!!752144829.jpg_310x310.jpg" alt="">
+              <p class="text">2.3万<span>人已领 </span> <i> |</i> 20元券</p>
+            </a>
+              <p class="name">小迷糊 玻尿酸黑面膜21片+21片</p>
+              <p class="money"><i>¥</i>55 <del>¥75</del></p>
+              <p class="progress"><i style="width: 46%;"></i></p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="our-cont">
