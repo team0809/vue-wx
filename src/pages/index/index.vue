@@ -17,10 +17,10 @@
         </block>
       </swiper>
     </div>
-    <!-- 大家都在领 -->
+    <!-- 未知领域 -->
     <div class="user-title">
       <div class="u-left">
-        <span>&nbsp;</span> 大家都在领
+        <span>&nbsp;</span> 未知领域
       </div>
       <div class="u-right">
         <span>1111</span>2222
@@ -31,8 +31,8 @@
       <div class="user-wrapper" v-for="im in 10">
         <div class="swiper-cent">
           <div class="cent">
-            <a href="" class="img">
-              <img src="https://img.alicdn.com/imgextra/i3/752144829/TB2Sz6fs7KWBuNjy1zjXXcOypXa_!!752144829.jpg_310x310.jpg" alt="">
+            <a href="javascript:;" @click="goFun" class="img">
+              <img src="https://t00img.yangkeduo.com/goods/images/2019-03-11/68f7a9f4486e1c0e3336834a09d61fdb.jpeg" alt="">
               <p class="text">2.3万<span>人已领 </span> <i> |</i> 20元券</p>
             </a>
               <p class="name">小迷糊 玻尿酸黑面膜21片+21片</p>
@@ -40,6 +40,15 @@
               <p class="progress"><i style="width: 46%;"></i></p>
           </div>
         </div>
+      </div>
+    </div>
+    <!-- 大家都在领 -->
+    <div class="user-title">
+      <div class="u-left">
+        <span>&nbsp;</span> 大家都在领
+      </div>
+      <div class="u-right">
+        <span>1111</span>2222
       </div>
     </div>
     <div class="our-cont">
@@ -186,10 +195,8 @@ export default {
       });
     },
     async init(){
-      
       //用户登录
       let userInfo = userOption.codeLogin();
-      
       //获取剪贴板内容
       let clipboardData = await client.getClipboardData();
       console.log('剪贴板内容：'+clipboardData);
@@ -278,6 +285,9 @@ export default {
          client.navigateTo({url:"/pages/search/main?keyword="+this.clipboard.data});
       }
       this.clipboard.show=false;
+    },
+    goFun () {
+      console.log('ni dian le gan ma')
     }
   },
   created() { }
