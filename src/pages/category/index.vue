@@ -5,7 +5,6 @@
         <span class="iconfont iconsousuo"></span>
         <span>商品搜索,共239款好物</span>
       </div>
-
     </div>
     <div class="content">
       <scroll-view class="left" scroll-y="true">
@@ -14,9 +13,9 @@
         </div>
       </scroll-view>
       <scroll-view class="right" scroll-y="true">
-        <div class="banner">
+        <!-- <div class="banner">
           <img :src="detailData.imgPath" alt="">
-        </div>
+        </div> -->
         <div class="title">
           <span>—</span>
           <span>{{detailData.title}}分类</span>
@@ -24,7 +23,7 @@
         </div>
         <div class="bottom">
           <div @click="categoryList(jitem)" v-for="(jitem,jindex) in detailData.subList" :key="jindex" class="item">
-            <img :src="jitem.imgPath" alt="">
+            <div><img :src="jitem.imgPath" alt=""></div>
             <span>{{jitem.title}}</span>
           </div>
         </div>

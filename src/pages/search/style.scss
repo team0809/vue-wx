@@ -16,7 +16,6 @@
             height: 59rpx;
             display: flex;
             align-items: center;
-            background: #f4f4f4;
             img {
                 display: inline-block;
                 width: 31rpx;
@@ -28,6 +27,8 @@
                 width: 480rpx;
                 height: 59rpx;
                 margin-left: 10rpx;
+                border-radius: 50rpx;
+                background: #fff;
             }
             .del {
                 width: 53rpx;
