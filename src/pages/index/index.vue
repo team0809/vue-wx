@@ -98,6 +98,8 @@
       </div>
       <div class="wx-gallery"></div>
     </div>
+    <!-- 分享好友 -->
+     <button class="share" hover-class="none" open-type="share" value="">分享好友</button>
   </div>
 </template>
 
@@ -132,15 +134,27 @@ export default {
       clipboard:{
         show:false,
         data:'',
-      }
+      },
+      shareUserId:-1
+    };
+  },
+  //商品转发
+  onShareAppMessage() {
+   let userId = userOption.getUserInfo().userId;
+    return {
+      title: '西瓜红包',
+      path: "/pages/index/main?userId="+userId,
+      imageUrl: this.goodsInfo.goodsImg[0] //拿第一张商品的图片
     };
   },
   computed: {
     ...mapState(["cityName"])
   },
   mounted() {
+    this.shareUserId = this.$root.$mp.query.userId || -1;
     this.init();
     this.getHotGoodsData();
+    this.fansAdd();
   },
   //滚动底部
   onReachBottom(){ 
@@ -262,6 +276,11 @@ export default {
          client.navigateTo({url:"/pages/search/main?keyword="+this.clipboard.data});
       }
       this.clipboard.show=false;
+    },
+    async fansAdd(){
+      if(this.shareUserId!=-1){
+        const data = await api.fansAdd({shareUserId:shareUsreId,msg:'首页分享'});
+      }
     }
   },
   created() { }

@@ -149,7 +149,7 @@ export default {
       };      
     },
     async fansAdd(shareUsreId){
-      const data = await api.fansAdd({shareUserId:shareUsreId})
+      const data = await api.fansAdd({shareUserId:shareUsreId,msg:'商品页分享'})
     },
    async openApp(goodsInfo){
      let openState = await client.navigateToMiniProgram({

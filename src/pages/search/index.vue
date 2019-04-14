@@ -16,11 +16,11 @@
             <li :class="sort.sortIndex==1?'cur':''" v-on:click="changeTab(1)">价格
               <span :class="(sort.sortIndex==1?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
               <span :class="(sort.sortIndex==1?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span></li>
-            <li :class="sort.sortIndex==2?'cur':''" v-on:click="changeTab(2)">券额
+            <li :class="sort.sortIndex==2?'cur':''" v-on:click="changeTab(2,'desc')">券额
               <span :class="(sort.sortIndex==2?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
               <span :class="(sort.sortIndex==2?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span>
             </li>
-            <li :class="sort.sortIndex==3?'cur':''" v-on:click="changeTab(3)">销量
+            <li :class="sort.sortIndex==3?'cur':''" v-on:click="changeTab(3,'desc')">销量
               <span :class="(sort.sortIndex==3?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
               <span :class="(sort.sortIndex==3?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span>
             </li>
@@ -29,9 +29,9 @@
     </div>
       <!--历史记录-->
       <div v-if="showCommodity==0" class="history-block">
-        <div class="searchtips" v-if="tipsData.length!=0">
+        <div class="searchtips" v-if="words!=''">
           <div @click="searchWords"  style="color:orange">
-          搜索："{{ tipsData }}"
+          点此搜索："{{ tipsData }}"
           </div>
         </div>
         <div class="history" v-if="historyData.length!=0">
@@ -99,7 +99,7 @@ import {
   post,
   get,
   searchHistory,
-client,
+  client,
 } from "../../utils";
 import { api } from "../../utils/api";
 export default {
@@ -158,8 +158,8 @@ export default {
     clearInput() {
       this.words = "";
       this.listData = [];
-      this.tipsData = [];
-      this.showCommodity = 2;
+      this.tipsData = '';
+      this.showCommodity = 0;
     },
     inputFocus() {
       //商品清空
@@ -167,6 +167,7 @@ export default {
       this.listData = [];
       //展示搜索提示信息
       this.tipsearch();
+      client.pageScrollTo({scrollTop:'0px',duration:0});
     },
     async getlistData(hasNewLoad) { 
       if(this.searchParam.canLoadGoods==false){
@@ -196,12 +197,12 @@ export default {
         this.tipsData = '';
       }
     },
-    changeTab(index) {
+    changeTab(index,order) {
      if (index !== 0) {
         if(this.sort.sortIndex==index){
           this.sort.order = this.sort.order == "asc" ? "desc" : "asc";
         }else{
-          this.sort.order = "asc";
+          this.sort.order = order || "asc";
         }
       }
       this.sort.sortIndex = index;
@@ -244,6 +245,7 @@ export default {
       // });
       console.log(this.words);
       this.tipsData = this.words;
+       console.log('tipData:'+this.tipsData);
     }
   },
   computed: {}

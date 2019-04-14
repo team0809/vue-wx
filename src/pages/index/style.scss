@@ -755,3 +755,17 @@
     height: 100%;
   }
 }
+.share{
+  position: fixed;
+  z-index: 9;
+  border-radius: 40rpx 0 0 40rpx;
+  width: 150rpx;
+  height: 65rpx;
+  line-height: 65rpx;
+  text-align: center;
+  right: 0;
+  top: 425rpx;
+  background: #e0a354;
+  color: #fff;
+  font-size: 24rpx;
+}

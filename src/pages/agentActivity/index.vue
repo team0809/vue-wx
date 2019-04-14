@@ -22,7 +22,7 @@
             <div class="center-line" v-if="items.length!=(index+1)"></div>
           </div>
         </div>
-        <div class="current"><span class="center">当前拉新人数<span class="num">5</span></span></div>
+        <div class="current"><span class="center">当前拉新人数<span class="num">{{activityModel.newUserCount}}</span></span></div>
     </div>
 
     <div class="task">
@@ -37,7 +37,7 @@
             <div class="center-line" v-if="items.length!=(index+1)"></div>
           </div>
         </div>
-        <div class="current"><span class="center">当前下单数<span class="num">5</span></span></div>
+        <div class="current"><span class="center">当前下单数<span class="num">{{activityModel.newOrderCount}}</span></span></div>
     </div>
 
     <div class="task">
@@ -52,7 +52,7 @@
             <div class="center-line" v-if="items.length!=(index+1)"></div>
           </div>
         </div>
-        <div class="current"><span class="center">当前返现金额<span class="num">5</span></span></div>
+        <div class="current"><span class="center">当前返现金额<span class="num">{{activityModel.balanceAmount}}</span></span></div>
     </div>
 
     <div class="desc">
