@@ -34,8 +34,8 @@
         <div class="con" v-if="item.balanceType==1 || item.balanceType==2">
           <div class="left">
             <div class="min-img">
-              <img v-if="item.balanceType==1" src="/static/images/icon_order_fans_1.png" alt="">
-              <img v-else src="/static/images/icon_order_fans_2.png" alt="">
+              <img v-if="item.balanceType==1" src="/static/order/fans-act.png" alt="">
+              <img v-else src="/static/order/tuijfans-act.png" alt="">
             </div>
             <div class="info">
               <p>{{item.balanceType==1?'直属粉丝订单':'推荐粉丝订单'}}</p>
@@ -56,7 +56,7 @@
             <div class="min-img">
               <img v-if="item.activityType==1" src="/static/images/icon_activity_new_user.png" alt="">
               <img v-else-if="item.activityType==2" src="/static/images/icon_activity_order.png" alt="">
-              <img v-else src="/static/images/icon_activity_fanxian.png" alt="">
+              <img v-else src="/static/order/fanxian-act.png" alt="">
             </div>
             <div class="info">
               <p v-if="item.activityType==1">拉新活动</p>
@@ -69,7 +69,6 @@
             </div>
           </div>
         </div>
-
         <!-- 状态 -->
         <div class="state">{{item.orderStatusText}}</div>
       </div>

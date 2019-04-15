@@ -858,8 +858,10 @@
       z-index: 99;
       padding-top: 42rpx;
       text-align: center;
+      word-wrap: break-word;
       p{
         padding:26rpx 36rpx;
+        word-wrap: break-word;
       }
     }
     .copy-bnt{
