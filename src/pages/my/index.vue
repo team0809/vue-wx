@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="iconlist">
-      <div @click="goTo(item.url)" v-for="(item, index) in listData" :key="index">
+      <div @click="goTo(item.url)" v-for="(item, index) in listData" :key="index" v-show="(item.show || userInfo.userType==20)">
         <span class="iconfont" :class="item.icon"></span>
         <span class="text">{{item.title}}</span>
       </div>
@@ -68,17 +68,26 @@
           {
             title: "我的订单",
             icon: "icondingdan",
-            url: "/pages/order/main"
+            url: "/pages/order/main",
+            show:true
           },
           {
             title: "我的粉丝",
             icon: "iconfensi",
-            url: "/pages/fans/main"
+            url: "/pages/fans/main",
+            show:true
           },
            {
             title: "收支明细",
             icon: "iconfensi",
-            url: "/pages/myPayDetail/main"
+            url: "/pages/myPayDetail/main",
+            show:true
+          },
+           {
+            title: "赏金活动",
+            icon: "iconfensi",
+            url: "/pages/agentActivity/main",
+            show:false
           }
         ],
         aouth:{
