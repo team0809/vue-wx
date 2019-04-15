@@ -2,14 +2,14 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  background-color: #fff;
   .user-title{
 	  overflow: hidden;
 	  clear: both;
 	  height: 62rpx;
 	  line-height: 62rpx;
-    margin: 12rpx 0;
+    padding: 12rpx 0;
     border-bottom: 5rpx solid #F5F5F5;
+    background: #fff;
   }
   .user-title .u-left{
 	font-size: 30rpx;
@@ -60,6 +60,7 @@
     display: flex;
     overflow-x: scroll;
     padding-top: 8rpx;
+    background: #fff;
     .user-wrapper{
       -webkit-flex-shrink: 0;
       -ms-flex: 0 0 auto;
@@ -185,7 +186,6 @@
 	  height: 320rpx;
 	  margin-top: 12rpx;
     text-align: center;
-    padding-left: 8rpx;
     overflow: hidden;
     position: relative;
     .item{
@@ -198,12 +198,13 @@
         width: 45%;
         float: left;
         img{
-          width:80rpx;
-          height:80rpx;
+          width: 80rpx;
+          height: 80rpx;
           display:block;
           float:left;
           border-radius:50%;
-          margin-top:10rpx;
+          margin-top: 10rpx;
+          margin-left: 12rpx;
         }
         span{
           display: block;
@@ -260,9 +261,11 @@
     }
   }
   .shop-list{
-	margin-left: 18rpx;
-  margin-bottom: 26rpx;
-  overflow: hidden;
+    padding-left: 18rpx;
+    padding-top: 18rpx;
+    margin-bottom: 18rpx;
+    overflow: hidden;
+    background: #fff;
     .imgs{
       width: 240rpx;
       height: 240rpx;

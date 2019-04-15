@@ -1,6 +1,5 @@
 .categoryList {
   width: 100%;
-  background:#fff;
   .head {
     width: 100%;
     height: 84rpx;
@@ -106,8 +105,10 @@
     margin-top: 112rpx;
     .shop-list{
       margin-left: 18rpx;
-    margin-bottom: 26rpx;
-    overflow: hidden;
+      padding-top: 18rpx;
+      margin-bottom: 18rpx;
+      overflow: hidden;
+      background: #fff;
       .imgs{
         width: 240rpx;
         height: 240rpx;
@@ -280,8 +281,9 @@
   }
   .none {
     text-align: center;
-    margin-top: 150rpx;
-    color: #999;
+    margin-top: 200rpx;
+    color: #333;
+    background: none;
   }
 
 
