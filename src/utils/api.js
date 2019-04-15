@@ -45,6 +45,14 @@ const api = {
       const data = await post(apiHost+"home/choiceGoods",param);
       return checkData(data).rows;
     },
+    // 本周热卖
+    async weekenGoods(param){
+      //choiceType 7:热卖商品 8:实时收益商品
+      //goodsType 1 拼多多商品 2：淘宝商品
+      param = Object.assign({pageSize:10,pageIndex:1,condition:{choiceType:8,goodsType:1}},param);
+      const data = await post(apiHost+"home/choiceGoods",param);
+      return checkData(data).rows;
+    },
     // 商品搜索
     async searchGoods(param){
       param = Object.assign({pageSize:20,pageIndex:1,condition:{sortType:1,goodsType:1}},param);

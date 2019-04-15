@@ -17,38 +17,15 @@
         </block>
       </swiper>
     </div>
-    <!-- 未知领域 -->
-    <div class="user-title">
-      <div class="u-left">
-        <span>&nbsp;</span> 未知领域
-      </div>
-      <div class="u-right">
-        <span>1111</span>2222
-      </div>
-    </div>
-    <!-- 领取的内容 -->
-    <div class="user-ling-list">
-      <div class="user-wrapper" v-for="im in 10">
-        <div class="swiper-cent">
-          <div class="cent">
-            <a href="javascript:;" @click="goFun" class="img">
-              <img src="https://t00img.yangkeduo.com/goods/images/2019-03-11/68f7a9f4486e1c0e3336834a09d61fdb.jpeg" alt="">
-              <p class="text">2.3万<span>人已领 </span> <i> |</i> 20元券</p>
-            </a>
-              <p class="name">小迷糊 玻尿酸黑面膜21片+21片</p>
-              <p class="money"><i>¥</i>55 <del>¥75</del></p>
-              <p class="progress"><i style="width: 46%;"></i></p>
-          </div>
-        </div>
-      </div>
-    </div>
+
+
     <!-- 大家都在领 -->
     <div class="user-title">
       <div class="u-left">
         <span>&nbsp;</span> 大家都在领
       </div>
       <div class="u-right">
-        <span>1111</span>2222
+        <span></span>
       </div>
     </div>
     <div class="our-cont">
@@ -73,6 +50,33 @@
           </div>
       </div>
     </div>
+
+    <!-- 未知领域 -->
+    <div class="user-title">
+      <div class="u-left">
+        <span>&nbsp;</span> 本周热卖
+      </div>
+      <div class="u-right">
+        <span></span>
+      </div>
+    </div>
+    <!-- 热卖商品 -->
+    <div class="user-ling-list">
+      <div class="user-wrapper" v-for="item in weekenGoods" v-bind:key="item" @click="goodsDetail(item.goodsId,item.goodsType.type)" >
+        <div class="swiper-cent">
+          <div class="cent">
+            <a href="javascript:;" @click="goFun" class="img">
+              <img :src="item.thumbnailImgUrl" alt="">
+              <p class="text">{{item.volume}}<span>人已领 </span> <i> |</i> {{item.couponPrice}}元券</p>
+            </a>
+              <p class="name">{{item.goodsName}}</p>
+              <p class="money"><i>¥</i>{{item.couponAfterPrice}} <del>¥{{item.salePrice}}</del></p>
+              <p class="progress"><i style="width: 46%;"></i></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 优惠列表 -->
     <div class="user-title">
       <div class="u-left">
@@ -140,6 +144,7 @@ export default {
     return {
       banner: [],
       hotGoods: [],
+      weekenGoods:[],
       topicList: [],
       newCategoryList: [],
       imgs:{
@@ -169,7 +174,7 @@ export default {
     return {
       title: '西瓜红包',
       path: "/pages/index/main?userId="+userId,
-      imageUrl: this.goodsInfo.goodsImg[0] //拿第一张商品的图片
+      imageUrl: '/static/images/img_index_share.png' //拿第一张商品的图片
     };
   },
   computed: {
@@ -178,6 +183,7 @@ export default {
   mounted() {
     this.shareUserId = this.$root.$mp.query.userId || -1;
     this.init();
+    this.getWeekenGoodsData();
     this.getHotGoodsData();
     this.fansAdd();
   },
@@ -250,6 +256,16 @@ export default {
       if(goodsData!=null){
         goodsData.forEach((item)=>{
           this.hotGoods.push(item);
+        })
+      }
+    },
+    //本周热卖
+    async getWeekenGoodsData(){ 
+      let goodsData = await api.weekenGoods({ hasCoupon:true});
+     //添加到数据集
+      if(goodsData!=null){
+        goodsData.forEach((item)=>{
+          this.weekenGoods.push(item);
         })
       }
     },
