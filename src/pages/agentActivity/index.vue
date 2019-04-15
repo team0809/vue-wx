@@ -1,65 +1,217 @@
 <template>
-<div class="page">
-
-<img src="/static/activity-img/activity_a_back.png" class="background" :style="'height:'+windowHeight" />
-
-  <!--内容-->
-  <div class="content" v-if="activityModel.activityName"> 
-
-    <div class="title">{{activityModel.activityName}}</div>
-
-    <div class="date">{{activityModel.startTime}} 至 {{activityModel.endTime}}</div>
-
-    <div class="task">
-        <div class="t-title">拉新活动</div>
-        <div class="prize">
-          <div class="item" v-for="(item,index) in activityModel.newUserDetails" v-bind:key="item">
-            <div class="icon">
-              <img src="/static/activity-img/activity_a_icon.png"/>
-              <span class="price"><span>￥</span>{{item.rewardAmount}}</span>
-              <span class="continue">{{item.condition}}人</span>
-            </div>
-            <div class="center-line" v-if="items.length!=(index+1)"></div>
-          </div>
-        </div>
-        <div class="current"><span class="center">当前拉新人数<span class="num">5</span></span></div>
+ <div class="page">
+  <!-- :style="'height:'+windowHeight" -->
+  <img src="/static/activity-img/active-top-bg.png" class="img-background" />
+  <section class="wai-warp">
+    <div class="list-pors">
+      <div class="title">
+        —— 拉新邀请进度 ——
+      </div>
+      <div class="pors-warp">
+        <span class="pors-warp-act"></span>
+      </div>
+      <div class="transparent-warp">
+        <span class="tran-box">
+          <i></i>
+          1人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          3人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          5人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          10人以上
+        </span>
+      </div>
+      <div class="tran-dec">根据邀请人数获得相应奖励</div>
     </div>
-
-    <div class="task">
-        <div class="t-title">订单活动</div>
-        <div class="prize">
-          <div class="item" v-for="(item,index) in activityModel.orderDetails" v-bind:key="item">
-            <div class="icon">
-              <img src="/static/activity-img/activity_a_icon.png"/>
-              <span class="price"><span>￥</span>{{item.rewardAmount}}</span>
-              <span class="continue">{{item.condition}}单</span>
-            </div>
-            <div class="center-line" v-if="items.length!=(index+1)"></div>
-          </div>
-        </div>
-        <div class="current"><span class="center">当前下单数<span class="num">5</span></span></div>
+    <div class="shjie">
+      <div class="s-left">
+        <img src="/static/activity-img/shjie.png" class="img-sj" />
+      </div>
+      <div class="s-right">
+        <img src="/static/activity-img/shjie.png" class="img-sj" />
+      </div>
     </div>
-
-    <div class="task">
-        <div class="t-title">返现活动</div>
-        <div class="prize">
-          <div class="item" v-for="(item,index) in activityModel.rebateDetails" v-bind:key="item">
-            <div class="icon">
-              <img src="/static/activity-img/activity_a_icon.png"/>
-              <span class="price"><span>￥</span>{{item.rewardAmount}}</span>
-              <span class="continue">满{{item.condition/100}}￥</span>
-            </div>
-            <div class="center-line" v-if="items.length!=(index+1)"></div>
-          </div>
-        </div>
-        <div class="current"><span class="center">当前返现金额<span class="num">5</span></span></div>
+    <div class="cont-box">
+      <div class="monery-warp">
+        <span class="m-span" v-for="(o,nm) in 3">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+            <div class="go-cl">去拉新</div>
+          </i>
+          <p class="text-p">
+            满{{nm+1}}人<br>可领{{nm+1}}毛红包
+          </p>
+        </span>
+        <!-- <span class="m-span">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+          </i>
+          <p class="text-p">
+            满2人领1元红包
+          </p>
+        </span>
+        <span class="m-span">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+          </i>
+          <p class="text-p">
+            满3人领1.5元红包
+          </p>
+        </span> -->
+      </div>
     </div>
-
-    <div class="desc">
-     <text> {{activityModel.activityDesc}} </text>
+  </section>
+  <section class="wai-warp">
+    <div class="list-pors">
+      <div class="title">
+        —— 拉新邀请进度 ——
+      </div>
+      <div class="pors-warp">
+        <span class="pors-warp-act"></span>
+      </div>
+      <div class="transparent-warp">
+        <span class="tran-box">
+          <i></i>
+          1人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          3人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          5人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          10人以上
+        </span>
+      </div>
+      <div class="tran-dec">根据邀请人数获得相应奖励</div>
+    </div>
+    <div class="shjie">
+      <div class="s-left">
+        <img src="/static/activity-img/shjie.png" class="img-sj" />
+      </div>
+      <div class="s-right">
+        <img src="/static/activity-img/shjie.png" class="img-sj" />
+      </div>
+    </div>
+    <div class="cont-box">
+      <div class="monery-warp">
+        <span class="m-span" v-for="(o,nm) in 3">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+            <div class="go-cl">去拉新</div>
+          </i>
+          <p class="text-p">
+            满{{nm+1}}人<br>可领{{nm+1}}毛红包
+          </p>
+        </span>
+        <!-- <span class="m-span">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+          </i>
+          <p class="text-p">
+            满2人领1元红包
+          </p>
+        </span>
+        <span class="m-span">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+          </i>
+          <p class="text-p">
+            满3人领1.5元红包
+          </p>
+        </span> -->
+      </div>
+    </div>
+  </section>
+  <section class="wai-warp">
+    <div class="list-pors">
+      <div class="title">
+        —— 拉新邀请进度 ——
+      </div>
+      <div class="pors-warp">
+        <span class="pors-warp-act"></span>
+      </div>
+      <div class="transparent-warp">
+        <span class="tran-box">
+          <i></i>
+          1人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          3人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          5人
+        </span>
+        <span class="tran-box">
+          <i></i>
+          10人以上
+        </span>
+      </div>
+      <div class="tran-dec">根据邀请人数获得相应奖励</div>
+    </div>
+    <div class="shjie">
+      <div class="s-left">
+        <img src="/static/activity-img/shjie.png" class="img-sj" />
+      </div>
+      <div class="s-right">
+        <img src="/static/activity-img/shjie.png" class="img-sj" />
+      </div>
+    </div>
+    <div class="cont-box">
+      <div class="monery-warp">
+        <span class="m-span" v-for="(o,nm) in 3">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+            <div class="go-cl">去拉新</div>
+          </i>
+          <p class="text-p">
+            满{{nm+1}}人<br>可领{{nm+1}}毛红包
+          </p>
+        </span>
+        <!-- <span class="m-span">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+          </i>
+          <p class="text-p">
+            满2人领1元红包
+          </p>
+        </span>
+        <span class="m-span">
+          <i class="i-text">
+            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+          </i>
+          <p class="text-p">
+            满3人领1.5元红包
+          </p>
+        </span> -->
+      </div>
+    </div>
+  </section>
+  <div class="reul-warp">
+    <h1 class="title">活动规则</h1>
+    <div class="cont-dec">
+      • 活动时间 北京时间：2019年4月1日0<br>
+      • 活动时间 北京时间：2019年4月1日0<br>
+      • 活动时间 北京时间：2019年4月1日0<br>
+      • 活动时间 北京时间：2019年4月1日0<br>
+      • 活动时间 北京时间：2019年4月1日0<br>
+      • 活动时间 北京时间：2019年4月1日0<br>
+      • 活动时间 北京时间：2019年4月1日0<br>
     </div>
   </div>
-
  </div>
 </template>
 
@@ -119,7 +271,12 @@
   };
 
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
+  page {
+    background: #fb6451;
+    background-position: 50%;
+    background-size: auto 100%;
+    height: 100%;
+  }
   @import "./style";
-
 </style>
