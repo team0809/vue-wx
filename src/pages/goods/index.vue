@@ -20,7 +20,7 @@
       <!--优惠相关-->
       <div class="quan-warp">
         <div class="text1">
-          <span class="quan-after">券后价</span>
+          <span class="quan-after" v-if="goodsInfo.hasCoupon">券后价</span>
           <span class=""><i></i>¥{{goodsInfo.couponAfterPrice}}</span>
         </div>
         <div class="text2">
@@ -33,8 +33,6 @@
           返现金额 ¥{{goodsInfo.promotionPrice}}
         </div>
       </div>
-
-
     </div>
     <!--领取优惠券按钮-->
     <div class="coupon-box" v-if="goodsInfo.hasCoupon">
@@ -45,7 +43,7 @@
       </div>
       <div class="right" style="height: 70px;">立即领券</div>
     </div>
-      <!--商品描述-->
+    <!--商品描述-->
     <div v-if="goodsInfo.goodsDesc" class="detail-desc">
       <div class="context">{{goodsInfo.goodsDesc}}</div>
     </div>
@@ -67,9 +65,12 @@
         <span class="iconfont iconshouye"></span>
         <p class="pm">首页</p>
       </div>
-      <div class="nbnav4" @click="openApp(goodsInfo)">
+      <div v-if="goodsInfo.hasCoupon" class="nbnav4" @click="openApp(goodsInfo)">
         <p class="buy-text">省¥ {{goodsInfo.couponPrice}}</p>
         <p class="buy-bnt">领优惠券</p>
+      </div>
+      <div v-else class="nbnav4" @click="openApp(goodsInfo)">
+        <p class="buy-more">查看更多</p>
       </div>
     </div>
   </div>

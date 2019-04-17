@@ -21,11 +21,11 @@ export default {
   // 这个字段走 app.json
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    "pages": ["^pages/index/main", "pages/order/main","pages/agentActivity/main","pages/myPayDetail/main", "pages/goods/main","pages/categorylist/main", "pages/feedback/main", "pages/fans/main", "pages/cart/main", "pages/mappage/main", "pages/collectlist/main", "pages/addressSelect/main", "pages/addaddress/main", "pages/address/main", "pages/search/main", "pages/my/main", "pages/login/main", "pages/category/main", "pages/topic/main",  "pages/logs/main", "pages/branddetail/main", "pages/brandlist/main", "pages/newgoods/main", "pages/practice/main", "pages/topicdetail/main"],
+    "pages": ["^pages/index/main", "pages/order/main","pages/agentActivity/main","pages/myPayDetail/main", "pages/goods/main","pages/categorylist/main", "pages/feedback/main", "pages/fans/main", "pages/cart/main", "pages/collectlist/main", "pages/addressSelect/main", "pages/addaddress/main", "pages/address/main", "pages/search/main", "pages/my/main", "pages/login/main", "pages/category/main", "pages/topic/main",  "pages/logs/main", "pages/newgoods/main", "pages/practice/main", "pages/topicdetail/main"],
     "window": {
       "backgroundTextStyle": "light",
       "navigationBarBackgroundColor": "#fff",
-      "navigationBarTitleText": "网购宝",
+      "navigationBarTitleText": "西瓜零钱",
       "navigationBarTextStyle": "black"
     },
     "tabBar": {

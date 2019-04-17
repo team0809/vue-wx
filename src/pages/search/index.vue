@@ -31,7 +31,7 @@
       <div v-if="showCommodity==0" class="history-block">
         <div class="searchtips" v-if="words!=''">
           <div @click="searchWords"  style="color:orange">
-          点此搜索："{{ tipsData }}"
+          点此搜索："{{ tipsWords }}"
           </div>
         </div>
         <div class="history" v-if="historyData.length!=0">
@@ -77,7 +77,7 @@
             <span class="fr">已售{{item.volume}}件</span>
           </div>
           <div class="col-money">
-            <p class="p-fr">
+            <p class="p-fr" v-if="item.couponPrice!=null">
               <i class="quan">{{item.couponPrice}}元券</i>
             </p>
             <span class="s-k">
@@ -88,8 +88,8 @@
       </div>
     </div>
     <!--未找到商品-->
-    <div v-if="showCommodity==2" class="goodsList">
-      未搜索到相关商品！请尝试更改商品标题重试
+    <div v-if="showCommodity==2" class="nogoods">
+      未搜索到相关商品！请尝试更改搜索标题重试
     </div>
   </div>
 </template>
@@ -127,7 +127,7 @@ export default {
       words: "",
       historyData: [],
       hotData: [],
-      tipsData: '',
+      tipsWords: '',
       listData: [],
       showCommodity:-1,
       openid: "",
@@ -158,7 +158,7 @@ export default {
     clearInput() {
       this.words = "";
       this.listData = [];
-      this.tipsData = '';
+      this.tipsWords = '';
       this.showCommodity = 0;
     },
     inputFocus() {
@@ -183,7 +183,7 @@ export default {
       let goodsData = await api.searchGoods({
           pageSize:this.searchParam.pageSize,
           pageIndex:this.searchParam.pageIndex,
-          condition:{keyword:this.words,goodsType:1,sortType:this.searchParam.sortType,hasCoupon:true}
+          condition:{keyword:this.words,goodsType:1,sortType:this.searchParam.sortType}
         }
       );
       if(goodsData.length>0){
@@ -194,7 +194,9 @@ export default {
           this.listData.push(item)
         });
         this.showCommodity = this.listData.length>0 ? 1 : 2;
-        this.tipsData = '';
+        this.tipsWords = '';
+      }else if(this.searchParam.pageIndex=1&&goodsData.length==0){
+        this.showCommodity = 2;
       }
     },
     changeTab(index,order) {
@@ -227,25 +229,32 @@ export default {
       var vaule = e.searchKeyword || e.currentTarget.dataset.value;
       this.words = vaule || this.words;
       //添加历史搜索历史
-      searchHistory.add(this.words)
+      searchHistory.add(this.words);
+      this.tipsWords = this.words;
       //获取历史数据
-      this.getHotData();
+     await this.getHotData();
       //获取商品列表
-      this.getlistData(true);
+     await this.getlistData(true);
     },
     async getHotData(first) {
       const data =  await api.hotKeyword();
       this.hotData = data;
       //搜索历史
-      this.historyData = searchHistory.get();
+      let historyData = searchHistory.get();
+      //截取数据
+      if(historyData.length>0){
+       historyData = historyData.map((item)=>{
+          if(item.length>6){
+            return item.substring(0,6)+'..';
+          }else{
+            return item;
+          }
+        })
+      }
+      this.historyData = historyData;
     },
     async tipsearch(e) {
-      // const data = await get("/search/helperaction", {
-      //   keyword: this.words
-      // });
-      console.log(this.words);
-      this.tipsData = this.words;
-       console.log('tipData:'+this.tipsData);
+      this.tipsWords = this.words;
     }
   },
   computed: {}
