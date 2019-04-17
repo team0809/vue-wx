@@ -79,13 +79,13 @@
           },
            {
             title: "收支明细",
-            icon: "iconfensi",
+            icon: "iconszdetail",
             url: "/pages/myPayDetail/main",
             show:true
           },
            {
             title: "赏金活动",
-            icon: "iconfensi",
+            icon: "iconactivite",
             url: "/pages/agentActivity/main",
             show:false
           }

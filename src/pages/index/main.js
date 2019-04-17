@@ -7,7 +7,6 @@ export default {
     config: {
         "navigationBarBackgroundColor": "#ffffff",
         "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "网购宝",
         "backgroundColor": "#ccc",
         "backgroundTextStyle": "light"
       }

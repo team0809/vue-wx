@@ -3,7 +3,7 @@
     <div class="search" @click="tosearch">
       <div class="ser">
         <span class="iconfont iconsousuo"></span>
-        <span>商品搜索,共239款好物</span>
+        <span>商品搜索</span>
       </div>
     </div>
     <div class="content">

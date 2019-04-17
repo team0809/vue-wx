@@ -5,7 +5,7 @@ import {
     fget,
     userOption
   } from "./index";
-const apiHost="http://localhost:8020/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/";
+const apiHost="http://localhost:8081/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/";
 function checkData(resp){
   console.log(resp);
   if(resp.code==0){

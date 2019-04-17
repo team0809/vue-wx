@@ -90,7 +90,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 20%;
+      width: 0%;
       height: 36rpx;
       border-radius: 50rpx;
     }
@@ -99,7 +99,7 @@
       .tran-box{
         position: relative;
         display: inline-block;
-        width: 25%;
+        width: 33%;
         text-align: center;
         color: #fe6161;
         font-weight: bold;
@@ -121,6 +121,10 @@
       color: #b2b2b2;
       text-align: center;
       font-size: 24rpx;
+      i{
+        color: #fe6161;
+        display: inline;
+      }
     }
   }
   .shjie{
@@ -149,11 +153,17 @@
   .cont-box{
     margin: 0 48rpx;
     background: #fff;
-    height: 330rpx;
-    margin-top: 30rpx;
+    height: 280rpx;
+    margin-top: 10rpx;
     border-radius: 20rpx;
+    .tran-title{
+      text-align:center;
+      font-size:26rpx;
+      padding-top:10px;
+      color: #b2b2b2;
+    }
     .monery-warp{
-      padding-top: 110rpx;
+      padding-top: 20rpx;
     }
     .m-span{
       width: 174rpx;
@@ -170,16 +180,14 @@
         margin: 0 auto;
       }
       .go-cl{
-        background:rgba(255,255,255,1);
-        border-radius:24rpx;
-        border:2rpx solid rgba(255,89,76,1);
-        color: rgba(255,89,76,1);
-        font-size: 22rpx;
-        position: absolute;
-        padding: 5rpx 0;
-        bottom: -16rpx;
-        left: 0;
-        width: 100%;
+        color:#ff594c;
+        font-size:24rpx;
+        position:absolute;
+        padding:5rpx 0;
+        bottom:20rpx;
+        left:0;
+        width:100%;
+        font-weight:600;
       }
       .hbao{
         width: 100rpx;
@@ -190,7 +198,7 @@
         font-weight:400;
         color:rgba(74,74,74,1);
         font-size: 24rpx;
-        margin-top: 20rpx;
+        margin-top: 10rpx;
       }
     }
   }
@@ -211,7 +219,8 @@
       font-size:28rpx;
       font-family:PingFangSC-Semibold;
       color:rgba(74,74,74,1);
-      padding: 20rpx;
+      padding:0 20rpx 20rpx 20rpx;
+      display:block;
     }
   }
 }
