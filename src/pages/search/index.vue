@@ -42,8 +42,8 @@
             </div>
           </div>
           <div class="cont">
-            <div @click="searchWords" :data-value="item" v-for="(item,index) in historyData" :key="index">
-              {{item}}
+            <div @click="searchWords" :data-value="item.text" v-for="(item,index) in historyData" :key="index">
+              {{item.showText}}
             </div>
           </div>
         </div>
@@ -68,14 +68,14 @@
           <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
           </div>
           <div class="col-yuan">
-            <span>
-              <span class="afprice">
-                <i>¥</i>{{item.couponAfterPrice}}
-              </span>
-              <span class="price"> ¥{{item.salePrice}} </span>
+          <span>
+            <span class="afprice">
+              <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
             </span>
-            <span class="fr">已售{{item.volume}}件</span>
-          </div>
+            <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
+          </span>
+          <span class="fr">已售{{item.volume}}件</span>
+        </div>
           <div class="col-money">
             <p class="p-fr" v-if="item.couponPrice!=null">
               <i class="quan">{{item.couponPrice}}元券</i>
@@ -134,7 +134,7 @@ export default {
       order: "",
       isHot: "",
       isNew: "",
-      sort:{sortIndex:0,order:'desc'},
+      sort:{sortIndex:1,order:'asc'},
       searchParam:{
         canLoadGoods:true,
         pageSize:20,
@@ -195,7 +195,7 @@ export default {
         });
         this.showCommodity = this.listData.length>0 ? 1 : 2;
         this.tipsWords = '';
-      }else if(this.searchParam.pageIndex=1&&goodsData.length==0){
+      }else if(this.searchParam.pageIndex==1&&goodsData.length==0){
         this.showCommodity = 2;
       }
     },
@@ -245,9 +245,9 @@ export default {
       if(historyData.length>0){
        historyData = historyData.map((item)=>{
           if(item.length>6){
-            return item.substring(0,6)+'..';
+            return {text:item,showText:item.substring(0,6)+'..'};
           }else{
-            return item;
+            return {text:item,showText:item};
           }
         })
       }

@@ -41,7 +41,7 @@
         <div class="bottom-txt">
           使用期限:{{goodsInfo.couponStartTime}} - {{goodsInfo.couponEndTime}}					</div>
       </div>
-      <div class="right" style="height: 70px;">立即领券</div>
+      <div class="right" style="height: 70px;" @click="openApp(goodsInfo)">立即领券</div>
     </div>
     <!--商品描述-->
     <div v-if="goodsInfo.goodsDesc" class="detail-desc">
@@ -61,7 +61,7 @@
 
     <div class="bottom-fixed">
       <!--主页按钮-->
-      <div class="homes" v-on:click="home">
+      <div class="homes" @click="goHome">
         <span class="iconfont iconshouye"></span>
         <p class="pm">首页</p>
       </div>
@@ -70,7 +70,7 @@
         <p class="buy-bnt">领优惠券</p>
       </div>
       <div v-else class="nbnav4" @click="openApp(goodsInfo)">
-        <p class="buy-more">查看更多</p>
+        <p class="buy-more">下单购买</p>
       </div>
     </div>
   </div>
@@ -104,9 +104,6 @@ export default {
   },
   //商品转发
   onShareAppMessage() {
-    console.log(this.goodsInfo.name);
-    console.log(this.goodsInfo.id);
-    console.log(this.goodsInfo.goodsImg[0]);
    let userId = userOption.getUserInfo().userId;
     return {
       title: this.goodsInfo.name,
@@ -116,8 +113,8 @@ export default {
   },
   methods: {
     //跳转至首页
-    home(){
-      client.navigateTo({url: "/pages/index/main"});
+    goHome(){
+      client.switchTab({url:'/pages/index/main'});
     },
     async goodsDetail() {
       const data = await api.goodsDetail({goodsId: this.goodsId,goodsType: this.goodsType});
@@ -149,8 +146,8 @@ export default {
         goodsType:data.goodsType
       };      
     },
-    async fansAdd(shareUsreId){
-      const data = await api.fansAdd({shareUserId:shareUsreId,msg:'商品页分享'})
+    async fansAdd(userId){
+      const data = await api.fansAdd({shareUserId:userId,msg:'商品页分享'})
     },
    async openApp(goodsInfo){
      let openState = await client.navigateToMiniProgram({

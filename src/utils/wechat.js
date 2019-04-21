@@ -5,10 +5,14 @@ const wechat = {
         wx.setClipboardData({
             data:obj,
             success:function(res){
+                console.log('剪贴板内容设置成功');
+                console.log(res);
                 resolve(true);
             },
-            fail:function(){
-                reject(false);
+            fail:function(res){
+                console.log('剪贴板内容设置失败');
+                console.log(res);
+                resolve(false);
             }
         })
       });
@@ -20,13 +24,19 @@ const wechat = {
                     resolve(res.data);
                 },
                 fail:function(){
-                    reject("");
+                    resolve("");
                 }
             })
           });
     },
     navigateTo(data){
         wx.navigateTo(data);
+    },
+    navigateBack(data){
+        wx.navigateBack(data);
+    },
+    switchTab(data){
+        wx.switchTab(data);
     },
     getSetting(){
         return new Promise((resolve,reject)=>{
@@ -35,7 +45,7 @@ const wechat = {
                     resolve(res);
                 },
                 fail:function(){
-                    reject(null);
+                    resolve(null);
                 }
             })
           });
@@ -47,7 +57,7 @@ const wechat = {
                     resolve(res);
                 },
                 fail:function(){
-                    reject(null);
+                    resolve(null);
                 }
             })
           });
@@ -59,7 +69,7 @@ const wechat = {
                     resolve(res);
                 },
                 fail:function(){
-                    reject(null);
+                    resolve(null);
                 }
             })
           });

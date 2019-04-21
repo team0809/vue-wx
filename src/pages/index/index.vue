@@ -12,7 +12,7 @@
       <swiper class="swiper-container" indicator-dots="true" autoplay="true" interval="3000" circular="true" duration="500">
         <block v-for="(item, index) in banner " :key="index">
           <swiper-item class="swiper-item">
-            <image :src="item.imgSrc" class="slide-image" />
+            <image :src="item.imgSrc" class="slide-image" @click="bannerClick(item.linkAddress)" />
           </swiper-item>
         </block>
       </swiper>
@@ -93,12 +93,12 @@
         <div class="goods_title">
         <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
         </div>
-        <div class="col-yuan">
+          <div class="col-yuan">
           <span>
             <span class="afprice">
-              <i>¥</i>{{item.couponAfterPrice}}
+              <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
             </span>
-            <span class="price"> ¥{{item.salePrice}} </span>
+            <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
           </span>
           <span class="fr">已售{{item.volume}}件</span>
         </div>
@@ -139,6 +139,7 @@ import { api } from "../../utils/api";
 import { mapState, mapMutations } from "vuex";
 export default {
   onShow() {
+    this.loadClipboard();
   },
   data() {
     return {
@@ -146,7 +147,6 @@ export default {
       hotGoods: [],
       weekenGoods:[],
       topicList: [],
-      newCategoryList: [],
       imgs:{
         layerSerachImg:"/static/images/tanch-title-bg.png",
       },
@@ -164,15 +164,13 @@ export default {
       clipboard:{
         show:false,
         data:'',
-      },
-      shareUserId:-1
+      }
     };
   },
   //商品转发
   onShareAppMessage() {
    let userId = userOption.getUserInfo().userId;
     return {
-      title: '西瓜红包',
       path: "/pages/index/main?userId="+userId,
       imageUrl: '/static/images/img_index_share.png' //拿第一张商品的图片
     };
@@ -181,11 +179,13 @@ export default {
     ...mapState(["cityName"])
   },
   mounted() {
-    this.shareUserId = this.$root.$mp.query.userId || -1;
+    let shareUserId = this.$root.$mp.query.userId || -1;
+    console.log("参数");
+    console.log(this.$root.$mp.query);
     this.init();
     this.getWeekenGoodsData();
     this.getHotGoodsData();
-    this.fansAdd();
+    this.fansAdd(shareUserId);
   },
   //滚动底部
   onReachBottom(){ 
@@ -194,48 +194,27 @@ export default {
   components: {},
   methods: {
     ...mapMutations(["update"]),
-    toMappage() {
-      var _this = this;
-      // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
-      wx.getSetting({
-        success(res) {
-          //如果没有同意授权,打开设置
-          if (!res.authSetting["scope.userLocation"]) {
-            wx.openSetting({
-              success: res => {
-                _this.getCityName();
-              }
-            });
-          } else {
-            wx.navigateTo({
-              url: "/pages/mappage/main"
-            });
-          }
-        }
-      });
-    },
     async init(){
       //用户登录
       let userInfo = userOption.codeLogin();
-      //获取剪贴板内容
-      let clipboardData = await client.getClipboardData();
-      console.log('剪贴板内容：'+clipboardData);
-      if(clipboardData!=""){
-          this.clipboard.show = true;
-          this.clipboard.data = clipboardData;
-          //清空剪贴板
-          await client.setClipboardData("");
-      }
+    
       //默认数据
       const defaultInfo = await api.defaultInfo();
       this.banner = defaultInfo.banners;
       this.topicList = defaultInfo.hotNews;
     },
-    toLower(){
-      console.log(1231231);
+    // 剪贴板内容
+    async loadClipboard(){
+       //获取剪贴板内容
+      let clipboardData = await client.getClipboardData();
+      if(clipboardData.trim()!=""){
+          this.clipboard.show = true;
+          this.clipboard.data = clipboardData;
+         let success = await client.setClipboardData("  ");
+      }
     },
     toSearch() {
-      wx.navigateTo({
+      client.navigateTo({
         url: "/pages/search/main"
       });
     },
@@ -271,43 +250,7 @@ export default {
     },
     goodsDetail(id,type) {
       client.navigateTo({
-        url: "/pages/goods/main?goodsId=" + id+"&goodsType="+type
-      });
-    },
-    categoryList(id) {
-      wx.navigateTo({
-        url: "/pages/categorylist/main?id=" + id
-      });
-    },
-    goodsList(info) {
-      if (info == "hot") {
-        wx.navigateTo({
-          url: "/pages/newgoods/main?isHot=" + 1
-        });
-      } else {
-        wx.navigateTo({
-          url: "/pages/newgoods/main?isNew=" + 1
-        });
-      }
-    },
-    topicdetail(id) {
-      wx.navigateTo({
-        url: "/pages/topicdetail/main?id=" + id
-      });
-    },
-    totopic() {
-      wx.navigateTo({
-        url: "/pages/topic/main"
-      });
-    },
-    tobrandList() {
-      wx.navigateTo({
-        url: "/pages/brandlist/main"
-      });
-    },
-    branddetail(id) {
-      wx.navigateTo({
-        url: "/pages/branddetail/main?id=" + id
+        url:"/pages/goods/main?goodsId="+id+"&goodsType="+type
       });
     },
     optionClipboard(search){
@@ -316,13 +259,15 @@ export default {
       }
       this.clipboard.show=false;
     },
-    async fansAdd(){
-      if(this.shareUserId!=-1){
-        const data = await api.fansAdd({shareUserId:shareUsreId,msg:'首页分享'});
+    async fansAdd(userId){
+      if(userId!=-1){
+        let data = await api.fansAdd({shareUserId:userId,msg:'首页分享'});
       }
     },
-    goFun () {
-      console.log('ni dian le gan ma')
+    bannerClick (linkAddress) {
+       client.navigateTo({
+        url:linkAddress
+      });
     }
   }
   };

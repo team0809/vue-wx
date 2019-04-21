@@ -3,8 +3,9 @@
     <div class="myinfo">
       <img :src="userInfo.icon" alt="">
       <div>
-        <p>{{userInfo.nickname}}<span class="type">{{userInfo.typeText}}</span></p>
-        <p class="integral" >邀请码: {{userInfo.userNo}}</p>
+        <p>{{userInfo.nickname}}</p>
+        <p><span class="type">{{userInfo.typeText}}</span></p>
+        <p style="display:none" class="integral" >邀请码: {{userInfo.userNo}}</p>
       </div>
     </div>
     <div class="list-w">
@@ -84,7 +85,7 @@
             show:true
           },
            {
-            title: "赏金活动",
+            title: "渠道商奖励活动",
             icon: "iconactivite",
             url: "/pages/agentActivity/main",
             show:false

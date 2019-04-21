@@ -1,7 +1,10 @@
 <template>
  <div class="page">
-  <img src="/static/activity-img/active-top-bg.png" class="img-background" />
-
+  <img src="/static/activity-img/active-top-bg.png" class="img-background" mode="widthFix" />
+  <div class="div-head">
+    <p class="a-title"> {{activityModel.activityName}} </p>
+    <p class="a-time">{{activityModel.startTime}} - {{activityModel.endTime}}</p>
+  </div>
   <!-- 拉新活动 -->
   <section class="wai-warp">
     <div class="list-pors">
@@ -96,7 +99,7 @@
       <div class="transparent-warp">
         <span class="tran-box" v-for="(item,index) in activityModel.rebateDetails" v-bind:key="item">
           <i></i>
-          {{item.condition}}{{index==activityModel.rebateDetails.length-1?'元以上':'元'}}
+          {{item.condition/100}}{{index==activityModel.rebateDetails.length-1?'元以上':'元'}}
         </span>
       </div>
       <div class="tran-dec">当前返现金额<i>{{activityModel.balanceAmount}}</i>元</div>
@@ -118,17 +121,32 @@
             <div class="go-cl">￥{{item.rewardAmount}}</div>
           </i>
           <p class="text-p">
-            满{{item.condition}}元
+            满{{item.condition/100}}元
           </p>
         </span>
       </div>
     </div>
   </section>
 
+  <!-- 活动规则 -->
   <div class="reul-warp">
     <h1 class="title">活动规则</h1>
     <text class="cont-dec">{{activityModel.activityDesc}}</text>
   </div>
+
+<!--分享-->
+  <div class="bottom-fixed">
+    <!--主页按钮-->
+    <div class="homes" @click="goHome">
+      <span class="iconfont iconshouye"></span>
+      <p class="pm">返回首页</p>
+    </div>
+    <div class="nbnav4">
+      <span class="iconfont iconshare"></span>
+      <button class="share" open-type="share">分享拿奖励</button>
+    </div>
+  </div>
+
  </div>
 </template>
 
@@ -145,15 +163,29 @@
       };
     },
     onShow() {
-      
+     
     },
     created() {},
     async mounted() {
+       let userId = this.$root.$mp.query.userId || -1;
       //加载活动数据
       this.loadActivity();
+      this.fansAdd(userId);
+    },
+    //触发分享
+    onShareAppMessage() {
+    let userId = userOption.getUserInfo().userId;
+      return {
+        path: "/pages/agentActivity/main?userId="+userId,
+        imageUrl: '/static/activity-img/activity-share.png' //拿第一张商品的图片
+      };
     },
     components: {},
     methods: {
+      //跳转至首页
+      goHome(){
+          client.switchTab({url:'/pages/index/main'});
+      },
       //加载当前活动
       async loadActivity(){
           let activityInfo = await api.currentActivity(); 
@@ -209,8 +241,10 @@
         //   return '100%';
         // }
         return proressText;
+      },
+      async fansAdd(userId){
+        const data = await api.fansAdd({shareUserId:userId,msg:'渠道商活动页面'});
       }
-
     },
     computed: {}
   };

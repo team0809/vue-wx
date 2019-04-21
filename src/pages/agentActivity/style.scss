@@ -1,8 +1,25 @@
 .page{
   .img-background{
     width: 100%;
-    height:320px;
-  }padding-bottom: 45rpx;
+  }
+  .div-head{
+    position:absolute;
+    top:25rpx;
+    width:100%;
+    text-align:center;
+
+  }
+  .a-title{
+    color:white;
+    font-size:42rpx;
+    font-weight:600;
+  }
+  .a-time{
+    font-size:24rpx;
+    color:white;
+    margin-top:4rpx;    
+  }
+  padding-bottom: 45rpx;
   .list-pors{
     height:356rpx;
     background:rgba(255,255,255,1);
@@ -207,6 +224,7 @@
     background: #fff;
     margin: 0 48rpx;
     margin-top: 30rpx;
+    margin-bottom:80rpx;
     .title{
       font-size:34rpx;
       font-family:PingFangSC-Semibold;
@@ -223,4 +241,61 @@
       display:block;
     }
   }
+
+  .bottom-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100rpx;
+    display: flex;
+    background: #fff;
+    z-index: 10;
+    div.homes {
+      height: 100rpx;
+      width: 30%;
+      color: #f54d23;
+      text-align: center;
+      padding-top:12rpx;
+      .iconfont {
+        font-size: 36rpx;
+        color: #f54d23;
+        padding-top: 6rpx;
+      }
+      .pm{
+        color: #f54d23;
+        font-size: 24rpx;
+      }
+    }
+    div.nbnav4{
+      background: -webkit-linear-gradient(211.3deg,#f54d23,#f8285c);
+      background: linear-gradient(-121.3deg,#f54d23,#f8285c);
+      color: #fff;
+      width: 70%;
+      text-align: center;
+      line-height: 100rpx;
+      position: relative;
+      .iconfont {
+        font-size:40rpx;
+        padding-top:6rpx;
+        display:inline;
+        position:absolute;
+        top:-4rpx;
+        left:162rpx;
+      }
+      .share{
+        font-size:30rpx;
+        color:#fff;
+        display:inline-block;
+        background:none;
+        border:none;
+        width:100%;
+        height:100%;
+        line-height:100rpx;
+        padding-left:20rpx;
+      }
+    }
+  }
+
 }

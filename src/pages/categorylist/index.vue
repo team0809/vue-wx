@@ -11,11 +11,11 @@
         <li :class="sort.sortIndex==1?'cur':''" v-on:click="changeTab(1)">价格
           <span :class="(sort.sortIndex==1?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
           <span :class="(sort.sortIndex==1?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span></li>
-        <li :class="sort.sortIndex==2?'cur':''" v-on:click="changeTab(2)">券额
+        <li :class="sort.sortIndex==2?'cur':''" v-on:click="changeTab(2,'desc')">券额
           <span :class="(sort.sortIndex==2?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
           <span :class="(sort.sortIndex==2?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span>
         </li>
-        <li :class="sort.sortIndex==3?'cur':''" v-on:click="changeTab(3)">销量
+        <li :class="sort.sortIndex==3?'cur':''" v-on:click="changeTab(3,'desc')">销量
           <span :class="(sort.sortIndex==3?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
           <span :class="(sort.sortIndex==3?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span>
         </li>
@@ -31,9 +31,9 @@
           <div class="col-yuan">
             <span>
               <span class="afprice">
-                <i>¥</i>{{item.couponAfterPrice}}
+                <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
               </span>
-              <span class="price"> ¥{{item.salePrice}} </span>
+              <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
             </span>
             <span class="fr">已售{{item.volume}}件</span>
           </div>
@@ -49,7 +49,7 @@
       </div>
     </div>
     <div v-else class="none">
-      未搜索到相关商品！
+      {{searchParam.canLoadGoods?'未搜索到相关商品！':'正在加载商品...'}}
     </div>
   </div>
 </template>
@@ -69,7 +69,7 @@ export default {
       navData: [],
       currentNav: {},
       scrollLeft: 0,
-      sort:{sortIndex:0,order:'desc'},
+      sort:{sortIndex:1,order:'asc'},
       searchParam:{
         canLoadGoods:true,
         catId:-1,
@@ -97,14 +97,16 @@ export default {
   components: {},
   computed: {},
   methods: {
-    async changeTab(index) {
+    async changeTab(index,order) {
+      console.log(111);
       if (index !== 0) {
         if(this.sort.sortIndex==index){
           this.sort.order = this.sort.order == "asc" ? "desc" : "asc";
         }else{
-          this.sort.order = "asc";
+          this.sort.order = order || "asc";
         }
       }
+      console.log(222);
       this.sort.sortIndex = index;
       switch(index){
         //综合排序

@@ -12,10 +12,10 @@
         <div class="con">
           <div class="left">
             <div class="img">
-              <img :src="item.icon" alt="">
+              <img :src="item.icon||'/static/images/ic_menu_me_nor.png'" alt="">
             </div>
             <div class="info">
-              <p>{{item.nickName}}</p>
+              <p>{{item.nickName||'未知'}}</p>
               <!-- <p>￥{{item.retail_price}}</p> -->
               <p class="odr-time">时间：{{item.createTime}}</p>
               <!-- <p class="odr-numb">电话：111110100011 </p> -->

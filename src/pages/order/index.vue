@@ -12,7 +12,7 @@
     <div class="cartlist">
       <div class="item" v-for="(item,index) in listData" :key="index">
         <!--我的订单-->
-        <div class="con" v-if="item.balanceType==0">
+        <div class="con" v-if="item.balanceType==0" v-on:click="goodsDetail(item.goodsId,item.goodsType)">
           <div class="left">
             <div class="img">
               <img :src="item.goodsImgUrl" alt="">
@@ -21,7 +21,7 @@
               <p>{{item.goodsName}}</p>
               <!-- <p>￥{{item.retail_price}}</p> -->
               <p class="odr-time">时间:{{item.createTime}}</p>
-              <p class="odr-numb">订单号:<i class="num">{{item.orderNum}}</i> <span class="copy" v-on:click="copyOrderNum(item.orderNum)">复制</span></p>
+              <p class="odr-numb" v-if="item.orderStatus!=4">结算日期:{{item.balanceDate}}</p>
               <div class="monery-bom">
                 <span class="order-price">订单金额 ¥{{item.orderPrice}}</span>
                 <span class="price">预估返现 <i>¥{{item.balanceAmount}}</i></span>
@@ -41,7 +41,7 @@
               <p>{{item.balanceType==1?'直属粉丝订单':'推荐粉丝订单'}}</p>
               <!-- <p>￥{{item.retail_price}}</p> -->
               <p class="odr-time">时间:{{item.createTime}}</p>
-              <p class="odr-numb">订单号:<i class="num">{{item.orderNum}}</i> <span class="copy" v-on:click="copyOrderNum(item.orderNum)">复制</span></p>
+              <p class="odr-numb" v-if="item.orderStatus!=4">结算日期:{{item.balanceDate}}</p>
               <div class="monery-bom">
                 <span class="order-price">订单金额 ¥{{item.orderPrice}}</span>
                 <span class="price">预估返现 <i>¥{{item.balanceAmount}}</i></span>
@@ -54,8 +54,8 @@
         <div class="con" v-if="item.balanceType==3">
           <div class="left">
             <div class="min-img">
-              <img v-if="item.activityType==1" src="/static/images/icon_activity_new_user.png" alt="">
-              <img v-else-if="item.activityType==2" src="/static/images/icon_activity_order.png" alt="">
+              <img v-if="item.activityType==1" src="/static/order/lanxin-act.png" alt="">
+              <img v-else-if="item.activityType==2" src="/static/order/order-act.png" alt="">
               <img v-else src="/static/order/fanxian-act.png" alt="">
             </div>
             <div class="info">
@@ -63,6 +63,7 @@
               <p v-else-if="item.activityType==2">订单活动</p>
               <p v-else>返现活动</p>
               <p class="odr-time">时间:{{item.createTime}}</p>
+              <p class="odr-numb" v-if="item.orderStatus!=4">结算日期:{{item.balanceDate}}</p>
               <div class="monery-bom">
               <span class="price"> 奖励金额 <i> ¥{{item.balanceAmount}}</i></span>
               </div>
@@ -165,6 +166,11 @@
       },
       copyOrderNum(orderNum){
         client.setClipboardData(orderNum);
+      },
+      goodsDetail(goodsId,goodsType) {
+      client.navigateTo({
+          url: "/pages/goods/main?goodsId=" + goodsId+"&goodsType="+goodsType
+        });
       }
     },
     computed: {}

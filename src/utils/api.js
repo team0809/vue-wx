@@ -5,7 +5,7 @@ import {
     fget,
     userOption
   } from "./index";
-const apiHost="http://localhost:8081/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/";
+const apiHost="http://localhost:8081/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/"; //https://wxcard.com.cn/xghb/web-api/
 function checkData(resp){
   console.log(resp);
   if(resp.code==0){
@@ -81,7 +81,7 @@ const api = {
     },
     //添加粉丝
     async fansAdd(param){
-      const data = await post(apiHost+"user/fansAdd",param);
+      const data = await fpost(apiHost+"user/fansAdd",param);
       return checkData(data);
     },
     //获取分类列表
