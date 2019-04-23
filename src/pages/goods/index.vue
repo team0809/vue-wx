@@ -147,7 +147,9 @@ export default {
       };      
     },
     async fansAdd(userId){
-      const data = await api.fansAdd({shareUserId:userId,msg:'商品页分享'})
+      if(userId!=-1){
+        const data = await api.fansAdd({shareUserId:userId,msg:'商品页分享'})
+      }
     },
    async openApp(goodsInfo){
      let openState = await client.navigateToMiniProgram({
