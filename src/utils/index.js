@@ -75,16 +75,9 @@ export {
         }else{
           //401 要求登录
          if(res.statusCode==401 && url.indexOf('codeLogin')==-1){
-           console.group("autologin");
-           debugger;
             let login = await userOption.codeLogin(true);
-            debugger;
-            console.log(login);
-            console.log(reqData);
             //再次请求接口
             let _resData = await request(url,method,reqData,header);
-            console.log(_resData);
-            console.groupEnd("autologin");
             //返回数据
             resolve(_resData);
          };
@@ -149,34 +142,6 @@ export function getStorageOpenid() {
   } else {
     return ''
   }
-}
-
-export function getOpenid() {
-  // wx.login({
-  //   success: res => {
-  //     if (res.code) {
-  //       //发起网络请求
-  //       wx.request({
-  //         url: 'https://api.weixin.qq.com/sns/jscode2session',
-  //         data: {
-  //           "appid": "wx601ce71bde7b9add",
-  //           "secret": "abed5421d88eb8236e933c6e42d5c14e",
-  //           "js_code": res.code,
-  //           "grant_type": "authorization_code"
-  //         },
-  //         success: function (data) {
-  //           var openid = data.data.openid;
-  //           wx.setStorageSync("openid", openid);
-  //         }
-  //       })
-  //     } else {
-  //       console.log('登录失败！' + res.errMsg)
-  //     }
-
-  //   },
-  //   fail: () => {},
-  //   complete: () => {}
-  // });
 }
 
 const userOption = {

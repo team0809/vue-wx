@@ -13,9 +13,6 @@
         </div>
       </scroll-view>
       <scroll-view class="right" scroll-y="true">
-        <!-- <div class="banner">
-          <img :src="detailData.imgPath" alt="">
-        </div> -->
         <div class="title">
           <span>—</span>
           <span>{{detailData.title}}分类</span>

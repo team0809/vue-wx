@@ -11,7 +11,6 @@
       </swiper>
       <button class="share" hover-class="none" open-type="share" value="">分享商品</button>
     </div>
-
     <div class="info-block">
       <!--商品标题 -->
       <div class="goods-title">
@@ -46,18 +45,7 @@
     <!--商品描述-->
     <div v-if="goodsInfo.goodsDesc" class="detail-desc">
       <div class="context">{{goodsInfo.goodsDesc}}</div>
-    </div>
-
-    <!--商品详情-->
-    <div class="goods-info">
-      <div class="c">
-        <p>{{goodsInfo.name}}</p>
-        <p>{{goodsInfo.goods_brief}}</p>
-        <div v-if="goodsInfo.name" class="brand">
-          <p>{{goodsInfo.name}}</p>
-        </div>
-      </div>
-    </div>
+    </div> 
 
     <div class="bottom-fixed">
       <!--主页按钮-->
@@ -105,9 +93,10 @@ export default {
   //商品转发
   onShareAppMessage() {
    let userId = userOption.getUserInfo().userId;
+   let sharePath =  "/pages/goods/main?goodsId=" +this.goodsId+"&goodsType="+this.goodsType+"&userId="+userId;
     return {
-      title: this.goodsInfo.name,
-      path: "/pages/goods/main?goodsId=" + this.goodsInfo.id+"&goodsType="+this.goodsInfo.goodsType.type+"&userId="+userId,
+      title: this.goodsInfo.goodsName,
+      path: sharePath,
       imageUrl: this.goodsInfo.goodsImg[0] //拿第一张商品的图片
     };
   },
