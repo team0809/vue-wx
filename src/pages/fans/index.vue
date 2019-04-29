@@ -16,12 +16,7 @@
             </div>
             <div class="info">
               <p>{{item.nickName||'未知'}}</p>
-              <!-- <p>￥{{item.retail_price}}</p> -->
-              <p class="odr-time">时间：{{item.createTime}}</p>
-              <!-- <p class="odr-numb">电话：111110100011 </p> -->
-              <!-- <div class="monery-bom">
-                <span>消费金额 ¥100</span><i>预估价 ¥1008</i>
-              </div> -->
+              <p class="odr-time">创建时间：{{item.createTime}}</p>
             </div>
           </div>
         </div>
@@ -50,8 +45,8 @@
       
     },
     created() {},
-    mounted() {
-      this.loadList(0,true);
+    async mounted() {
+     await this.loadList(0,true);
     },
     components: {},
     methods: {

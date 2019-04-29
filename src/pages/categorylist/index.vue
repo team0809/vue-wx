@@ -80,19 +80,19 @@ export default {
     };
   }, 
   //滚动底部
-  onReachBottom(){
+  async onReachBottom(){
     if(this.listData.length!=0){
-      this.getlistData(false);
+     await this.getlistData(false);
     }
   },
   created() { },
-  mounted() {
+  async mounted() {
     //获取页面传的参数
     this.searchParam.catId = this.$root.$mp.query.id || 1281;
     let title = this.$root.$mp.query.title || '商品分类';
     client.setNavigationBarTitle(title);
     console.log(this.searchParam);
-    this.getlistData();
+    await this.getlistData();
   },
   components: {},
   computed: {},

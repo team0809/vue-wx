@@ -178,14 +178,14 @@ export default {
   computed: {
     ...mapState(["cityName"])
   },
-  mounted() {
+  async mounted() {
     let shareUserId = this.$root.$mp.query.userId || -1;
     console.log("参数");
     console.log(this.$root.$mp.query);
-    this.init();
-    this.getWeekenGoodsData();
-    this.getHotGoodsData();
-    this.fansAdd(shareUserId);
+    await this.init();
+    await this.getWeekenGoodsData();
+    await this.getHotGoodsData();
+    await this.fansAdd(shareUserId);
   },
   //滚动底部
   onReachBottom(){ 
@@ -196,7 +196,7 @@ export default {
     ...mapMutations(["update"]),
     async init(){
       //用户登录
-      let userInfo = userOption.codeLogin();
+      let userInfo = await userOption.codeLogin();
     
       //默认数据
       const defaultInfo = await api.defaultInfo();

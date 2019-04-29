@@ -20,7 +20,7 @@
             <div class="info">
               <p>{{item.goodsName}}</p>
               <!-- <p>￥{{item.retail_price}}</p> -->
-              <p class="odr-time">时间:{{item.createTime}}</p>
+              <p class="odr-time">创建时间:{{item.createTime}}</p>
               <p class="odr-numb" v-if="item.orderStatus!=4">结算日期:{{item.balanceDate}}</p>
               <div class="monery-bom">
                 <span class="order-price">订单金额 ¥{{item.orderPrice}}</span>
@@ -40,7 +40,7 @@
             <div class="info">
               <p>{{item.balanceType==1?'直属粉丝订单':'推荐粉丝订单'}}</p>
               <!-- <p>￥{{item.retail_price}}</p> -->
-              <p class="odr-time">时间:{{item.createTime}}</p>
+              <p class="odr-time">创建时间:{{item.createTime}}</p>
               <p class="odr-numb" v-if="item.orderStatus!=4">结算日期:{{item.balanceDate}}</p>
               <div class="monery-bom">
                 <span class="order-price">订单金额 ¥{{item.orderPrice}}</span>
@@ -62,7 +62,7 @@
               <p v-if="item.activityType==1">拉新活动</p>
               <p v-else-if="item.activityType==2">订单活动</p>
               <p v-else>返现活动</p>
-              <p class="odr-time">时间:{{item.createTime}}</p>
+              <p class="odr-time">创建时间:{{item.createTime}}</p>
               <p class="odr-numb" v-if="item.orderStatus!=4">结算日期:{{item.balanceDate}}</p>
               <div class="monery-bom">
               <span class="price"> 奖励金额 <i> ¥{{item.balanceAmount}}</i></span>
@@ -87,13 +87,13 @@
      
     },
     created() {},
-    mounted() {
-      this.orderList(0,true)
+    async mounted() {
+     await this.orderList(0,true)
     }, 
     //滚动底部
-    onReachBottom(){
+    async onReachBottom(){
       if(this.listData.length!=0){
-        this.orderList(this.currentStatus,false);
+       await this.orderList(this.currentStatus,false);
       }
     },
     data() {

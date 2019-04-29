@@ -34,7 +34,7 @@ export {
   host
 }
 //请求封装
- function request(url, method, data, header = {}) {
+ function request(url, method, reqData, header = {}) {
   wx.showLoading({
     title: '加载中' //数据请求前loading
   })
@@ -65,22 +65,28 @@ export {
     wx.request({
       url: url.indexOf('http')==0?url:host + url, //仅为示例，并非真实的接口地址
       method: method,
-      data: data,
+      data: reqData,
       header: _header,
       success: async function (res) {
         wx.hideLoading();
+        console.log(url+'--->'+res.statusCode);
         if(res.statusCode==200){
           resolve(res.data);
         }else{
           //401 要求登录
          if(res.statusCode==401 && url.indexOf('codeLogin')==-1){
+           console.group("autologin");
+           debugger;
             let login = await userOption.codeLogin(true);
+            debugger;
             console.log(login);
+            console.log(reqData);
             //再次请求接口
-            let data = await request(url,method,data,header);
-            console.log(data);
+            let _resData = await request(url,method,reqData,header);
+            console.log(_resData);
+            console.groupEnd("autologin");
             //返回数据
-            resolve(data);
+            resolve(_resData);
          };
         }
       },

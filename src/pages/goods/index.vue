@@ -91,16 +91,16 @@ export default {
   },
   onShow() {
   },
-  mounted() {
+ async mounted() {
     //登录
-    userOption.codeLogin();
+    await userOption.codeLogin();
     this.goodsId = this.$root.$mp.query.goodsId || 6849491165;
     this.goodsType = this.$root.$mp.query.goodsType || 1;
     this.shareUserId = this.$root.$mp.query.userId || -1;
     //商品详情
-    this.goodsDetail();
+    await  this.goodsDetail();
     //粉丝
-    this.fansAdd(this.shareUserId);
+    await this.fansAdd(this.shareUserId);
   },
   //商品转发
   onShareAppMessage() {

@@ -97,16 +97,16 @@
         centerInfo:{},
       };
     },
-    onShow() {
+   async onShow() {
       // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
        //是否授权登录
       if(!userOption.hasAouthLogin()){
-        this.aouthLogin();
+       await this.aouthLogin();
       }else{
         this.userInfo = userOption.getUserInfo();
       }
       //加载个人中心数据
-      this.initCenterInfo();
+      await this.initCenterInfo();
     },
     components: {},
     methods: {

@@ -169,8 +169,8 @@
     async mounted() {
        let userId = this.$root.$mp.query.userId || -1;
       //加载活动数据
-      this.loadActivity();
-      this.fansAdd(userId);
+     await this.loadActivity();
+     await this.fansAdd(userId);
     },
     //触发分享
     onShareAppMessage() {

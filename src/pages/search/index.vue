@@ -104,21 +104,21 @@ import {
 import { api } from "../../utils/api";
 export default {
   created() { },
-  mounted() {
-    this.getHotData();
+  async mounted() {
+   await this.getHotData();
     let keyword = this.$root.$mp.query.keyword || ""; 
     this.openid = wx.getStorageSync("openid") || "";
     if(keyword!=""){
       this.showCommodity=1;
-      this.searchWords({searchKeyword:keyword});
+     await this.searchWords({searchKeyword:keyword});
     }else{
       this.showCommodity=0
     }
   },
   //滚动底部
-  onReachBottom(){
+ async onReachBottom(){
     if(this.listData.length!=0){
-      this.getlistData(false);
+     await this.getlistData(false);
     }
   },
   data() {
