@@ -5,7 +5,7 @@ import {
     fget,
     userOption
   } from "./index";
-const apiHost="https://wxcard.com.cn/xghb/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/"; //http://localhost:8020/web-api/
+const apiHost="https://wxcard.com.cn/xghb/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/"; //https://wxcard.com.cn/xghb/web-api/  //http://localhost:8020/web-api/
 function checkData(resp){
   if(resp.code==0){
     return resp.data
@@ -106,6 +106,21 @@ const api = {
     //报名参与活动
     async signUpActivity(param){
       const data = await fpost(apiHost+"activity/signUpActivity",param);
+      return checkData(data);
+    },
+    // 获取分享图片地址
+    async createGoodsShareImg(param){
+      const data = await fpost(apiHost+"goods/createGoodsShareImg",param);
+      return checkData(data);
+    },
+    //添加formid
+    async formIdAdd(param){
+      const data = await fpost(apiHost+"user/formIdAdd",param);
+      return checkData(data);
+    },
+    //订单详情
+    async orderDetail(param){
+      const data = await fpost(apiHost+"order/detail",param);
       return checkData(data);
     }
 }

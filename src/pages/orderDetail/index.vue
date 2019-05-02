@@ -1,7 +1,8 @@
 <template>
 <form @submit="formSubmit" report-submit="true">
   <div class="goods">
-    <div class="swiper">
+    
+     <div class="swiper">
       <!--商品详情轮播图-->
       <swiper class="swiper-container" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
         <block v-for="(item, index) in goodsInfo.goodsImg " :key="index">
@@ -10,75 +11,75 @@
           </swiper-item>
         </block>
       </swiper>
-      <button class="share" hover-class="none" open-type="share" value="">分享商品</button>
     </div>
+
+    <!--商品内容-->
     <div class="info-block">
-      <!--商品标题 -->
-      <div class="goods-title">
-        <span class="platform">{{goodsInfo.goodsType.name}}</span> {{goodsInfo.goodsName}}
-      </div>
-      <!--优惠相关-->
-      <div class="quan-warp">
-        <div class="text1">
-          <span class="quan-after" v-if="goodsInfo.hasCoupon">券后价</span>
-          <span class=""><i></i>¥{{goodsInfo.couponAfterPrice}}</span>
+        <div class="goods-title">
+            <span class="platform">{{goodsInfo.goodsType.name}}</span> {{goodsInfo.goodsName}}
         </div>
-        <div class="text2">
-        {{goodsInfo.volume}}人已买
+        <!--优惠相关-->
+        <div class="quan-warp">
+            <div class="text1">
+            <span class="quan-after" v-if="goodsInfo.hasCoupon">券后价</span>
+            <span class=""><i></i>¥{{goodsInfo.couponAfterPrice}}</span>
+            </div>
+            <div class="text2">
+            {{goodsInfo.volume}}人已买
+            </div>
+            <div class="text3">
+            原价 ¥{{goodsInfo.salePrice}}
+            </div>
+            <div class="text4">
+            返现金额 ¥{{goodsInfo.promotionPrice}}
+            </div>
         </div>
-        <div class="text3">
-        原价 ¥{{goodsInfo.salePrice}}
-        </div>
-        <div class="text4">
-          返现金额 ¥{{goodsInfo.promotionPrice}}
-        </div>
-      </div>
     </div>
-    <!--领取优惠券按钮-->
-    <div class="coupon-box" v-if="goodsInfo.hasCoupon">
-      <div class="left">
-        <div class="top-txt"><span class="font">{{goodsInfo.couponPrice}}</span> 元优惠券</div>
-        <div class="bottom-txt">
-          使用期限:{{goodsInfo.couponStartTime}} - {{goodsInfo.couponEndTime}}					</div>
-      </div>
-      <div class="right" @click="openApp(goodsInfo)">
-         <button formType="submit">立即领券</button>
-      </div>
+    <!--订单信息-->
+    <div class="order-info">
+        <p class="title">订单信息</p>
+        <ul>
+            <li><span class="name">订单号：</span> <span class="value">{{orderInfo.orderNum}}</span> </li>
+            <li><span class="name">订单状态：</span> <span>{{orderInfo.orderStatusText}}</span> </li>
+            <li><span class="name">返现金额：</span> <span class="price">￥{{orderInfo.balanceAmount}}</span> </li>
+            <li><span class="name">下单金额：</span> <span class="price">￥{{orderInfo.orderPrice}} </span> </li>
+            <li v-if="goodsInfo.hasCoupon"><span class="name">优惠券额：</span> <span class="price">￥{{goodsInfo.couponPrice}}</span> </li>
+            <li><span class="name">下单用户：</span> <span >{{orderInfo.balanceTypeText}}</span> </li>
+            <li><span class="name">结算日期：</span> <span>{{orderInfo.balanceTime}}</span> </li>
+            <li class="last"><span class="name">下单时间：</span> <span>{{orderInfo.createTime}}</span> </li>
+        </ul>
+        <p class="desc">实惠的商品分享给好友吧\(^o^)/</p>
     </div>
-    <!--商品描述-->
-    <div v-if="goodsInfo.goodsDesc" class="detail-desc">
-      <div class="context">{{goodsInfo.goodsDesc}}</div>
-    </div> 
+
+    <div class="again" @click="openApp(goodsInfo)">
+        <button form-type="submit">再来一单</button>
+    </div>
 
     <div class="bottom-fixed">
-      <!--主页按钮-->
+      <!--主页按钮  -->
       <div class="homes" @click="goHome">
         <span class="iconfont iconshouye"></span>
-        <button class="pm" form-type="submit">首页</button>
+        <button class="pm" form-type="submit" data-name="home">首页</button>
       </div>
-      <div v-if="goodsInfo.hasCoupon" class="nbnav4" @click="openApp(goodsInfo)">
-        <p class="buy-text">省¥ {{goodsInfo.couponPrice}}</p>
-        <button class="buy-bnt" form-type="submit">领券购买</button>
-      </div>
-      <div v-else class="nbnav4" @click="openApp(goodsInfo)">
-        <button class="buy-more" form-type="submit">下单购买</button>
+      <div class="nbnav4" >
+        <span class="iconfont iconshare"></span>
+        <button class="share" form-type="submit" open-type="share">分享好友</button>
       </div>
     </div>
   </div>
 </form>
 </template>
-
 <script>
 import { api,userOption,client } from "../../utils";
 export default {
   data() {
     return {
-      shareUserId:-1,
       goodsId:0,
       goodsType:1,
       goodsInfo:{
         goodsType:{name:''}
       },
+      orderInfo:{},
       shareImgPath:''
     };
   },
@@ -89,11 +90,11 @@ export default {
     await userOption.codeLogin();
     this.goodsId = this.$root.$mp.query.goodsId || 6849491165;
     this.goodsType = this.$root.$mp.query.goodsType || 1;
-    this.shareUserId = this.$root.$mp.query.userId || -1;
+    let orderId = this.$root.$mp.query.orderId || 1;
     //商品详情
     await  this.goodsDetail();
-    //粉丝
-    await this.fansAdd(this.shareUserId); 
+    //订单详情
+    await this.orderDetail(orderId);
   },
   //商品转发
   onShareAppMessage() {
@@ -144,10 +145,9 @@ export default {
         shareImgPath:data.shareImgPath
       };      
     },
-    async fansAdd(userId){
-      if(userId!=-1){
-        const data = await api.fansAdd({shareUserId:userId,msg:'商品页分享'})
-      }
+    async orderDetail(orderId){
+        const data = await api.orderDetail({orderId: orderId});
+        this.orderInfo = data;
     },
     async openApp(goodsInfo){
      let openState = await client.navigateToMiniProgram({

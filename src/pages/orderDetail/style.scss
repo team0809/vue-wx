@@ -1,0 +1,248 @@
+.goods {
+    overflow: hidden;
+
+    .swiper {
+        width: 750rpx;
+        height: 750rpx;
+        position: relative;
+    
+        .swiper-container {
+          width: 750rpx;
+          height: 750rpx;
+    
+          image {
+            width: 750rpx;
+            height: 750rpx;
+          }
+        }
+        .share {
+          position: absolute;
+          border-radius: 40rpx 0 0 40rpx;
+          width: 150rpx;
+          height: 65rpx;
+          line-height: 65rpx;
+          text-align: center;
+          right: 0;
+          bottom: 80rpx;
+          background: #e0a354;
+          color: #fff;
+          font-size: 24rpx;
+        }
+      }
+
+      .info-block{
+        padding: 18rpx 24rpx;
+        background: white;
+        .goods-title{
+          padding-bottom:5rpx;
+          background:white;
+          .platform{
+            color: white;
+            display: inline-block;
+            padding:4rpx 14rpx;
+            background:-webkit-linear-gradient(211.3deg, #f54d23, #f8285c);
+            background:linear-gradient(-121.3deg, #f54d23, #f8285c);
+            font-size:20rpx;
+          }
+        }
+        .quan-warp{
+            color: #666;
+            overflow: hidden;
+            clear: both;
+            background: #fff;
+            padding: 10rpx 0rpx;
+            .text1{
+              font-size: 24rpx;
+              height: 36rpx;
+              line-height: 36rpx;
+              color: #FC4D52;
+              width: 50%;
+              float: left;
+              margin-bottom: 10rpx;
+              span.quan-after{
+                display:inline-block;
+                font-size:20rpx;
+                border:solid 1rpx red;
+                border-radius:6rpx;
+                padding:0rpx 8rpx;
+                height:28rpx;
+                line-height:28rpx;
+                margin-right:10rpx;
+                position:relative;
+                top:-2rpx;
+              }
+              span, i{
+                display: inline-block;
+                font-size: 34rpx;
+                i{
+                  font-style: normal;
+                  font-size: 20rpx;
+                  margin-right: 6rpx;
+                  color: #FC4D52;
+                }
+              }
+            }
+            .text2{
+              font-size: 24rpx;
+              height: 36rpx;
+              line-height: 36rpx;
+              color: #666;
+              width: 50%;
+              float: right;
+              margin-bottom: 10rpx;
+              text-align:right;
+            }
+            .text3{
+              font-size: 24rpx;
+              height: 36rpx;
+              line-height: 36rpx;
+              margin-right: 20rpx;
+              color: #888;
+              float: left;
+              text-decoration: line-through;
+            }
+            .text4{
+              font-size: 24rpx;
+              height: 36rpx;
+              line-height: 36rpx;
+              color: white;
+              float: left;
+              background:-webkit-linear-gradient(211.3deg, #f54d23, #f8285c);
+              background:linear-gradient(-121.3deg, #f54d23, #f8285c);
+              padding:0 16rpx;
+            }
+          }
+
+      }
+
+      .order-info{
+        margin-top:20rpx;
+        background:white;
+        padding:0 20rpx;
+        .title{
+            padding:20rpx 0rpx;
+            border-bottom:1rpx solid rgb(240, 240, 240);
+        }
+        ul > li{
+            padding:20rpx 0rpx;
+            border-bottom:1rpx solid rgb(240, 240, 240);
+            margin-left:20rpx;
+            span.name{
+                font-weight: bold;
+                width: 120rpx;
+            }
+            span.price{
+                color: #f54d23;
+            }
+            span.normal{
+                color: #bbb;
+            }
+        }
+        ul > li.last{
+            border-bottom: none;
+        }      
+        .desc{
+            padding:20rpx 0;
+            text-align:center;
+            border-top:1rpx solid rgb(240, 240, 240);
+            color:#bbb;
+        }
+      }
+
+      .again{
+        margin:30rpx 60rpx 130rpx 60rpx;
+        padding:30rpx 0rpx;
+        background: -webkit-linear-gradient(211.3deg,#f54d23,#f8285c);
+        background: linear-gradient(-121.3deg,#f54d23,#f8285c);
+      }
+
+    /**底部按钮**/
+    .bottom-fixed {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100rpx;
+        display: flex;
+        background: #fff;
+        z-index: 10;
+        div.homes {
+          height: 100rpx;
+          width: 30%;
+          color: #f54d23;
+          text-align: center;
+          padding-top:12rpx;
+          position: relative;
+          .iconfont {
+            font-size: 36rpx;
+            color: #f54d23;
+            padding-top: 6rpx;
+            position: absolute;
+            top:2rpx;
+            left:95rpx;
+          }
+          .pm{
+            color: #f54d23;
+            font-size: 24rpx;
+            line-height:110rpx;
+            font-size:28rpx;
+          }
+        }
+    
+        div.share-box {
+          height: 100rpx;
+          width: 32%;
+          background: #e0a354;
+          text-align: center;
+          color: #fff;
+          .iconfont {
+            font-size: 36rpx;
+            color: #fff;
+            padding-top: 6rpx;
+          }
+          .pms{
+            color: #fff;
+            font-size: 24rpx;
+            padding-top: 6rpx;
+          }
+        }
+        .nbnav4{
+          background: -webkit-linear-gradient(-121.3deg,#f58e23,#f8cb28);
+          background: linear-gradient(-121.3deg,#f58e23,#f8cb28);
+          color: #fff;
+            width: 70%;
+            text-align: center;
+            line-height: 100rpx;
+            position: relative;
+            .iconfont {
+            font-size:40rpx;
+            padding-top:6rpx;
+            display:inline;
+            position:absolute;
+            top:-4rpx;
+            left:162rpx;
+            }
+            .share{
+            font-size:30rpx;
+            color:#fff;
+            display:inline-block;
+            background:none;
+            border:none;
+            width:100%;
+            height:100%;
+            line-height:100rpx;
+            padding-left:20rpx;
+            }
+        }
+      }
+      button{
+        color:#fff;
+        display:inline-block;
+        background:none;
+        border:none;
+        width:100%;
+        height:100%;
+        line-height: 100%;
+      }
+}
