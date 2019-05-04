@@ -36,12 +36,11 @@
     </div>
     <div class="wx-shouquan" v-if="aouth.show">
       <div class="concant">
-        <h1>微信登录授权</h1>
         <div class="sq-info">
           <img :src="aouthImg" alt="">
         </div>
         <div class="bnt-info">
-          <button open-type="getUserInfo" @getuserinfo="aouthLogin" class="bnt-rihgt bnt-max">授权</button>
+          <button open-type="getUserInfo" @getuserinfo="aouthLogin" class="bnt-rihgt bnt-max">登录授权</button>
         </div>
       </div>
       <div class="wx-gallery"></div>
@@ -102,11 +101,11 @@
        //是否授权登录
       if(!userOption.hasAouthLogin()){
        await this.aouthLogin();
-      }else{
-        this.userInfo = userOption.getUserInfo();
       }
       //加载个人中心数据
       await this.initCenterInfo();
+      //设置用户信息
+      this.userInfo = userOption.getUserInfo();
     },
     components: {},
     methods: {

@@ -1,5 +1,6 @@
 <template>
  <div class="page">
+   <form @submit="formSubmit" report-submit="true">
   <img src="/static/activity-img/active-top-bg.png" class="img-background" mode="widthFix" />
   <div class="div-head">
     <p class="a-title"> {{activityModel.activityName}} </p>
@@ -134,20 +135,37 @@
     <text class="cont-dec">{{activityModel.activityDesc}}</text>
   </div>
 
-<!--分享-->
+  <!--分享-->
   <div class="bottom-fixed">
     <!--主页按钮-->
     <div class="homes" @click="goHome">
       <span class="iconfont iconshouye"></span>
-      <p class="pm">返回首页</p>
+      <p class="pm">首页</p>
     </div>
-    <div class="nbnav4">
+    <div class="nbnav4" v-if="userInfo.userType==20">
       <span class="iconfont iconshare"></span>
-      <button class="share" open-type="share">分享拿奖励</button>
+      <button class="share" form-type="submit" open-type="share">分享拿奖励</button>
+    </div>
+    <div class="nbnav4" @click="signUpActivity" v-else>
+      <button class="share" form-type="submit">申请为渠道商</button>
     </div>
   </div>
 
- </div>
+  <!--成为渠道商提示-->
+  <div class="wx-shouquan" v-if="showChannel">
+      <div class="concant">
+        <h1>系统提示</h1>
+        <div class="sq-info">
+          您成功加入西瓜零钱渠道商!
+        </div>
+        <div class="bnt-info" @click="sureChannel">
+          <button form-type="submit" class="bnt-rihgt bnt-max">确定</button>
+        </div>
+      </div>
+      <div class="wx-gallery"></div>
+  </div>
+</form>
+</div>
 </template>
 
 <script>
@@ -159,7 +177,9 @@
   export default {
     data() {
       return {
-        activityModel:{}
+        activityModel:{},
+        showChannel:false,
+        userInfo:{userType:10}
       };
     },
     onShow() {
@@ -167,17 +187,18 @@
     },
     created() {},
     async mounted() {
-       let userId = this.$root.$mp.query.userId || -1;
+      let userId = this.$root.$mp.query.userId || -1;
+      //用户信息
+      this.userInfo = userOption.getUserInfo();
       //加载活动数据
-     await this.loadActivity();
-     await this.fansAdd(userId);
+      await this.loadActivity();
     },
     //触发分享
     onShareAppMessage() {
     let userId = userOption.getUserInfo().userId;
       return {
-        path: "/pages/agentActivity/main?userId="+userId,
-        imageUrl: '/static/activity-img/activity-share.png' //拿第一张商品的图片
+        path: "/pages/index/main?userId="+userId,
+        imageUrl: '/static/images/img_index_share.png' //拿第一张商品的图片
       };
     },
     components: {},
@@ -194,21 +215,11 @@
            activityInfo.newUserProgress = this.setProgress(activityInfo.newUserDetails,activityInfo.newUserCount);
            activityInfo.newOrderProgress = this.setProgress(activityInfo.orderDetails,activityInfo.newOrderCount);
            activityInfo.balanceAmountProgress = this.setProgress(activityInfo.rebateDetails,activityInfo.balanceAmount);
-
             this.activityModel = activityInfo;
             client.setNavigationBarTitle(activityInfo.activityName);
-            let data = await api.signUpActivity({activityId:this.activityModel.id});
-            if(data===""){
-              //如果当前用户非渠道商 退出登录 重新登录获取信息
-              if(userOption.getUserInfo().userType!=20){
-                //退出登录
-                let out = await userOption.loginOut();
-                //重新登录
-                if(out){
-                  let codeLogin = await userOption.codeLogin();
-                }
-              }
-              client.showToast({title:'活动报名成功'});
+            //渠道商参与活动
+            if(this.userInfo.userType==20){
+              await this.signUpActivity();
             }
           }
       },
@@ -244,6 +255,36 @@
       },
       async fansAdd(userId){
         const data = await api.fansAdd({shareUserId:userId,msg:'渠道商活动页面'});
+      },
+      //成为渠道商并参与活动
+      async signUpActivity(){
+         let data = await api.signUpActivity({activityId:this.activityModel.id});
+          if(data===""){
+            //如果当前用户非渠道商 退出登录 重新登录获取信息
+            if(this.userInfo.userType!=20){
+              //退出登录
+              let out = await userOption.loginOut();
+              //重新登录
+              if(out){
+                let codeLogin = await userOption.codeLogin();
+                //重新获取用户信息
+                this.userInfo = userOption.getUserInfo();
+                //显示用户已成为渠道商
+                this.showChannel=true;
+              }
+            }else{
+              client.showToast({title:'活动报名成功'});
+            }
+          }
+      },
+      sureChannel(){
+        this.showChannel=false;
+      },
+      //form提交
+      formSubmit(e){
+        if(e.target.formId!='the formId is a mock one'){
+          api.formIdAdd({formId:e.target.formId});
+        }
       }
     },
     computed: {}

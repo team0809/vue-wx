@@ -1,4 +1,5 @@
 <template>
+<form @submit="formSubmit" report-submit="true">
   <div class="index">
     <!-- 搜索 -->
     <div class="search">
@@ -51,31 +52,24 @@
       </div>
     </div>
 
-    <!-- 未知领域 -->
-    <div class="user-title">
+    <!-- 渠道合作商 -->
+    <div class="user-title" v-if="estimateRate.onceRate!=0">
       <div class="u-left">
-        <span>&nbsp;</span> 本周热卖
+        <span>&nbsp;</span> 邀您为渠道伙伴享以下福利
       </div>
-      <div class="u-right">
-        <span></span>
-      </div>
+      <div class="u-right"><span></span></div>
     </div>
-    <!-- 热卖商品 -->
-    <div class="user-ling-list">
-      <div class="user-wrapper" v-for="item in weekenGoods" v-bind:key="item" @click="goodsDetail(item.goodsId,item.goodsType.type)" >
-        <div class="swiper-cent">
-          <div class="cent">
-            <a href="javascript:;" @click="goFun" class="img">
-              <img :src="item.thumbnailImgUrl" alt="">
-              <p class="text">{{item.volume}}<span>人已领 </span> <i> |</i> {{item.couponPrice}}元券</p>
-            </a>
-              <p class="name">{{item.goodsName}}</p>
-              <p class="money"><i>¥</i>{{item.couponAfterPrice}} <del>¥{{item.salePrice}}</del></p>
-              <p class="progress"><i style="width: 46%;"></i></p>
-          </div>
+    <div class="channel" v-if="estimateRate.onceRate!=0">
+        <ul>
+          <li>1.直属粉丝下单额外享有<span class="rate">{{estimateRate.onceRate}}%</span>的返现奖励</li>
+          <li>2.推荐粉丝下单额外享有<span class="rate">{{estimateRate.twoRate}}%</span>的返现奖励</li>
+          <li>3.参与完成渠道商活动获得<span class="rate">丰厚赏金</span>奖励</li>
+        </ul>
+        <div class="button" @click="goAgentActivity">
+          <button form-type="submit">立即参与</button>
         </div>
-      </div>
     </div>
+
 
     <!-- 优惠列表 -->
     <div class="user-title">
@@ -128,8 +122,9 @@
       <div class="wx-gallery"></div>
     </div>
     <!-- 分享好友 -->
-     <button class="share" hover-class="none" open-type="share" value="">分享好友</button>
+     <button class="share" hover-class="none" form-type="submit" open-type="share" value="">分享好友</button>
   </div>
+</form>
 </template>
 
 <script>
@@ -141,12 +136,13 @@ export default {
   onShow() {
     this.loadClipboard();
   },
-  data() {
+  data(){
     return {
       banner: [],
       hotGoods: [],
       weekenGoods:[],
       topicList: [],
+      estimateRate:{onceRate:0,twoRate:0},
       imgs:{
         layerSerachImg:"/static/images/tanch-title-bg.png",
       },
@@ -197,17 +193,18 @@ export default {
     async init(){
       //用户登录
       let userInfo = await userOption.codeLogin();
-    
       //默认数据
       const defaultInfo = await api.defaultInfo();
       this.banner = defaultInfo.banners;
       this.topicList = defaultInfo.hotNews;
+      this.estimateRate = defaultInfo.estimateRate;
     },
     // 剪贴板内容
     async loadClipboard(){
        //获取剪贴板内容
       let clipboardData = await client.getClipboardData();
-      if(clipboardData.trim()!=""){
+      //判断是否包含中文
+      if(clipboardData.trim()!="" && escape(clipboardData).indexOf("%u")>=0){
           this.clipboard.show = true;
           this.clipboard.data = clipboardData;
          let success = await client.setClipboardData("  ");
@@ -253,6 +250,12 @@ export default {
         url:"/pages/goods/main?goodsId="+id+"&goodsType="+type
       });
     },
+    //跳转渠道商
+    goAgentActivity(){
+      client.navigateTo({
+        url:"/pages/agentActivity/main"
+      });
+    },
     optionClipboard(search){
       if(search){
          client.navigateTo({url:"/pages/search/main?keyword="+this.clipboard.data});
@@ -268,6 +271,12 @@ export default {
        client.navigateTo({
         url:linkAddress
       });
+    },
+    //form提交
+    formSubmit(e){
+      if(e.target.formId!='the formId is a mock one'){
+        api.formIdAdd({formId:e.target.formId});
+      }
     }
   }
   };

@@ -31,7 +31,7 @@
             原价 ¥{{goodsInfo.salePrice}}
             </div>
             <div class="text4">
-            返现金额 ¥{{goodsInfo.promotionPrice}}
+            下单返现 ¥{{goodsInfo.promotionPrice}}
             </div>
         </div>
     </div>
@@ -41,14 +41,18 @@
         <ul>
             <li><span class="name">订单号：</span> <span class="value">{{orderInfo.orderNum}}</span> </li>
             <li><span class="name">订单状态：</span> <span>{{orderInfo.orderStatusText}}</span> </li>
-            <li><span class="name">返现金额：</span> <span class="price">￥{{orderInfo.balanceAmount}}</span> </li>
+             <li><span class="name">下单用户：</span> <span >{{orderInfo.balanceTypeText}}</span> </li>
+            <li>
+              <span class="name">返现金额：</span> 
+              <span class="price">￥{{orderInfo.balanceAmount}}</span>
+              <span class="normal" v-if="orderInfo.balanceState==0" >预计{{orderInfo.balanceTime}}结算</span>
+              <span class="normal" v-else>已结算</span>
+            </li>
             <li><span class="name">下单金额：</span> <span class="price">￥{{orderInfo.orderPrice}} </span> </li>
             <li v-if="goodsInfo.hasCoupon"><span class="name">优惠券额：</span> <span class="price">￥{{goodsInfo.couponPrice}}</span> </li>
-            <li><span class="name">下单用户：</span> <span >{{orderInfo.balanceTypeText}}</span> </li>
-            <li><span class="name">结算日期：</span> <span>{{orderInfo.balanceTime}}</span> </li>
             <li class="last"><span class="name">下单时间：</span> <span>{{orderInfo.createTime}}</span> </li>
         </ul>
-        <p class="desc">实惠的商品分享给好友吧\(^o^)/</p>
+        <p class="desc">商品实惠记得分享给好友哦\(^o^)/</p>
     </div>
 
     <div class="again" @click="openApp(goodsInfo)">
