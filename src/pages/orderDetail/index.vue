@@ -74,7 +74,7 @@
 </form>
 </template>
 <script>
-import { api,userOption,client } from "../../utils";
+import { api,userOption,client,mta } from "../../utils";
 export default {
   data() {
     return {
@@ -99,6 +99,8 @@ export default {
     await  this.goodsDetail();
     //订单详情
     await this.orderDetail(orderId);
+    //统计
+    mta.Page.init();
   },
   //商品转发
   onShareAppMessage() {
@@ -106,7 +108,8 @@ export default {
    let sharePath =  "/pages/goods/main?goodsId=" +this.goodsId+"&goodsType="+this.goodsType+"&userId="+userId;
    //获取生成后的图片地址
    api.createGoodsShareImg({imgUrl: encodeURIComponent(this.goodsInfo.goodsImg[0]),price:this.goodsInfo.couponAfterPrice});
-   console.log(this.goodsInfo.shareImgPath)
+   //埋点
+   mta.Event.stat("order_detail_share",{goodsId:this.goodsId,goodsName:this.goodsInfo.goodsName});
     return {
       title: this.goodsInfo.goodsName,
       path: sharePath,
@@ -116,6 +119,7 @@ export default {
   methods: {
     //跳转至首页
     goHome(){
+      mta.Event.stat("order_detail_home",{});
       client.switchTab({url:'/pages/index/main'});
     },
     async goodsDetail() {
@@ -158,7 +162,7 @@ export default {
             appId:goodsInfo.miniAppId,
             path:goodsInfo.goodsUrl
       });
-      console.log(openState);
+      mta.Event.stat("order_detail_buy",{goodsName:goodsInfo.goodsName,goodsId:goodsInfo.goodsId});
     },
     //form提交
     formSubmit(e){

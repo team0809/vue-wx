@@ -61,7 +61,7 @@
 
     <!--商品列表  -->
     <div v-if="showCommodity==1" class="goodsList">
-      <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in listData" :key="index">
+      <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in listData" :key="index">
         <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
         <div class="list-cont">
           <div class="goods_title">
@@ -100,6 +100,7 @@ import {
   get,
   searchHistory,
   client,
+  mta
 } from "../../utils";
 import { api } from "../../utils/api";
 export default {
@@ -114,6 +115,8 @@ export default {
     }else{
       this.showCommodity=0
     }
+    //统计
+    mta.Page.init();
   },
   //滚动底部
  async onReachBottom(){
@@ -134,7 +137,7 @@ export default {
       order: "",
       isHot: "",
       isNew: "",
-      sort:{sortIndex:1,order:'asc'},
+      sort:{sortIndex:0,order:'asc'},
       searchParam:{
         canLoadGoods:true,
         pageSize:20,
@@ -145,7 +148,8 @@ export default {
   },
   components: {},
   methods: {
-    goodsDetail(id,type) {
+    goodsDetail(id,type,goodsName) {
+      mta.Event.stat("search_click_goods",{goodsId:id,goodsName:goodsName})
        client.navigateTo({
         url: "/pages/goods/main?goodsId=" + id+"&goodsType="+type
       });
@@ -235,6 +239,8 @@ export default {
      await this.getHotData();
       //获取商品列表
      await this.getlistData(true);
+     //埋点
+     mta.Event.stat("search_keyword",{keyword:this.words})
     },
     async getHotData(first) {
       const data =  await api.hotKeyword();

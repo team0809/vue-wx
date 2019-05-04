@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { api,client } from "../../utils";
+import { api,client,mta } from "../../utils";
 export default {
   created() {},
  async mounted() {
@@ -38,6 +38,8 @@ export default {
     await this.getListData();
     //获取默认右侧数据
     await this.selectitem(this.listData[0], this.nowIndex);
+    //统计
+    mta.Page.init();
   },
   data() {
     return {
@@ -66,7 +68,8 @@ export default {
       this.listData = data;
     },
     categoryList(item) {
-      console.log(item)
+      //事件统计
+      mta.Event.stat("category_click_item",{title:item.title});
       client.navigateTo({
         url: "../categorylist/main?id="+item.pddId+"&title="+item.title
       });

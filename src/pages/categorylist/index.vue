@@ -22,7 +22,7 @@
       </ul>
     </div>
     <div class="list" v-if="listData.length!=0">
-       <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in listData" :key="index">
+       <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in listData" :key="index">
         <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
         <div class="list-cont">
           <div class="goods_title">
@@ -58,7 +58,8 @@
 import {
   get,
   api,
-  client
+  client,
+  mta
 } from "../../utils";
 export default {
   data() {
@@ -69,7 +70,7 @@ export default {
       navData: [],
       currentNav: {},
       scrollLeft: 0,
-      sort:{sortIndex:1,order:'asc'},
+      sort:{sortIndex:0,order:'asc'},
       searchParam:{
         canLoadGoods:true,
         catId:-1,
@@ -93,6 +94,8 @@ export default {
     client.setNavigationBarTitle(title);
     console.log(this.searchParam);
     await this.getlistData();
+    //统计
+    mta.Page.init();
   },
   components: {},
   computed: {},
@@ -171,7 +174,8 @@ export default {
         });
       }
     },
-    goodsDetail(goodsId,goodsType) {
+    goodsDetail(goodsId,goodsType,goodsName) {
+    mta.Event.stat("category_list_click_goods",{goodsId:goodsId,goodsName:goodsName})
      client.navigateTo({
         url: "/pages/goods/main?goodsId=" + goodsId+"&goodsType="+goodsType
       });

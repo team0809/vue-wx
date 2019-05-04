@@ -81,7 +81,7 @@
       </div>
     </div>
 
-    <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
+    <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
       <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
       <div class="list-cont">
         <div class="goods_title">
@@ -129,7 +129,7 @@
 
 <script>
 import amapFile from "../../utils/amap-wx";
-import { get,client,userOption } from "../../utils";
+import { get,client,userOption,mta } from "../../utils";
 import { api } from "../../utils/api";
 import { mapState, mapMutations } from "vuex";
 export default {
@@ -165,9 +165,10 @@ export default {
   },
   //商品转发
   onShareAppMessage() {
-   let userId = userOption.getUserInfo().userId;
+   let userIdInfo = userOption.getUserInfo();
+   mta.Event.stat("home_click_share",{userId:userIdInfo.userId});
     return {
-      path: "/pages/index/main?userId="+userId,
+      path: "/pages/index/main?userId="+userIdInfo.userId,
       imageUrl: '/static/images/img_index_share.png' //拿第一张商品的图片
     };
   },
@@ -182,6 +183,7 @@ export default {
     await this.getWeekenGoodsData();
     await this.getHotGoodsData();
     await this.fansAdd(shareUserId);
+    mta.Page.init();
   },
   //滚动底部
   onReachBottom(){ 
@@ -245,7 +247,8 @@ export default {
         })
       }
     },
-    goodsDetail(id,type) {
+    goodsDetail(id,type,goodsName) {
+      mta.Event.stat("home_click_goods",{goodsName:goodsName,goodsId:id});
       client.navigateTo({
         url:"/pages/goods/main?goodsId="+id+"&goodsType="+type
       });

@@ -1,10 +1,11 @@
-import {
-  api
-} from "./api";
-
+//api接口
+import { api } from "./api";
+//微信客户端
 import {client} from "./wechat";
+//小程序统计
+var mta = require("./mta_analysis");
 
-export {client,api}
+export {client,api,mta}
 
 function formatNumber(n) {
   const str = n.toString()
@@ -156,6 +157,8 @@ const userOption = {
       mobile: userInfo.mobile
     };
     client.setStorageSync("storage_user_info",JSON.stringify(user));
+    //用户信息
+    mta.Data.userInfo = {'user_id':user.userId,'nickname':user.nickname};
   },
   getUserInfo(){
     let userStr = client.getStorageSync("storage_user_info");
