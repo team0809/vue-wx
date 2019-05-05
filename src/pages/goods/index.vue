@@ -29,8 +29,8 @@
         <div class="text3">
         原价 ¥{{goodsInfo.salePrice}}
         </div>
-        <div class="text4">
-          返现金额 ¥{{goodsInfo.promotionPrice}}
+        <div class="text4" v-if="goodsInfo.showPromotion">
+          佣金 ¥{{goodsInfo.promotionPrice}}
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@ export default {
       goodsId:0,
       goodsType:1,
       goodsInfo:{
-        goodsType:{name:''}
+        goodsType:{name:'',showPromotion:false}
       },
       shareImgPath:''
     };
@@ -145,7 +145,8 @@ export default {
         couponStartTime:data.couponStartTime,
         couponEndTime:data.couponEndTime,
         goodsType:data.goodsType,
-        shareImgPath:data.shareImgPath
+        shareImgPath:data.shareImgPath,
+        showPromotion: data.showPromotion
       };      
     },
     async fansAdd(userId){

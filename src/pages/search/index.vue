@@ -80,8 +80,8 @@
             <p class="p-fr" v-if="item.couponPrice!=null">
               <i class="quan">{{item.couponPrice}}元券</i>
             </p>
-            <span class="s-k">
-              <i>返现 ¥</i>{{item.promotionPrice}}
+            <span class="s-k"  v-if="item.showPromotion">
+              <i>佣金 ¥</i>{{item.promotionPrice}}
             </span>
           </div>
         </div>

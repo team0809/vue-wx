@@ -1,39 +1,86 @@
 <template>
-  <div class="my">
-    <div class="myinfo">
-      <img :src="userInfo.icon" alt="">
-      <div>
-        <p>{{userInfo.nickname}}</p>
-        <p><span class="type">{{userInfo.typeText}}</span></p>
-        <p style="display:none" class="integral" >邀请码: {{userInfo.userNo}}</p>
+  <div class="my" >
+    <div v-if="userInfo.userType==20">
+      <div class="myinfo">
+        <img :src="userInfo.icon" alt="">
+        <div>
+          <p>{{userInfo.nickname}}</p>
+          <p><span class="type">{{userInfo.typeText}}</span></p>
+          <p style="display:none" class="integral" >邀请码: {{userInfo.userNo}}</p>
+        </div>
+      </div>
+      <div class="list-w">
+        <div class="my-monery-list">
+          <p>
+            ¥ <i>{{centerInfo.currentMountEstimateAmount}}</i>
+            <span>本月预估</span>
+          </p>
+          <p>
+            ¥ <i>{{centerInfo.todayAmount}}</i>
+            <span>今日收益</span>
+          </p>
+        </div>
+        <div class="my-monery-list bottom-radius">
+          <p>
+            上月预估 <i class="numb">¥{{centerInfo.lastMonthEstimateAmount}}</i>
+          </p>
+          <p>
+            上月结算 <i class="numb">¥{{centerInfo.lastMonthBalanceAmount}}</i>
+          </p>
+        </div>
+      </div>
+      <div class="iconlist">
+        <div @click="goTo(item.url)" v-for="(item, index) in listData" :key="index">
+          <span class="iconfont" :class="item.icon"></span>
+          <span class="text">{{item.title}}</span>
+        </div>
       </div>
     </div>
-    <div class="list-w">
-      <div class="my-monery-list">
-        <p>
-          ¥ <i>{{centerInfo.currentMountEstimateAmount}}</i>
-          <span>本月预估</span>
-        </p>
-        <p>
-          ¥ <i>{{centerInfo.todayAmount}}</i>
-          <span>今日收益</span>
-        </p>
-      </div>
-      <div class="my-monery-list bottom-radius">
-        <p>
-          上月预估 <i class="numb">¥{{centerInfo.lastMonthEstimateAmount}}</i>
-        </p>
-        <p>
-          上月结算 <i class="numb">¥{{centerInfo.lastMonthBalanceAmount}}</i>
-        </p>
+    <div class="normal" v-else>
+      <div class="normal-head">
+          <div class="myinfo">
+            <img :src="userInfo.icon" alt="">
+            <div>
+              <p>{{userInfo.nickname}}</p>
+              <p><span class="type">{{userInfo.typeText}}</span></p>
+            </div>
+          </div> 
+        <!-- 优惠列表 -->
+        <div class="user-title">
+          <div class="u-left">
+            <span>&nbsp;</span> 猜你喜欢
+          </div>
+        </div>
+    </div>
+    <div class="normal-empty"></div>
+    <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in goodsList" :key="index">
+      <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
+      <div class="list-cont">
+        <div class="goods_title">
+        <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
+        </div>
+          <div class="col-yuan">
+          <span>
+            <span class="afprice">
+              <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
+            </span>
+            <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
+          </span>
+          <span class="fr">已售{{item.volume}}件</span>
+        </div>
+        <div class="col-money">
+          <p class="p-fr">
+            <i class="quan">{{item.couponPrice}}元券</i>
+          </p>
+          <span class="s-k" v-if="item.showPromotion">
+            <i>佣金 ¥</i>{{item.promotionPrice}}
+          </span>
+        </div>
       </div>
     </div>
-    <div class="iconlist">
-      <div @click="goTo(item.url)" v-for="(item, index) in listData" :key="index" v-show="(item.show || userInfo.userType==20)">
-        <span class="iconfont" :class="item.icon"></span>
-        <span class="text">{{item.title}}</span>
-      </div>
+
     </div>
+
     <div class="wx-shouquan" v-if="aouth.show">
       <div class="concant">
         <div class="sq-info">
@@ -69,31 +116,38 @@
             title: "我的订单",
             icon: "icondingdan",
             url: "/pages/order/main",
-            show:true
           },
           {
             title: "我的粉丝",
             icon: "iconfensi",
             url: "/pages/fans/main",
-            show:true
           },
            {
             title: "收支明细",
             icon: "iconszdetail",
             url: "/pages/myPayDetail/main",
-            show:true
           },
            {
             title: "渠道商奖励活动",
             icon: "iconactivite",
             url: "/pages/agentActivity/main",
-            show:false
           }
         ],
         aouth:{
           show:false
         },
         centerInfo:{},
+        goodsList:[],
+        //参数
+        params:{
+          canLoadHotGoods:true,
+          //热卖商品
+          hotGoods:{
+            pageIndex:1,
+            pageSize:20,
+            hasCoupon:true
+          }
+        }
       };
     },
    async onShow() {
@@ -102,10 +156,19 @@
       if(!userOption.hasAouthLogin()){
        await this.aouthLogin();
       }
-      //加载个人中心数据
-      await this.initCenterInfo();
       //设置用户信息
       this.userInfo = userOption.getUserInfo();
+
+      //加载个人中心数据
+      if(this.userInfo.userType==20){
+        await this.initCenterInfo();
+      }else{
+        await this.loadGoods();
+      }
+    },
+    //滚动底部
+    async onReachBottom(){ 
+       await this.loadGoods();
     },
     components: {},
     methods: {
@@ -166,6 +229,27 @@
           let centerInfo = await api.centerInfo();
           this.centerInfo = centerInfo;
           console.log(centerInfo);
+      },
+      //猜你喜欢商品
+      async loadGoods(){
+          if(this.params.canLoadHotGoods==false){
+            return;
+          }
+          //热门商品
+          this.params.canLoadHotGoods=false;
+          let goodsData = await api.weekenGoods(this.params.hotGoods);
+          //是否还有数据加载
+          if(goodsData.length>0){
+            this.params.canLoadHotGoods=true;
+            //分页数+1
+            this.params.hotGoods.pageIndex++;
+          }
+          //添加到数据集
+          if(goodsData!=null){
+            goodsData.forEach((item)=>{
+              this.goodsList.push(item);
+            })
+          }
       }
     },
     computed: {}

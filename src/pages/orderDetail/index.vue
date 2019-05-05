@@ -31,7 +31,7 @@
             原价 ¥{{goodsInfo.salePrice}}
             </div>
             <div class="text4">
-            下单返现 ¥{{goodsInfo.promotionPrice}}
+            佣金金额 ¥{{goodsInfo.promotionPrice}}
             </div>
         </div>
     </div>
@@ -42,8 +42,8 @@
             <li><span class="name">订单号：</span> <span class="value">{{orderInfo.orderNum}}</span> </li>
             <li><span class="name">订单状态：</span> <span>{{orderInfo.orderStatusText}}</span> </li>
              <li><span class="name">下单用户：</span> <span >{{orderInfo.balanceTypeText}}</span> </li>
-            <li>
-              <span class="name">返现金额：</span> 
+            <li v-if="goodsInfo.showPromotion">
+              <span class="name">佣金金额：</span> 
               <span class="price">￥{{orderInfo.balanceAmount}}</span>
               <span class="normal" v-if="orderInfo.balanceState==0" >预计{{orderInfo.balanceTime}}结算</span>
               <span class="normal" v-else>已结算</span>
@@ -81,7 +81,7 @@ export default {
       goodsId:0,
       goodsType:1,
       goodsInfo:{
-        goodsType:{name:''}
+        goodsType:{name:'',showPromotion:false}
       },
       orderInfo:{},
       shareImgPath:''
@@ -150,7 +150,8 @@ export default {
         couponStartTime:data.couponStartTime,
         couponEndTime:data.couponEndTime,
         goodsType:data.goodsType,
-        shareImgPath:data.shareImgPath
+        shareImgPath:data.shareImgPath,
+        showPromotion: data.showPromotion
       };      
     },
     async orderDetail(orderId){

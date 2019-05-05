@@ -197,8 +197,8 @@
     onShareAppMessage() {
     let userId = userOption.getUserInfo().userId;
       return {
-        path: "/pages/index/main?userId="+userId,
-        imageUrl: '/static/images/img_index_share.png' //拿第一张商品的图片
+        path: "/pages/agentActivity/main?userId="+userId,
+        imageUrl: '/static/activity-img/activity-share.png' //拿第一张商品的图片
       };
     },
     components: {},

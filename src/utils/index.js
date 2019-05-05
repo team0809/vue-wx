@@ -180,7 +180,7 @@ const userOption = {
   },
   hasAouthLogin(){
     let userInfo = userOption.getUserInfo();
-    return !(userInfo.nickname==undefined ||userInfo.nickname==null);
+    return !(userInfo.nickname==undefined ||userInfo.nickname==null || userInfo.nickname==='');
   },
   async codeLogin(clearOld){
     let userInfo = userOption.getUserInfo();

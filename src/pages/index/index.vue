@@ -52,24 +52,6 @@
       </div>
     </div>
 
-    <!-- 渠道合作商 -->
-    <div class="user-title" v-if="estimateRate.onceRate!=0">
-      <div class="u-left">
-        <span>&nbsp;</span> 邀您为渠道伙伴享以下福利
-      </div>
-      <div class="u-right"><span></span></div>
-    </div>
-    <div class="channel" v-if="estimateRate.onceRate!=0">
-        <ul>
-          <li>1.直属粉丝下单额外享有<span class="rate">{{estimateRate.onceRate}}%</span>的返现奖励</li>
-          <li>2.推荐粉丝下单额外享有<span class="rate">{{estimateRate.twoRate}}%</span>的返现奖励</li>
-          <li>3.参与完成渠道商活动获得<span class="rate">丰厚赏金</span>奖励</li>
-        </ul>
-        <div class="button" @click="goAgentActivity">
-          <button form-type="submit">立即参与</button>
-        </div>
-    </div>
-
 
     <!-- 优惠列表 -->
     <div class="user-title">
@@ -100,8 +82,8 @@
           <p class="p-fr">
             <i class="quan">{{item.couponPrice}}元券</i>
           </p>
-          <span class="s-k">
-            <i>返现 ¥</i>{{item.promotionPrice}}
+          <span class="s-k" v-if="item.showPromotion">
+            <i>佣金 ¥</i>{{item.promotionPrice}}
           </span>
         </div>
       </div>
@@ -142,7 +124,6 @@ export default {
       hotGoods: [],
       weekenGoods:[],
       topicList: [],
-      estimateRate:{onceRate:0,twoRate:0},
       imgs:{
         layerSerachImg:"/static/images/tanch-title-bg.png",
       },
@@ -180,14 +161,13 @@ export default {
     console.log("参数");
     console.log(this.$root.$mp.query);
     await this.init();
-    await this.getWeekenGoodsData();
     await this.getHotGoodsData();
     await this.fansAdd(shareUserId);
     mta.Page.init();
   },
   //滚动底部
-  onReachBottom(){ 
-      this.getHotGoodsData();
+ async onReachBottom(){ 
+    await this.getHotGoodsData();
   },
   components: {},
   methods: {
@@ -199,7 +179,6 @@ export default {
       const defaultInfo = await api.defaultInfo();
       this.banner = defaultInfo.banners;
       this.topicList = defaultInfo.hotNews;
-      this.estimateRate = defaultInfo.estimateRate;
     },
     // 剪贴板内容
     async loadClipboard(){
