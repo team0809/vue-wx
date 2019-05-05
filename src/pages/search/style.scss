@@ -197,10 +197,7 @@
                 font-size: 24rpx;
                 color: #aaa;
                 line-height: 1.5;
-                padding-right: 20rpx;
                 span{
-                  padding-right: 20rpx;
-                  margin-right: 20rpx;
                   position: relative;
                   z-index: 1;
                   zoom: 1;
@@ -247,7 +244,6 @@
                 z-index: 1;
                 zoom: 1;
                 top: 0;
-                margin-right: 20rpx;
                 overflow: hidden;
                 display: inline-block;
                 float: right;
@@ -341,5 +337,11 @@
     }
     .history-block {
         margin-top: 94rpx;
+    }
+    .nogoods{
+      text-align: center;
+      background: none;
+      color: #ccc;
+      margin-top:30%;
     }
 }

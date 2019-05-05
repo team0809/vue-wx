@@ -1,10 +1,23 @@
 <script>
-// import {
-//   getOpenid
-// } from './utils'
+import {mta} from './utils/'
 export default {
   created() {
-
+  
+  },
+  onLaunch(options){
+    mta.App.init({
+      appID:'500681570',
+      eventID:'500681576',
+      lauchOpts:options,
+      // 使用分析-分享次数/人数
+      statShareApp:true,
+      // 使用分析-页面触底次数/人数
+      statReachBottom:true,
+      //每个页面均加入参数上报
+      statParam:true,
+      //开启自动上报
+      autoReport:true
+    });
   }
 };
 </script>

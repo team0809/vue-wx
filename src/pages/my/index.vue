@@ -3,8 +3,9 @@
     <div class="myinfo">
       <img :src="userInfo.icon" alt="">
       <div>
-        <p>{{userInfo.nickname}}<span class="type">{{userInfo.typeText}}</span></p>
-        <p class="integral" >邀请码: {{userInfo.userNo}}</p>
+        <p>{{userInfo.nickname}}</p>
+        <p><span class="type">{{userInfo.typeText}}</span></p>
+        <p style="display:none" class="integral" >邀请码: {{userInfo.userNo}}</p>
       </div>
     </div>
     <div class="list-w">
@@ -35,12 +36,11 @@
     </div>
     <div class="wx-shouquan" v-if="aouth.show">
       <div class="concant">
-        <h1>微信登录授权</h1>
         <div class="sq-info">
           <img :src="aouthImg" alt="">
         </div>
         <div class="bnt-info">
-          <button open-type="getUserInfo" @getuserinfo="aouthLogin" class="bnt-rihgt bnt-max">授权</button>
+          <button open-type="getUserInfo" @getuserinfo="aouthLogin" class="bnt-rihgt bnt-max">登录授权</button>
         </div>
       </div>
       <div class="wx-gallery"></div>
@@ -79,13 +79,13 @@
           },
            {
             title: "收支明细",
-            icon: "iconfensi",
+            icon: "iconszdetail",
             url: "/pages/myPayDetail/main",
             show:true
           },
            {
-            title: "赏金活动",
-            icon: "iconfensi",
+            title: "渠道商奖励活动",
+            icon: "iconactivite",
             url: "/pages/agentActivity/main",
             show:false
           }
@@ -96,16 +96,16 @@
         centerInfo:{},
       };
     },
-    onShow() {
+   async onShow() {
       // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
        //是否授权登录
       if(!userOption.hasAouthLogin()){
-        this.aouthLogin();
-      }else{
-        this.userInfo = userOption.getUserInfo();
+       await this.aouthLogin();
       }
       //加载个人中心数据
-      this.initCenterInfo();
+      await this.initCenterInfo();
+      //设置用户信息
+      this.userInfo = userOption.getUserInfo();
     },
     components: {},
     methods: {

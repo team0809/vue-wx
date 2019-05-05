@@ -3,7 +3,7 @@
     <div class="search" @click="tosearch">
       <div class="ser">
         <span class="iconfont iconsousuo"></span>
-        <span>商品搜索,共239款好物</span>
+        <span>商品搜索</span>
       </div>
     </div>
     <div class="content">
@@ -13,9 +13,6 @@
         </div>
       </scroll-view>
       <scroll-view class="right" scroll-y="true">
-        <!-- <div class="banner">
-          <img :src="detailData.imgPath" alt="">
-        </div> -->
         <div class="title">
           <span>—</span>
           <span>{{detailData.title}}分类</span>
@@ -33,7 +30,7 @@
 </template>
 
 <script>
-import { api,client } from "../../utils";
+import { api,client,mta } from "../../utils";
 export default {
   created() {},
  async mounted() {
@@ -41,6 +38,8 @@ export default {
     await this.getListData();
     //获取默认右侧数据
     await this.selectitem(this.listData[0], this.nowIndex);
+    //统计
+    mta.Page.init();
   },
   data() {
     return {
@@ -69,7 +68,8 @@ export default {
       this.listData = data;
     },
     categoryList(item) {
-      console.log(item)
+      //事件统计
+      mta.Event.stat("category_click_item",{title:item.title});
       client.navigateTo({
         url: "../categorylist/main?id="+item.pddId+"&title="+item.title
       });

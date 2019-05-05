@@ -31,7 +31,7 @@
       <div v-if="showCommodity==0" class="history-block">
         <div class="searchtips" v-if="words!=''">
           <div @click="searchWords"  style="color:orange">
-          点此搜索："{{ tipsData }}"
+          点此搜索："{{ tipsWords }}"
           </div>
         </div>
         <div class="history" v-if="historyData.length!=0">
@@ -42,8 +42,8 @@
             </div>
           </div>
           <div class="cont">
-            <div @click="searchWords" :data-value="item" v-for="(item,index) in historyData" :key="index">
-              {{item}}
+            <div @click="searchWords" :data-value="item.text" v-for="(item,index) in historyData" :key="index">
+              {{item.showText}}
             </div>
           </div>
         </div>
@@ -61,23 +61,23 @@
 
     <!--商品列表  -->
     <div v-if="showCommodity==1" class="goodsList">
-      <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in listData" :key="index">
+      <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in listData" :key="index">
         <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
         <div class="list-cont">
           <div class="goods_title">
           <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
           </div>
           <div class="col-yuan">
-            <span>
-              <span class="afprice">
-                <i>¥</i>{{item.couponAfterPrice}}
-              </span>
-              <span class="price"> ¥{{item.salePrice}} </span>
+          <span>
+            <span class="afprice">
+              <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
             </span>
-            <span class="fr">已售{{item.volume}}件</span>
-          </div>
+            <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
+          </span>
+          <span class="fr">已售{{item.volume}}件</span>
+        </div>
           <div class="col-money">
-            <p class="p-fr">
+            <p class="p-fr" v-if="item.couponPrice!=null">
               <i class="quan">{{item.couponPrice}}元券</i>
             </p>
             <span class="s-k">
@@ -88,8 +88,8 @@
       </div>
     </div>
     <!--未找到商品-->
-    <div v-if="showCommodity==2" class="goodsList">
-      未搜索到相关商品！请尝试更改商品标题重试
+    <div v-if="showCommodity==2" class="nogoods">
+      未搜索到相关商品！请尝试更改搜索标题重试
     </div>
   </div>
 </template>
@@ -100,25 +100,28 @@ import {
   get,
   searchHistory,
   client,
+  mta
 } from "../../utils";
 import { api } from "../../utils/api";
 export default {
   created() { },
-  mounted() {
-    this.getHotData();
+  async mounted() {
+   await this.getHotData();
     let keyword = this.$root.$mp.query.keyword || ""; 
     this.openid = wx.getStorageSync("openid") || "";
     if(keyword!=""){
       this.showCommodity=1;
-      this.searchWords({searchKeyword:keyword});
+     await this.searchWords({searchKeyword:keyword});
     }else{
       this.showCommodity=0
     }
+    //统计
+    mta.Page.init();
   },
   //滚动底部
-  onReachBottom(){
+ async onReachBottom(){
     if(this.listData.length!=0){
-      this.getlistData(false);
+     await this.getlistData(false);
     }
   },
   data() {
@@ -127,14 +130,14 @@ export default {
       words: "",
       historyData: [],
       hotData: [],
-      tipsData: '',
+      tipsWords: '',
       listData: [],
       showCommodity:-1,
       openid: "",
       order: "",
       isHot: "",
       isNew: "",
-      sort:{sortIndex:0,order:'desc'},
+      sort:{sortIndex:0,order:'asc'},
       searchParam:{
         canLoadGoods:true,
         pageSize:20,
@@ -145,7 +148,8 @@ export default {
   },
   components: {},
   methods: {
-    goodsDetail(id,type) {
+    goodsDetail(id,type,goodsName) {
+      mta.Event.stat("search_click_goods",{goodsId:id,goodsName:goodsName})
        client.navigateTo({
         url: "/pages/goods/main?goodsId=" + id+"&goodsType="+type
       });
@@ -158,7 +162,7 @@ export default {
     clearInput() {
       this.words = "";
       this.listData = [];
-      this.tipsData = '';
+      this.tipsWords = '';
       this.showCommodity = 0;
     },
     inputFocus() {
@@ -183,7 +187,7 @@ export default {
       let goodsData = await api.searchGoods({
           pageSize:this.searchParam.pageSize,
           pageIndex:this.searchParam.pageIndex,
-          condition:{keyword:this.words,goodsType:1,sortType:this.searchParam.sortType,hasCoupon:true}
+          condition:{keyword:this.words,goodsType:1,sortType:this.searchParam.sortType}
         }
       );
       if(goodsData.length>0){
@@ -194,7 +198,9 @@ export default {
           this.listData.push(item)
         });
         this.showCommodity = this.listData.length>0 ? 1 : 2;
-        this.tipsData = '';
+        this.tipsWords = '';
+      }else if(this.searchParam.pageIndex==1&&goodsData.length==0){
+        this.showCommodity = 2;
       }
     },
     changeTab(index,order) {
@@ -227,25 +233,34 @@ export default {
       var vaule = e.searchKeyword || e.currentTarget.dataset.value;
       this.words = vaule || this.words;
       //添加历史搜索历史
-      searchHistory.add(this.words)
+      searchHistory.add(this.words);
+      this.tipsWords = this.words;
       //获取历史数据
-      this.getHotData();
+     await this.getHotData();
       //获取商品列表
-      this.getlistData(true);
+     await this.getlistData(true);
+     //埋点
+     mta.Event.stat("search_keyword",{keyword:this.words})
     },
     async getHotData(first) {
       const data =  await api.hotKeyword();
       this.hotData = data;
       //搜索历史
-      this.historyData = searchHistory.get();
+      let historyData = searchHistory.get();
+      //截取数据
+      if(historyData.length>0){
+       historyData = historyData.map((item)=>{
+          if(item.length>6){
+            return {text:item,showText:item.substring(0,6)+'..'};
+          }else{
+            return {text:item,showText:item};
+          }
+        })
+      }
+      this.historyData = historyData;
     },
     async tipsearch(e) {
-      // const data = await get("/search/helperaction", {
-      //   keyword: this.words
-      // });
-      console.log(this.words);
-      this.tipsData = this.words;
-       console.log('tipData:'+this.tipsData);
+      this.tipsWords = this.words;
     }
   },
   computed: {}

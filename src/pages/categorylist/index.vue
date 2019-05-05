@@ -11,18 +11,18 @@
         <li :class="sort.sortIndex==1?'cur':''" v-on:click="changeTab(1)">价格
           <span :class="(sort.sortIndex==1?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
           <span :class="(sort.sortIndex==1?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span></li>
-        <li :class="sort.sortIndex==2?'cur':''" v-on:click="changeTab(2)">券额
+        <li :class="sort.sortIndex==2?'cur':''" v-on:click="changeTab(2,'desc')">券额
           <span :class="(sort.sortIndex==2?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
           <span :class="(sort.sortIndex==2?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span>
         </li>
-        <li :class="sort.sortIndex==3?'cur':''" v-on:click="changeTab(3)">销量
+        <li :class="sort.sortIndex==3?'cur':''" v-on:click="changeTab(3,'desc')">销量
           <span :class="(sort.sortIndex==3?sort.order=='desc'?'arrow-bottom arrow-cur':'arrow-bottom':'arrow-bottom')"></span>
           <span :class="(sort.sortIndex==3?sort.order=='asc'?'arrow-top arrow-cur':'arrow-top':'arrow-top')"></span>
         </li>
       </ul>
     </div>
     <div class="list" v-if="listData.length!=0">
-       <div @click="goodsDetail(item.goodsId,item.goodsType.type)" class="shop-list" v-for="(item,index) in listData" :key="index">
+       <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in listData" :key="index">
         <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
         <div class="list-cont">
           <div class="goods_title">
@@ -31,9 +31,9 @@
           <div class="col-yuan">
             <span>
               <span class="afprice">
-                <i>¥</i>{{item.couponAfterPrice}}
+                <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
               </span>
-              <span class="price"> ¥{{item.salePrice}} </span>
+              <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
             </span>
             <span class="fr">已售{{item.volume}}件</span>
           </div>
@@ -49,7 +49,7 @@
       </div>
     </div>
     <div v-else class="none">
-      未搜索到相关商品！
+      {{searchParam.canLoadGoods?'未搜索到相关商品！':'正在加载商品...'}}
     </div>
   </div>
 </template>
@@ -58,7 +58,8 @@
 import {
   get,
   api,
-  client
+  client,
+  mta
 } from "../../utils";
 export default {
   data() {
@@ -69,7 +70,7 @@ export default {
       navData: [],
       currentNav: {},
       scrollLeft: 0,
-      sort:{sortIndex:0,order:'desc'},
+      sort:{sortIndex:0,order:'asc'},
       searchParam:{
         canLoadGoods:true,
         catId:-1,
@@ -80,31 +81,35 @@ export default {
     };
   }, 
   //滚动底部
-  onReachBottom(){
+  async onReachBottom(){
     if(this.listData.length!=0){
-      this.getlistData(false);
+     await this.getlistData(false);
     }
   },
   created() { },
-  mounted() {
+  async mounted() {
     //获取页面传的参数
     this.searchParam.catId = this.$root.$mp.query.id || 1281;
     let title = this.$root.$mp.query.title || '商品分类';
     client.setNavigationBarTitle(title);
     console.log(this.searchParam);
-    this.getlistData();
+    await this.getlistData();
+    //统计
+    mta.Page.init();
   },
   components: {},
   computed: {},
   methods: {
-    async changeTab(index) {
+    async changeTab(index,order) {
+      console.log(111);
       if (index !== 0) {
         if(this.sort.sortIndex==index){
           this.sort.order = this.sort.order == "asc" ? "desc" : "asc";
         }else{
-          this.sort.order = "asc";
+          this.sort.order = order || "asc";
         }
       }
+      console.log(222);
       this.sort.sortIndex = index;
       switch(index){
         //综合排序
@@ -169,7 +174,8 @@ export default {
         });
       }
     },
-    goodsDetail(goodsId,goodsType) {
+    goodsDetail(goodsId,goodsType,goodsName) {
+    mta.Event.stat("category_list_click_goods",{goodsId:goodsId,goodsName:goodsName})
      client.navigateTo({
         url: "/pages/goods/main?goodsId=" + goodsId+"&goodsType="+goodsType
       });

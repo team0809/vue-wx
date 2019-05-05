@@ -1,10 +1,11 @@
-import {
-  api
-} from "./api";
-
+//api接口
+import { api } from "./api";
+//微信客户端
 import {client} from "./wechat";
+//小程序统计
+var mta = require("./mta_analysis");
 
-export {client,api}
+export {client,api,mta}
 
 function formatNumber(n) {
   const str = n.toString()
@@ -34,7 +35,7 @@ export {
   host
 }
 //请求封装
- function request(url, method, data, header = {}) {
+ function request(url, method, reqData, header = {}) {
   wx.showLoading({
     title: '加载中' //数据请求前loading
   })
@@ -65,22 +66,21 @@ export {
     wx.request({
       url: url.indexOf('http')==0?url:host + url, //仅为示例，并非真实的接口地址
       method: method,
-      data: data,
+      data: reqData,
       header: _header,
       success: async function (res) {
         wx.hideLoading();
+        console.log(url+'--->'+res.statusCode);
         if(res.statusCode==200){
           resolve(res.data);
         }else{
           //401 要求登录
          if(res.statusCode==401 && url.indexOf('codeLogin')==-1){
             let login = await userOption.codeLogin(true);
-            console.log(login);
             //再次请求接口
-            let data = await request(url,method,data,header);
-            console.log(data);
+            let _resData = await request(url,method,reqData,header);
             //返回数据
-            resolve(data);
+            resolve(_resData);
          };
         }
       },
@@ -145,34 +145,6 @@ export function getStorageOpenid() {
   }
 }
 
-export function getOpenid() {
-  // wx.login({
-  //   success: res => {
-  //     if (res.code) {
-  //       //发起网络请求
-  //       wx.request({
-  //         url: 'https://api.weixin.qq.com/sns/jscode2session',
-  //         data: {
-  //           "appid": "wx601ce71bde7b9add",
-  //           "secret": "abed5421d88eb8236e933c6e42d5c14e",
-  //           "js_code": res.code,
-  //           "grant_type": "authorization_code"
-  //         },
-  //         success: function (data) {
-  //           var openid = data.data.openid;
-  //           wx.setStorageSync("openid", openid);
-  //         }
-  //       })
-  //     } else {
-  //       console.log('登录失败！' + res.errMsg)
-  //     }
-
-  //   },
-  //   fail: () => {},
-  //   complete: () => {}
-  // });
-}
-
 const userOption = {
   setUserInfo(userInfo){
     let user = {
@@ -185,6 +157,8 @@ const userOption = {
       mobile: userInfo.mobile
     };
     client.setStorageSync("storage_user_info",JSON.stringify(user));
+    //用户信息
+    mta.Data.userInfo = {'user_id':user.userId,'nickname':user.nickname};
   },
   getUserInfo(){
     let userStr = client.getStorageSync("storage_user_info");

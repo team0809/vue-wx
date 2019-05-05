@@ -47,8 +47,8 @@
       
     },
     created() {},
-    mounted() {
-      this.loadList(-1,true);
+    async mounted() {
+      await this.loadList(-1,true);
     },
     components: {},
     methods: {

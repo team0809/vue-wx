@@ -68,8 +68,8 @@
         border-left-color: transparent;
         border-right-color: transparent;
         position:relative;
-        left:-14rpx;
-        top:-20rpx;
+        left:-16rpx;
+        top:-23rpx;  
         }
         .arrow-cur{
           border-color: #FC4D52;
@@ -168,10 +168,7 @@
           font-size: 24rpx;
           color: #aaa;
           line-height: 1.5;
-          padding-right: 20rpx;
           span{
-            padding-right: 20rpx;
-            margin-right: 20rpx;
             position: relative;
             z-index: 1;
             zoom: 1;
@@ -218,7 +215,6 @@
           z-index: 1;
           zoom: 1;
           top: 0;
-          margin-right: 20rpx;
           overflow: hidden;
           display: inline-block;
           float: right;

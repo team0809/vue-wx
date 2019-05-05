@@ -5,9 +5,8 @@ import {
     fget,
     userOption
   } from "./index";
-const apiHost="http://dev.wgb.wxcard.com.cn/web-api/";
+const apiHost="https://wxcard.com.cn/xghb/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/"; //https://wxcard.com.cn/xghb/web-api/  //http://localhost:8020/web-api/
 function checkData(resp){
-  console.log(resp);
   if(resp.code==0){
     return resp.data
   }else{
@@ -45,6 +44,14 @@ const api = {
       const data = await post(apiHost+"home/choiceGoods",param);
       return checkData(data).rows;
     },
+    // 本周热卖
+    async weekenGoods(param){
+      //choiceType 7:热卖商品 8:实时收益商品
+      //goodsType 1 拼多多商品 2：淘宝商品
+      param = Object.assign({pageSize:10,pageIndex:1,condition:{choiceType:8,goodsType:1}},param);
+      const data = await post(apiHost+"home/choiceGoods",param);
+      return checkData(data).rows;
+    },
     // 商品搜索
     async searchGoods(param){
       param = Object.assign({pageSize:20,pageIndex:1,condition:{sortType:1,goodsType:1}},param);
@@ -73,7 +80,7 @@ const api = {
     },
     //添加粉丝
     async fansAdd(param){
-      const data = await post(apiHost+"user/fansAdd",param);
+      const data = await fpost(apiHost+"user/fansAdd",param);
       return checkData(data);
     },
     //获取分类列表
@@ -99,6 +106,21 @@ const api = {
     //报名参与活动
     async signUpActivity(param){
       const data = await fpost(apiHost+"activity/signUpActivity",param);
+      return checkData(data);
+    },
+    // 获取分享图片地址
+    async createGoodsShareImg(param){
+      const data = await fpost(apiHost+"goods/createGoodsShareImg",param);
+      return checkData(data);
+    },
+    //添加formid
+    async formIdAdd(param){
+      const data = await fpost(apiHost+"user/formIdAdd",param);
+      return checkData(data);
+    },
+    //订单详情
+    async orderDetail(param){
+      const data = await fpost(apiHost+"order/detail",param);
       return checkData(data);
     }
 }
