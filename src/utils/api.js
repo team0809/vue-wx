@@ -5,7 +5,7 @@ import {
     fget,
     userOption
   } from "./index";
-const apiHost="https://wxcard.com.cn/xghb/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/"; //https://wxcard.com.cn/xghb/web-api/  //http://localhost:8020/web-api/
+const apiHost="http://localhost:8020/web-api/";//"http://dev.wgb.wxcard.com.cn/web-api/"; //https://wxcard.com.cn/xghb/web-api/  //http://localhost:8020/web-api/
 function checkData(resp){
   if(resp.code==0){
     return resp.data
@@ -98,6 +98,26 @@ const api = {
       const data = await post(apiHost+"user/centerInfo",param);
       return checkData(data);
     },
+    //用户提现
+    async userWithdraw(param){
+      const data = await post(apiHost+"withdraw/userWithdraw",param);
+      return checkData(data);
+    },
+    //admin查询提现
+    async withdrawList(param){
+      const data = await post(apiHost+"withdraw/withdrawList",param);
+      return checkData(data).rows;
+    },
+    //提现审核
+    async auditWithdraw(param){
+      const data = await post(apiHost+"withdraw/auditWithdraw",param);
+      return checkData(data);
+    },
+    //用户提现信息
+    async userWithdrawInfo(param){
+      const data = await post(apiHost+"withdraw/userWithdrawInfo",param);
+      return checkData(data);
+    },
     //活动
     async currentActivity(param){
       const data = await post(apiHost+"activity/current",param);
@@ -122,7 +142,13 @@ const api = {
     async orderDetail(param){
       const data = await fpost(apiHost+"order/detail",param);
       return checkData(data);
+    },
+    //订单详情
+    async modifyWechatNo(param){
+      const data = await fpost(apiHost+"user/modifyWechatNo",param);
+      return checkData(data);
     }
+    
 }
 
 

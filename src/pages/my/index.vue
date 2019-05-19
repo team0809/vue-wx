@@ -1,4 +1,5 @@
 <template>
+<form @submit="formSubmit" report-submit="true">
   <div class="my" >
     <div v-if="userInfo.userType==20">
       <div class="myinfo">
@@ -10,29 +11,38 @@
         </div>
       </div>
       <div class="list-w">
-        <div class="my-monery-list">
+        <div class="context">
+          <text class="amount">余额 <text class="price">￥{{centerInfo.surplusAmount}}</text></text>
+          <button formType="submit" @click="goTo('/pages/myWithdraw/main')">提现</button>
+        </div>
+        <div class="my-monery-list shadow">
           <p>
-            ¥ <i>{{centerInfo.currentMountEstimateAmount}}</i>
-            <span>本月预估</span>
+            本月预估 <i class="numb">¥{{centerInfo.currentMountEstimateAmount}}</i>
           </p>
           <p>
-            ¥ <i>{{centerInfo.todayAmount}}</i>
-            <span>今日收益</span>
+            今日收益 <i class="numb">¥{{centerInfo.todayAmount}}</i>
           </p>
         </div>
+        <div class="line-border">
+          <div></div>
+        </div>
         <div class="my-monery-list bottom-radius">
-          <p>
-            上月预估 <i class="numb">¥{{centerInfo.lastMonthEstimateAmount}}</i>
-          </p>
-          <p>
-            上月结算 <i class="numb">¥{{centerInfo.lastMonthBalanceAmount}}</i>
-          </p>
+            <p>
+              上月预估 <i class="numb">¥{{centerInfo.lastMonthEstimateAmount}}</i>
+            </p>
+            <p>
+              上月结算 <i class="numb">¥{{centerInfo.lastMonthBalanceAmount}}</i>
+            </p>
         </div>
       </div>
       <div class="iconlist">
         <div @click="goTo(item.url)" v-for="(item, index) in listData" :key="index">
           <span class="iconfont" :class="item.icon"></span>
           <span class="text">{{item.title}}</span>
+        </div>
+         <div @click="goTo('/pages/withdraws/main')" v-if="centerInfo.admin">
+          <span class="iconfont iconactivite"></span>
+          <span class="text">提现申请</span>
         </div>
       </div>
     </div>
@@ -44,7 +54,7 @@
               <p>{{userInfo.nickname}}</p>
               <p><span class="type">{{userInfo.typeText}}</span></p>
             </div>
-          </div> 
+          </div>
         <!-- 优惠列表 -->
         <div class="user-title">
           <div class="u-left">
@@ -93,6 +103,7 @@
       <div class="wx-gallery"></div>
     </div>
   </div>
+  </form>
 </template>
 
 <script>
@@ -250,6 +261,12 @@
               this.goodsList.push(item);
             })
           }
+      },
+      //form提交
+      formSubmit(e){
+        if(e.target.formId!='the formId is a mock one'){
+          api.formIdAdd({formId:e.target.formId});
+        }
       }
     },
     computed: {}

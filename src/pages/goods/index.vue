@@ -106,7 +106,7 @@ export default {
    //埋点
    mta.Event.stat("goods_share",{goodsId:this.goodsId,goodsName:this.goodsInfo.goodsName});
     return {
-      title: this.goodsInfo.goodsName,
+      title: '【'+this.goodsInfo.goodsType.name+'】'+this.goodsInfo.goodsName,
       path: sharePath,
       imageUrl: this.goodsInfo.shareImgPath //拿第一张商品的图片
     };
