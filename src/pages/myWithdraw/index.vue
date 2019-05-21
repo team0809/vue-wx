@@ -9,7 +9,7 @@
     </div>
     <div class="step">
       <p class="indent">
-        <span>步骤1：</span>必须先添加客服微信，客服微信号：<span class="num">XGLQ</span>
+        <span>步骤1：</span>必须先添加客服微信，客服微信号：<span class="num">{{withdrawInfo.customerWechatNo}}</span>
       </p>
       <p class="indent">
         <span>步骤2：</span>填写您当前登录的微信号，客服只会给当前微信号发送红包哦！
@@ -55,7 +55,7 @@
   export default {
     data() {
       return {
-        withdrawInfo:{surplusAmount:0,wechatNo:'yjfgh5t'},
+        withdrawInfo:{surplusAmount:0,wechatNo:'yjfgh5t',customerWechatNo:'xglq'},
         editWechat:false
       };
     },
@@ -83,7 +83,7 @@
       },
       async saveNo(){
         console.log(this.withdrawInfo.wechatNo)
-        if(this.withdrawInfo.wechatNo==''){
+        if(!this.withdrawInfo.wechatNo){
           client.showToast({title:'请输入您的微信号',icon:'none'});
           return;
         }
@@ -95,7 +95,7 @@
       },
       //提现申请
       async subWithdraw(){
-         if(this.withdrawInfo.wechatNo==''){
+         if(!this.withdrawInfo.wechatNo){
           client.showToast({title:'请输入您的微信号',icon:'none'});
           return;
         }
