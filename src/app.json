@@ -1,0 +1,47 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/order/main",
+    "pages/orderDetail/main",
+    "pages/agentActivity/main",
+    "pages/myPayDetail/main",
+    "pages/goods/main",
+    "pages/categorylist/main",
+    "pages/fans/main",
+    "pages/search/main",
+    "pages/my/main",
+    "pages/category/main"],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "西瓜零钱",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "backgroundColor": "#fafafa",
+    "borderStyle": "white",
+    "selectedColor": "#FE0000",
+    "color": "#666",
+
+    "list": [{
+      "pagePath": "pages/index/main",
+      "iconPath": "static/images/ic_menu_choice_nor.png",
+      "selectedIconPath": "static/images/ic_menu_choice_pressed.png",
+      "text": "首页"
+    }
+    , {
+      "pagePath": "pages/category/main",
+      "iconPath": "static/images/ic_menu_sort_nor.png",
+      "selectedIconPath": "static/images/ic_menu_sort_pressed.png",
+      "text": "分类"
+    },
+    {
+      "pagePath": "pages/my/main",
+      "iconPath": "static/images/ic_menu_me_nor.png",
+      "selectedIconPath": "static/images/ic_menu_me_pressed.png",
+      "text": "我的"
+    } 
+  ],
+    "position": "bottom"
+  }
+}

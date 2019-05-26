@@ -158,7 +158,7 @@ const userOption = {
     };
     client.setStorageSync("storage_user_info",JSON.stringify(user));
     //用户信息
-    mta.Data.userInfo = {'user_id':user.userId,'nickname':user.nickname};
+    mta.Data.userInfo = {'open_id':user.userId,'nickname':user.nickname};
   },
   getUserInfo(){
     let userStr = client.getStorageSync("storage_user_info");

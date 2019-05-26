@@ -63,32 +63,7 @@
         </div>
     </div>
     <div class="normal-empty"></div>
-    <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in goodsList" :key="index">
-      <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
-      <div class="list-cont">
-        <div class="goods_title">
-        <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
-        </div>
-          <div class="col-yuan">
-          <span>
-            <span class="afprice">
-              <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
-            </span>
-            <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
-          </span>
-          <span class="fr">已售{{item.volume}}件</span>
-        </div>
-        <div class="col-money">
-          <p class="p-fr">
-            <i class="quan">{{item.couponPrice}}元券</i>
-          </p>
-          <span class="s-k" v-if="item.showPromotion">
-            <i>佣金 ¥</i>{{item.promotionPrice}}
-          </span>
-        </div>
-      </div>
-    </div>
-
+      <good-list :goodList="goodsList" eventName="my_click_goods"></good-list>
     </div>
 
     <div class="wx-shouquan" v-if="aouth.show">
@@ -115,7 +90,11 @@
     userOption,
     api
   } from "../../utils";
-  export default { 
+import goodList from '../../components/goodList/goodList';
+export default {
+  components:{
+   goodList
+  }, 
     data() {
       return {
         aouthImg:"/static/images/wechat-aouth.png",
@@ -181,7 +160,6 @@
     async onReachBottom(){ 
        await this.loadGoods();
     },
-    components: {},
     methods: {
       goTo(url) {
         if (userOption.hasAouthLogin()) {

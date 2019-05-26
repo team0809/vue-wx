@@ -61,31 +61,7 @@
 
     <!--商品列表  -->
     <div v-if="showCommodity==1" class="goodsList">
-      <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in listData" :key="index">
-        <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
-        <div class="list-cont">
-          <div class="goods_title">
-          <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
-          </div>
-          <div class="col-yuan">
-          <span>
-            <span class="afprice">
-              <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
-            </span>
-            <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
-          </span>
-          <span class="fr">已售{{item.volume}}件</span>
-        </div>
-          <div class="col-money">
-            <p class="p-fr" v-if="item.couponPrice!=null">
-              <i class="quan">{{item.couponPrice}}元券</i>
-            </p>
-            <span class="s-k"  v-if="item.showPromotion">
-              <i>佣金 ¥</i>{{item.promotionPrice}}
-            </span>
-          </div>
-        </div>
-      </div>
+       <good-list :goodList="listData" eventName="search_click_goods"></good-list>
     </div>
     <!--未找到商品-->
     <div v-if="showCommodity==2" class="nogoods">
@@ -100,10 +76,14 @@ import {
   get,
   searchHistory,
   client,
-  mta
+  mta,
+  api
 } from "../../utils";
-import { api } from "../../utils/api";
+import goodList from '../../components/goodList/goodList';
 export default {
+  components:{
+   goodList
+  }, 
   created() { },
   async mounted() {
    await this.getHotData();
@@ -146,7 +126,6 @@ export default {
       }
     };
   },
-  components: {},
   methods: {
     goodsDetail(id,type,goodsName) {
       mta.Event.stat("search_click_goods",{goodsId:id,goodsName:goodsName})
@@ -262,8 +241,7 @@ export default {
     async tipsearch(e) {
       this.tipsWords = this.words;
     }
-  },
-  computed: {}
+  }
 };
 
 </script>

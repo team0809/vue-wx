@@ -172,6 +172,5 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-@import url("~mpvue-wxparse/src/wxParse.css");
 @import "./style.scss";
 </style>

@@ -19,7 +19,6 @@
       </swiper>
     </div>
 
-
     <!-- 大家都在领 -->
     <div class="user-title">
       <div class="u-left">
@@ -52,7 +51,6 @@
       </div>
     </div>
 
-
     <!-- 优惠列表 -->
     <div class="user-title">
       <div class="u-left">
@@ -62,32 +60,8 @@
         <span></span> 
       </div>
     </div>
+    <good-list :goodList="hotGoods" eventName="home_click_goods"></good-list>
 
-    <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
-      <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
-      <div class="list-cont">
-        <div class="goods_title">
-        <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
-        </div>
-          <div class="col-yuan">
-          <span>
-            <span class="afprice">
-              <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
-            </span>
-            <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
-          </span>
-          <span class="fr">已售{{item.volume}}件</span>
-        </div>
-        <div class="col-money">
-          <p class="p-fr">
-            <i class="quan">{{item.couponPrice}}元券</i>
-          </p>
-          <span class="s-k" v-if="item.showPromotion">
-            <i>佣金 ¥</i>{{item.promotionPrice}}
-          </span>
-        </div>
-      </div>
-    </div>
     <!-- 弹窗 -->
     <div class="index-warps" v-show="clipboard.show">
       <div class="index-concant">
@@ -109,17 +83,18 @@
 </form>
 </template>
 
+
 <script>
-import amapFile from "../../utils/amap-wx";
 import { get,client,userOption,mta } from "../../utils";
 import { api } from "../../utils/api";
-import { mapState, mapMutations } from "vuex";
+import goodList from '../../components/goodList/goodList';
 export default {
-  onShow() {
-    this.loadClipboard();
-  },
-  data(){
+  components:{
+   goodList
+  },  
+  data () {
     return {
+      motto: 'Hello miniprograme',
       banner: [],
       hotGoods: [],
       weekenGoods:[],
@@ -142,7 +117,7 @@ export default {
         show:false,
         data:'',
       }
-    };
+    }
   },
   //商品转发
   onShareAppMessage() {
@@ -153,10 +128,8 @@ export default {
       imageUrl: '/static/images/img_index_share.png' //拿第一张商品的图片
     };
   },
-  computed: {
-    ...mapState(["cityName"])
-  },
   async mounted() {
+   
     let shareUserId = this.$root.$mp.query.userId || -1;
     console.log("参数");
     console.log(this.$root.$mp.query);
@@ -164,14 +137,13 @@ export default {
     await this.getHotGoodsData();
     await this.fansAdd(shareUserId);
     mta.Page.init();
+    console.log(this.$refs);
   },
   //滚动底部
- async onReachBottom(){ 
+ async onReachBottom() { 
     await this.getHotGoodsData();
   },
-  components: {},
   methods: {
-    ...mapMutations(["update"]),
     async init(){
       //用户登录
       let userInfo = await userOption.codeLogin();

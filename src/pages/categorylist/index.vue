@@ -22,31 +22,7 @@
       </ul>
     </div>
     <div class="list" v-if="listData.length!=0">
-       <div @click="goodsDetail(item.goodsId,item.goodsType.type,item.goodsName)" class="shop-list" v-for="(item,index) in listData" :key="index">
-        <image class="imgs" :src="item.thumbnailImgUrl" alt="" />
-        <div class="list-cont">
-          <div class="goods_title">
-          <span class="platform">{{item.goodsType.name}}</span> {{item.goodsName}}
-          </div>
-          <div class="col-yuan">
-            <span>
-              <span class="afprice">
-                <i>{{item.hasCoupon?'券后:':'售价'}}¥</i>{{item.couponAfterPrice}}
-              </span>
-              <span v-if="item.hasCoupon" class="price">原价:¥{{item.salePrice}} </span>
-            </span>
-            <span class="fr">已售{{item.volume}}件</span>
-          </div>
-          <div class="col-money">
-            <p class="p-fr">
-              <i class="quan">{{item.couponPrice}}元券</i>
-            </p>
-            <span class="s-k" v-if="item.showPromotion">
-              <i>佣金 ¥</i>{{item.promotionPrice}}
-            </span>
-          </div>
-        </div>
-      </div>
+      <good-list :goodList="listData" eventName="category_list_click_goods"></good-list>
     </div>
     <div v-else class="none">
       {{searchParam.canLoadGoods?'未搜索到相关商品！':'正在加载商品...'}}
@@ -61,7 +37,11 @@ import {
   client,
   mta
 } from "../../utils";
+import goodList from '../../components/goodList/goodList';
 export default {
+  components:{
+   goodList
+  },  
   data() {
     return {
       categoryId: "",
@@ -97,8 +77,6 @@ export default {
     //统计
     mta.Page.init();
   },
-  components: {},
-  computed: {},
   methods: {
     async changeTab(index,order) {
       console.log(111);
@@ -109,7 +87,6 @@ export default {
           this.sort.order = order || "asc";
         }
       }
-      console.log(222);
       this.sort.sortIndex = index;
       switch(index){
         //综合排序
@@ -122,30 +99,6 @@ export default {
         case 3: this.searchParam.sortType = (this.sort.order=="asc")?3:4;break;
       }
       this.getlistData(true);
-    },
-    async getAllData() {
-      const navdata = await get("/category/categoryNav", {
-        id: this.categoryId
-      });
-      this.navData = navdata.navData;
-      this.currentNav = navdata.currentNav;
-      for (let i = 0; i < this.navData.length; i++) {
-        const id = this.navData[i].id;
-        if (id == this.currentNav.id) {
-          this.nowIndex = i;
-        }
-      }
-
-      //需要让导航滚动到可见区域
-      if (this.nowIndex > 4) {
-        this.scrollLeft = this.nowIndex * 60;
-      } else {
-        this.scrollLeft = 0;
-      }
-      const listdata = await get("/goods/goodsList", {
-        categoryId: this.categoryId
-      });
-      this.goodsList = listdata.data;
     },
     async getlistData(hasNewLoad) {
       console.log(hasNewLoad);
