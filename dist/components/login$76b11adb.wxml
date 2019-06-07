@@ -1,5 +1,0 @@
-<template name="login$76b11adb">
-  <view class="_div data-v-364eeafa login">
-    <view class="_div data-v-364eeafa logo"></view> <button class="_button data-v-364eeafa login-btn" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">微信登录</button>
-  </view>
-</template>

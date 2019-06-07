@@ -1,114 +1,174 @@
 <template>
-  <div class="my">
-    <div class="myinfo">
-      <img @click="toLogin" :src="avator" alt="">
-      <div @click="toLogin">
-        <p>{{userInfo.nickName}}</p>
-        <p v-if="userInfo.nickname">点击登录</p>
-        <p v-else>微信用户</p>
+<form @submit="formSubmit" report-submit="true">
+  <div class="my" >
+    <div v-if="userInfo.userType==20">
+      <div class="myinfo">
+        <img :src="userInfo.icon" alt="">
+        <div>
+          <p>{{userInfo.nickname}}</p>
+          <p><span class="type">{{userInfo.typeText}}</span></p>
+          <p style="display:none" class="integral" >邀请码: {{userInfo.userNo}}</p>
+        </div>
+      </div>
+      <div class="list-w">
+        <div class="context">
+          <text class="amount">余额 <text class="price">￥{{centerInfo.surplusAmount}}</text></text>
+          <button formType="submit" @click="goTo('/pages/myWithdraw/main')">提现</button>
+        </div>
+        <div class="my-monery-list shadow">
+          <p>
+            本月预估 <i class="numb">¥{{centerInfo.currentMountEstimateAmount}}</i>
+          </p>
+          <p>
+            今日收益 <i class="numb">¥{{centerInfo.todayAmount}}</i>
+          </p>
+        </div>
+        <div class="line-border">
+          <div></div>
+        </div>
+        <div class="my-monery-list bottom-radius">
+            <p>
+              上月预估 <i class="numb">¥{{centerInfo.lastMonthEstimateAmount}}</i>
+            </p>
+            <p>
+              上月结算 <i class="numb">¥{{centerInfo.lastMonthBalanceAmount}}</i>
+            </p>
+        </div>
+      </div>
+      <div class="iconlist">
+        <div @click="goTo(item.url)" v-for="(item, index) in listData" :key="index">
+          <span class="iconfont" :class="item.icon"></span>
+          <span class="text">{{item.title}}</span>
+        </div>
+         <div @click="goTo('/pages/withdraws/main')" v-if="centerInfo.admin">
+          <span class="iconfont iconactivite"></span>
+          <span class="text">提现申请</span>
+        </div>
       </div>
     </div>
-    <div class="my-monery-list">
-      <p>
-        ¥ <i>10</i>
-        <span>昨日收益</span>
-      </p>
-      <p>
-        ¥ <i>101</i>
-        <span>今日收益</span>
-      </p>
+    <div class="normal" v-else>
+      <div class="normal-head">
+          <div class="myinfo">
+            <img :src="userInfo.icon" alt="">
+            <div>
+              <p>{{userInfo.nickname}}</p>
+              <p><span class="type">{{userInfo.typeText}}</span></p>
+            </div>
+          </div>
+        <!-- 优惠列表 -->
+        <div class="user-title">
+          <div class="u-left">
+            <span>&nbsp;</span> 猜你喜欢
+          </div>
+        </div>
     </div>
-    <div class="my-monery-list">
-      <p>
-        上月结算 <i class="numb">¥10</i>
-      </p>
-      <p>
-        本月结算 <i class="numb">¥101</i>
-      </p>
+    <div class="normal-empty"></div>
+      <good-list :goodList="goodsList" eventName="my_click_goods"></good-list>
     </div>
-    <div class="iconlist">
-      <div @click="goTo(item.url)" v-for="(item, index) in listData" :key="index">
-        <span class="iconfont" :class="item.icon"></span>
-        <span>{{item.title}}</span>
+
+    <div class="wx-shouquan" v-if="aouth.show">
+      <div class="concant">
+        <div class="sq-info">
+          <img :src="aouthImg" alt="">
+        </div>
+        <div class="bnt-info">
+          <button open-type="getUserInfo" @getuserinfo="aouthLogin" class="bnt-rihgt bnt-max">登录授权</button>
+        </div>
       </div>
+      <div class="wx-gallery"></div>
     </div>
   </div>
+  </form>
 </template>
 
 <script>
   import {
     get,
     toLogin,
-    login
+    login,
+    client,
+    userOption,
+    api,
+    constant
   } from "../../utils";
-  export default {
-    onShow() {
-      // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
-      if (login()) {
-        this.userInfo = login();
-        console.log(this.userInfo);
-        this.avator = this.userInfo.avatarUrl;
-      }
-    },
-    created() {},
-    mounted() {},
+import goodList from '../../components/goodList/goodList';
+export default {
+  components:{
+   goodList
+  }, 
     data() {
       return {
-        avator: "http://yanxuan.nosdn.127.net/8945ae63d940cc42406c3f67019c5cb6.png",
+        aouthImg: constant.SHost + "/static/images/wechat-aouth.png",
         allcheck: false,
-        listData: [],
         Listids: [],
         userInfo: {},
-        listData: [{
+        listData: [
+          {
             title: "我的订单",
             icon: "icondingdan",
-            url: "/pages/order/main"
+            url: "/pages/order/main",
           },
-          // {
-          //   title: "优惠券",
-          //   icon: "icon-youhuiquan",
-          //   url: ""
-          // },
           {
             title: "我的粉丝",
             icon: "iconfensi",
-            url: "/pages/fans/main"
+            url: "/pages/fans/main",
           },
-          {
-            title: "我的收藏",
-            icon: "iconshoucang",
-            url: "/pages/collectlist/main"
+           {
+            title: "收支明细",
+            icon: "iconszdetail",
+            url: "/pages/myPayDetail/main",
           },
-          {
-            title: "地址管理",
-            icon: "icondizhi",
-            url: "/pages/address/main"
-          },
-          // {
-          //   title: "联系客服",
-          //   icon: "icon-lianxikefu",
-          //   url: ""
-          // },
-          // {
-          //   title: "帮助中心",
-          //   icon: "icon-bangzhuzhongxin",
-          //   url: ""
-          // },
-          {
-            title: "意见反馈",
-            icon: "iconyijianfankui",
-            url: "/pages/feedback/main"
+           {
+            title: "渠道商奖励活动",
+            icon: "iconactivite",
+            url: "/pages/agentActivity/main",
           }
-        ]
+        ],
+        aouth:{
+          show:false
+        },
+        centerInfo:{},
+        goodsList:[],
+        //参数
+        params:{
+          canLoadHotGoods:true,
+          //热卖商品
+          hotGoods:{
+            pageIndex:1,
+            pageSize:20,
+            hasCoupon:true
+          }
+        }
       };
     },
-    components: {},
+   async onShow() {
+      // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
+       //是否授权登录
+      if(!userOption.hasAouthLogin()){
+       await this.aouthLogin();
+      }
+      //设置用户信息
+      this.userInfo = userOption.getUserInfo();
+
+      //加载个人中心数据
+      if(this.userInfo.userType==20){
+        await this.initCenterInfo();
+      }else{
+        await this.loadGoods();
+      }
+    },
+    //滚动底部
+    async onReachBottom(){ 
+       await this.loadGoods();
+    },
     methods: {
       goTo(url) {
-        if (toLogin()) {
-          wx.navigateTo({
+        if (userOption.hasAouthLogin()) {
+          client.navigateTo({
             url: url
           });
+        }else{
+          this.aouthLogin();
         }
       },
       toLogin() {
@@ -116,6 +176,75 @@
           wx.navigateTo({
             url: "/pages/login/main"
           });
+        }
+      },
+      //授权登录
+      async aouthLogin(){
+        var settings =  await client.getSetting();
+        console.log(settings);
+        if(settings.authSetting['scope.userInfo']){
+          var loginRes =  await client.login();
+          var userRes = await client.getUserInfo();
+          console.log(loginRes);
+          console.log(userRes);
+          if(userRes!=null){
+            //隐藏弹出层
+            this.aouth.show = false;
+            //获取用户信息
+            const subData ={
+                  code: loginRes.code,
+                  tpNick: userRes.userInfo.nickName,
+                  tpIcon: userRes.userInfo.avatarUrl,
+                  tpSex: userRes.userInfo.gender,
+                  tpProvince: userRes.userInfo.province,
+                  tpCity: userRes.userInfo.city,
+                };
+                console.log(subData);
+            //保存用户信息
+            let userData = await api.saveUserInfo(subData);
+            if(userData!=null){
+              userOption.setUserInfo(userData);
+              //设置用户信息
+              this.userInfo =userOption.getUserInfo();
+            }
+          }
+          console.log(userRes);
+        }else{
+          //提示用户授权
+          this.aouth.show = true;
+        }
+      },
+      //加载个人中心数据
+      async initCenterInfo(){
+          let centerInfo = await api.centerInfo();
+          this.centerInfo = centerInfo;
+          console.log(centerInfo);
+      },
+      //猜你喜欢商品
+      async loadGoods(){
+          if(this.params.canLoadHotGoods==false){
+            return;
+          }
+          //热门商品
+          this.params.canLoadHotGoods=false;
+          let goodsData = await api.weekenGoods(this.params.hotGoods);
+          //是否还有数据加载
+          if(goodsData.length>0){
+            this.params.canLoadHotGoods=true;
+            //分页数+1
+            this.params.hotGoods.pageIndex++;
+          }
+          //添加到数据集
+          if(goodsData!=null){
+            goodsData.forEach((item)=>{
+              this.goodsList.push(item);
+            })
+          }
+      },
+      //form提交
+      formSubmit(e){
+        if(e.target.formId!='the formId is a mock one'){
+          api.formIdAdd({formId:e.target.formId});
         }
       }
     },

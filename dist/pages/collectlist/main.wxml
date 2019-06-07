@@ -1,1 +1,0 @@
-<import src="../../components/collectlist$5a6d603a" /><template is="collectlist$5a6d603a" data="{{ ...$root['0'], $root }}"/>

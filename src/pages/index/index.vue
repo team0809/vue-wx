@@ -1,201 +1,251 @@
 <template>
+<form @submit="formSubmit" report-submit="true">
   <div class="index">
     <!-- 搜索 -->
     <div class="search">
-      <div @click="toMappage">{{cityName}}</div>
       <div @click="toSearch">
-        <input type="text" placeholder="搜索商品">
+        <input type="text" placeholder="商品搜索">
         <span class="icon iconfont iconsousuo"></span>
       </div>
     </div>
+    <div class="banner">
+      <image :src="imgs.bannerA" mode="widthFix" class="back" />
+      <p class="title">网购 先领券 再购买 更省钱</p>
+      <p class="desc"><span>80%</span>以上商品的都有隐藏优惠券<br />网购下单前一定要先领优惠券哦</p>
+      <span class="lock" @click="toExplain">查看领券秘笈</span>
+    </div>
     <!-- banner轮播图 -->
-    <div class="swiper">
+    <!-- <div class="swiper" style="display:none;">
       <swiper class="swiper-container" indicator-dots="true" autoplay="true" interval="3000" circular="true" duration="500">
         <block v-for="(item, index) in banner " :key="index">
           <swiper-item class="swiper-item">
-            <image :src="item.image_url" class="slide-image" />
+            <image :src="item.imgSrc" class="slide-image" @click="bannerClick(item.linkAddress)" />
           </swiper-item>
         </block>
       </swiper>
-    </div>
+    </div> -->
+
     <!-- 大家都在领 -->
     <div class="user-title">
       <div class="u-left">
         <span>&nbsp;</span> 大家都在领
       </div>
       <div class="u-right">
-        <span>1111119999</span>  大家都在领
+        <span></span>
       </div>
     </div>
     <div class="our-cont">
+       <div class="hidden">
+          <div class="item" v-for="(item,index) in topicList" :key="index">
+              <div class="icon">
+                <img :src="item.icon" />
+                <span>{{item.nickname}}</span>
+              </div>
+              <div class="time">
+                {{item.timeText}}
+              </div>
+              <div class="desc" v-if="item.type==1">
+                领取<span class="price">{{item.amount}}元优惠券</span>
+              </div>
+              <div class="desc" v-else-if="item.type==2">
+                获得返利<span class="price">{{item.amount}}元</span>
+              </div>
+              <div class="desc" v-else-if="item.type==3">
+                提现<span class="price">{{item.amount}}元</span>
+              </div>
+          </div>
+      </div>
     </div>
+
     <!-- 优惠列表 -->
     <div class="user-title">
       <div class="u-left">
         <span>&nbsp;</span> 优惠列表
       </div>
       <div class="u-right">
-        <span>1111119999</span>  更多
+        <span></span> 
       </div>
     </div>
-    <div @click="goodsDetail(item.id)" class="shop-list" v-for="(item,index) in hotGoods" :key="index">
-      <image class="imgs" :src="item.list_pic_url" alt="" />
-      <div class="list-cont">
-        <div class="goods_title">
-          {{item.name}}
+    <good-list :goodList="hotGoods" eventName="home_click_goods"></good-list>
+
+    <!-- 弹窗 -->
+    <div class="index-warps" v-show="clipboard.show">
+      <div class="index-concant">
+        <div class="title-img">
+          <image class="imgs" :src="imgs.layerSerachImg" />
         </div>
-        <div class="result_tm icon">
-          <image class="imgs-icon" src="../../../static/list-img/1.jpg" alt="" />
-          <span class="icon">包邮</span>
+        <div class="copy-cont">
+          <p>{{clipboard.data}}</p>
         </div>
-        <div class="col-yuan">
-          <span> 原价 ¥59.8</span>
-          <span class="fr">已售2.6万件</span>
-        </div>
-        <div class="col-money">
-          <p class="p-fr">
-            <i class="quan">10元券</i>
-          </p>
-          券后 
-          <span class="s-k">
-            <i>¥</i>5.1
-          </span>
+        <div class="copy-bnt">
+          <button v-on:click="optionClipboard(false)">取消</button><button class="bnt-rihgt"  v-on:click="optionClipboard(true)">搜索</button>
         </div>
       </div>
+      <div class="wx-gallery"></div>
     </div>
+    <!-- 分享好友 -->
+     <button class="share" hover-class="none" form-type="submit" open-type="share" value="">分享好友</button>
   </div>
+</form>
 </template>
 
+
 <script>
-import amapFile from "../../utils/amap-wx";
-import { get } from "../../utils";
-import { mapState, mapMutations } from "vuex";
+import { get,client,userOption,mta,api,constant } from "../../utils";
+import goodList from '../../components/goodList/goodList';
 export default {
-  onShow() {
-  },
-  computed: {
-    ...mapState(["cityName"])
-  },
-  mounted() {
-    this.getCityName();
-    this.getData();
-  },
-  data() {
+  components:{
+   goodList
+  },  
+  data () {
     return {
+      motto: 'Hello miniprograme',
       banner: [],
-      channel: [],
-      brandList: [],
-      newGoods: [],
       hotGoods: [],
+      weekenGoods:[],
       topicList: [],
-      newCategoryList: []
+      imgs:{
+        layerSerachImg: constant.SHost+"/static/images/tanch-title-bg.png",
+        bannerA: constant.SHost+"/static/images/banner-2.jpg",
+        iconLogo: constant.SHost+"/static/images/logo.png"
+      },
+      listLoading:false,
+      //参数
+      params:{
+        canLoadHotGoods:true,
+        //热卖商品
+        hotGoods:{
+          pageIndex:1,
+          pageSize:20,
+          hasCoupon:true
+        }
+      },
+      clipboard:{
+        show:false,
+        data:'',
+      }
+    }
+  },
+  //商品转发
+  onShareAppMessage() {
+   let userIdInfo = userOption.getUserInfo();
+   mta.Event.stat("home_click_share",{userId:userIdInfo.userId});
+    return {
+      path: "/pages/index/main?userId="+userIdInfo.userId,
+      imageUrl: constant.SHost+'/static/images/img_index_share.png' //拿第一张商品的图片
     };
   },
-  components: {},
+  async mounted() {
+   
+    let shareUserId = this.$root.$mp.query.userId || -1;
+    console.log("参数");
+    console.log(this.$root.$mp.query);
+    await this.init();
+    await this.getHotGoodsData();
+    await this.fansAdd(shareUserId);
+    mta.Page.init();
+    console.log(this.$refs);
+  },
+  //滚动底部
+ async onReachBottom() { 
+    await this.getHotGoodsData();
+  },
   methods: {
-    ...mapMutations(["update"]),
-    toMappage() {
-      var _this = this;
-      // 可以通过 wx.getSetting 先查询一下用户是否授权了 "scope.record" 这个 scope
-      wx.getSetting({
-        success(res) {
-          //如果没有同意授权,打开设置
-          if (!res.authSetting["scope.userLocation"]) {
-            wx.openSetting({
-              success: res => {
-                _this.getCityName();
-              }
-            });
-          } else {
-            wx.navigateTo({
-              url: "/pages/mappage/main"
-            });
-          }
-        }
-      });
+    async init(){
+      //用户登录
+      let userInfo = await userOption.codeLogin();
+      //默认数据
+      const defaultInfo = await api.defaultInfo();
+      this.banner = defaultInfo.banners;
+      this.topicList = defaultInfo.hotNews;
     },
-    getCityName() {
-      var _this = this;
-      var myAmapFun = new amapFile.AMapWX({
-        key: "e545e7f79a643f23aef187add14e4548"
-      });
-      myAmapFun.getRegeo({
-        success: function (data) {
-          //成功回调
-          console.log(data);
-          // data[0].regeocodeData.formatted_address
-          // _this.cityName = data[0].regeocodeData.formatted_address;
-          _this.update({ cityName: data[0].regeocodeData.formatted_address });
-        },
-        fail: function (info) {
-          //失败回调
-          console.log(info);
-          //如果用户拒绝授权
-          // 默认为北京
-          _this.cityName = "北京市";
-          _this.update({ cityName: "北京市" });
-        }
+    // 剪贴板内容
+    async loadClipboard(){
+       //获取剪贴板内容
+      let clipboardData = await client.getClipboardData();
+      //判断是否包含中文
+      if(clipboardData.trim()!="" && escape(clipboardData).indexOf("%u")>=0){
+          this.clipboard.show = true;
+          this.clipboard.data = clipboardData;
+         let success = await client.setClipboardData("  ");
+      }
+    },
+    toExplain(){
+      client.navigateTo({
+        url: "/pages/useExplain/main"
       });
     },
     toSearch() {
-      wx.navigateTo({
+      client.navigateTo({
         url: "/pages/search/main"
       });
     },
-    async getData() {
-      const data = await get("/index/index");
-      this.banner = data.banner;
-      this.channel = data.channel;
-      this.brandList = data.brandList;
-      this.newGoods = data.newGoods;
-      this.hotGoods = data.hotGoods;
-      this.topicList = data.topicList;
-      this.newCategoryList = data.newCategoryList;
-    },
-    goodsDetail(id) {
-      wx.navigateTo({
-        url: "/pages/goods/main?id=" + id
-      });
-    },
-    categoryList(id) {
-      wx.navigateTo({
-        url: "/pages/categorylist/main?id=" + id
-      });
-    },
-    goodsList(info) {
-      if (info == "hot") {
-        wx.navigateTo({
-          url: "/pages/newgoods/main?isHot=" + 1
-        });
-      } else {
-        wx.navigateTo({
-          url: "/pages/newgoods/main?isNew=" + 1
-        });
+    async getHotGoodsData() {
+      if(this.params.canLoadHotGoods==false){
+        return;
+      }
+      //热门商品
+      this.params.canLoadHotGoods=false;
+      let goodsData = await api.hotGoods(this.params.hotGoods);
+      //是否还有数据加载
+      if(goodsData.length>0){
+        this.params.canLoadHotGoods=true;
+         //分页数+1
+        this.params.hotGoods.pageIndex++;
+      }
+      //添加到数据集
+      if(goodsData!=null){
+        goodsData.forEach((item)=>{
+          this.hotGoods.push(item);
+        })
       }
     },
-    topicdetail(id) {
-      wx.navigateTo({
-        url: "/pages/topicdetail/main?id=" + id
+    //本周热卖
+    async getWeekenGoodsData(){ 
+      let goodsData = await api.weekenGoods({ hasCoupon:true});
+     //添加到数据集
+      if(goodsData!=null){
+        goodsData.forEach((item)=>{
+          this.weekenGoods.push(item);
+        })
+      }
+    },
+    goodsDetail(id,type,goodsName) {
+      mta.Event.stat("home_click_goods",{goodsName:goodsName,goodsId:id});
+      client.navigateTo({
+        url:"/pages/goods/main?goodsId="+id+"&goodsType="+type
       });
     },
-    totopic() {
-      wx.navigateTo({
-        url: "/pages/topic/main"
+    //跳转渠道商
+    goAgentActivity(){
+      client.navigateTo({
+        url:"/pages/agentActivity/main"
       });
     },
-    tobrandList() {
-      wx.navigateTo({
-        url: "/pages/brandlist/main"
+    optionClipboard(search){
+      if(search){
+         client.navigateTo({url:"/pages/search/main?keyword="+this.clipboard.data});
+      }
+      this.clipboard.show=false;
+    },
+    async fansAdd(userId){
+      if(userId!=-1){
+        let data = await api.fansAdd({shareUserId:userId,msg:'首页分享'});
+      }
+    },
+    bannerClick (linkAddress) {
+       client.navigateTo({
+        url:linkAddress
       });
     },
-    branddetail(id) {
-      wx.navigateTo({
-        url: "/pages/branddetail/main?id=" + id
-      });
+    //form提交
+    formSubmit(e){
+      if(e.target.formId!='the formId is a mock one'){
+        api.formIdAdd({formId:e.target.formId});
+      }
     }
-  },
-  created() { }
-};
+  }
+  };
 </script>
 
 <style lang='scss' scoped>

@@ -1,10 +1,37 @@
-# mpvue 
+# mpvue-new
 
-## 运行方法
+> A Mpvue project
 
-    npm install 下载依赖
-    npm run dev  运行项目
+## Build Setup
 
-    这里部分项目的接口都可以访问了,但是登录接口不可以,只有本地搭建一套才可以使用登录接口
-    因为你用的自己的Appi打开微信开发者工具,无法调用我这边的登录,我后台默认是自己的Appid
+``` bash
+# 初始化项目
+vue init mpvue/mpvue-quickstart myproject
+cd myproject
 
+# 安装依赖
+yarn
+
+# 开发时构建
+npm dev
+
+# 打包构建
+npm build
+
+# 指定平台的开发时构建(微信、百度、头条、支付宝)
+npm dev:wx
+npm dev:swan
+npm dev:tt
+npm dev:my
+
+# 指定平台的打包构建
+npm build:wx
+npm build:swan
+npm build:tt
+npm build:my
+
+# 生成 bundle 分析报告
+npm run build --report
+```
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

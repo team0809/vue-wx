@@ -1,1 +1,0 @@
-<template name="wxParseAudio$6883abd1"><audio id="{{node.attr.id}}" src="{{node.attr.src}}" loop="{{node.attr.loop}}" poster="{{node.attr.poster}}" name="{{node.attr.name}}" author="{{node.attr.author}}" controls class="_audio data-v-06b89b92 {{node.classStr}}" style=" {{node.styleStr}}"></audio></template>

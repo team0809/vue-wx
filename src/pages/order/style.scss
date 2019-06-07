@@ -12,7 +12,7 @@
     li{
       box-sizing: border-box;
       float: left;
-      width: 25%;
+      width: 20%;
       text-align: center;
       line-height: 100rpx;
       height: 100rpx;
@@ -21,69 +21,6 @@
       border-bottom: 2px solid #FE0000;
       color: #FE0000;
       font-weight: bold;
-    }
-  }
-  .seladdress {
-    width: 100%;
-    min-height: 166rpx;
-    background: url('http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-bd30f2bfeb.png') 0 0 repeat-x #fff;
-    background-size: 62rpx 10rpx;
-    margin-bottom: 20rpx;
-    padding-top: 10rpx;
-    text-align: center;
-    line-height: 166rpx;
-  }
-  .address {
-    background: url('http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-bd30f2bfeb.png') 0 0 repeat-x #fff;
-    padding: 50rpx 0 30rpx 0;
-    margin-bottom: 20rpx;
-    .item {
-      padding: 0 20rpx;
-      .addresslist {
-        width: 100%;
-        position: relative;
-        transition: all 300ms ease;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        div:nth-child(1) {
-          width: 100rpx;
-          text-align: center;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          align-self: flex-start;
-          .moren {
-            width: 60rpx;
-            height: 30rpx;
-            border: 1rpx solid #b4282d;
-            text-align: center;
-            line-height: 30rpx;
-            color: #b4282d;
-            margin: 10rpx auto 0 auto;
-          }
-        }
-        .info {
-          padding: 0 20rpx;
-          flex: 1; // p:nth-child(1) {}
-          p:nth-child(2) {
-            margin-top: 5rpx;
-            color: #666;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-          }
-        }
-        div:nth-child(3) {
-          width: 50rpx;
-          height: 50rpx;
-          margin: 0 20rpx;
-          background: url('http://yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-right-596d39df1e.png') no-repeat;
-          background-size: 100% 100%;
-        }
-      }
     }
   }
   .orderbox {
@@ -105,39 +42,46 @@
     margin-top: 110rpx;
     .odr-time{
       color: #aaa;
-      font-size: 22rpx;
+      font-size: 26rpx;
       margin-top: 8rpx;
     }
     .odr-numb{
       color: #aaa;
-      font-size: 22rpx;
+      font-size: 26rpx;
       margin-top: 8rpx;
-      span{
+      .copy{
         display: inline;
         border: 1rpx solid #666;
-        padding: 3rpx 10rpx;
+        padding: 3rpx 12rpx;
         margin-left: 8rpx;
         border-radius: 100rpx;
+        font-size: 22rpx;
+      }
+      .num{
+        font-size: 22rpx;
+        display: inline;
+        color: #aaa;
       }
     }
     .monery-bom{
-      margin-top: 16rpx;
+      color: #aaa;
+      font-size: 26rpx;
+      margin-top: 10rpx;
       height: 36rpx;
       line-height: 36rpx;
-      span{
-        display: inline-block;
-        color: #aaa;
-        font-size: 22rpx;
-      }
-      i{
-        display: inline-block;
+      overflow: hidden;
+      .price{
         float: right;
-        color: #FE0000;
-        font-size: 22rpx;
+        i{
+          display: inline-block;
+          color: rgb(247, 78, 78);
+          font-size: 28rpx;
+        }
       }
+     
     }
     .item {
-      padding: 20rpx 0;
+      padding: 8rpx 0;
       border-bottom: 1rpx solid #f4f4f4; // height: 166rpx;
       position: relative;
       .con {
@@ -150,8 +94,8 @@
           align-items: center;
           width: 100%;
           .img {
-            width: 220rpx;
-            height: 220rpx;
+            width: 200rpx;
+            height: 200rpx;
             display: block;
             background: #f4f4f4;
             margin-left: 20rpx;
@@ -160,19 +104,49 @@
               height: 100%;
             }
           }
+          .min-img{
+            width: 200rpx;
+            height: 200rpx;
+            display: block;
+            background: #f4f4f4;
+            margin-left: 20rpx;
+            img{
+              width: 100%;
+              height: 100%;
+              border-radius: 16rpx;
+            }
+          }
           .info {
             padding: 20rpx;
             -webkit-box-flex: 1;
             -webkit-flex: 1;
             flex: 1;
             p {
-              line-height: 40rpx;
+              line-height: 36rpx;
+              .platform{
+                color: white;
+                display: inline-block;
+                padding:4rpx 14rpx;
+                background:-webkit-linear-gradient(211.3deg, #FF927C, #FF5E5E);
+                background:linear-gradient(-121.3deg, #FF927C, #FF5E5E);
+                font-size:20rpx;
+              }
             }
           }
         }
         .right {
           padding-right: 50rpx;
         }
+      }
+      .state{
+        position:absolute;
+        padding:2rpx 12rpx;
+        top:-1rpx;
+        right:0rpx;
+        background:#f56e0b;
+        font-size:24rpx;
+        color:white;
+        border-radius:0 0 10rpx 10rpx;
       }
     }
   }

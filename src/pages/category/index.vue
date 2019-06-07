@@ -3,29 +3,25 @@
     <div class="search" @click="tosearch">
       <div class="ser">
         <span class="iconfont iconsousuo"></span>
-        <span>商品搜索,共239款好物</span>
+        <span>商品搜索</span>
       </div>
-
     </div>
     <div class="content">
       <scroll-view class="left" scroll-y="true">
-        <div class="iconText" @click="selectitem(item.id,index)" v-for="(item, index) in listData" :class="[index==nowIndex?'active':'']" :key="index">
-          {{item.name}}
+        <div class="iconText" @click="selectitem(item,index)" v-for="(item, index) in listData" :class="[index==nowIndex?'active':'']" :key="index">
+          {{item.title}}
         </div>
       </scroll-view>
       <scroll-view class="right" scroll-y="true">
-        <div class="banner">
-          <img :src="detailData.banner_url" alt="">
-        </div>
         <div class="title">
           <span>—</span>
-          <span>{{detailData.name}}分类</span>
+          <span>{{detailData.title}}分类</span>
           <span>—</span>
         </div>
         <div class="bottom">
-          <div @click="categoryList(item.id)" v-for="(item,index) in detailData.subList" :key="index" class="item">
-            <img :src="item.wap_banner_url" alt="">
-            <span>{{item.name}}</span>
+          <div @click="categoryList(jitem)" v-for="(jitem,jindex) in detailData.subList" :key="jindex" class="item">
+            <div><img :src="jitem.imgPath" alt=""></div>
+            <span>{{jitem.title}}</span>
           </div>
         </div>
       </scroll-view>
@@ -34,18 +30,20 @@
 </template>
 
 <script>
-import { get } from "../../utils";
+import { api,client,mta } from "../../utils";
 export default {
   created() {},
-  mounted() {
+ async mounted() {
     //获取列表数据
-    this.getListData();
+    await this.getListData();
     //获取默认右侧数据
-    this.selectitem(this.id, this.nowIndex);
+    await this.selectitem(this.listData[0], this.nowIndex);
+    //统计
+    mta.Page.init();
   },
   data() {
     return {
-      id: "1005000",
+      id: -1,
       nowIndex: 0,
       listData: [],
       detailData: {}
@@ -56,22 +54,24 @@ export default {
     tosearch() {
       wx.navigateTo({ url: "/pages/search/main" });
     },
-    async selectitem(id, index) {
+    async selectitem(item,index) {
       this.nowIndex = index;
-      const data = await get("/category/currentaction", {
-        id: id
-      });
-      this.detailData = data.data.currentOne;
+      console.log(index);
+      if(item.subList==undefined){
+        const data = await api.goodsCategory({parentId:item.id});
+        item.subList = data;
+      }
+      this.detailData = item;
     },
     async getListData() {
-      const data = await get("/category/indexaction");
-      this.listData = data.categoryList;
+      const data = await api.goodsCategory({parentId:0});
+      this.listData = data;
     },
-    categoryList(id) {
-      console.log("tiaozhuan");
-
-      wx.navigateTo({
-        url: "../categorylist/main?id=" + id
+    categoryList(item) {
+      //事件统计
+      mta.Event.stat("category_click_item",{title:item.title});
+      client.navigateTo({
+        url: "../categorylist/main?id="+item.pddId+"&title="+item.title
       });
     }
   },
