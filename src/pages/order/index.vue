@@ -30,32 +30,13 @@
           </div>
         </div>
 
-        <!--粉丝订单-->
-        <!-- <div class="con" v-if="item.balanceType==1 || item.balanceType==2">
-          <div class="left">
-            <div class="min-img">
-              <img v-if="item.balanceType==1" src="/static/order/fans-act.png" alt="">
-              <img v-else src="/static/order/tuijfans-act.png" alt="">
-            </div>
-            <div class="info">
-              <p>{{item.balanceType==1?'直属粉丝订单':'推荐粉丝订单'}}</p>
-              <p class="odr-time">创建时间:{{item.createTime}}</p>
-              <p class="odr-numb" v-if="item.orderStatus!=4">结算日期:{{item.balanceDate}}</p>
-              <div class="monery-bom">
-                <span class="order-price">订单金额 ¥{{item.orderPrice}}</span>
-                <span class="price">预估返现 <i>¥{{item.balanceAmount}}</i></span>
-              </div>
-            </div>
-          </div>
-        </div> -->
-
         <!--活动奖励-->
         <div class="con" v-if="item.balanceType==3">
           <div class="left">
             <div class="min-img">
-              <img v-if="item.activityType==1" src="/static/order/lanxin-act.png" alt="">
-              <img v-else-if="item.activityType==2" src="/static/order/order-act.png" alt="">
-              <img v-else src="/static/order/fanxian-act.png" alt="">
+              <img v-if="item.activityType==1"  :src="imgs.lanxinAct"  alt="">
+              <img v-else-if="item.activityType==2" :src="imgs.orderAct"  alt="">
+              <img v-else :src="imgs.fanxianAct" alt="">
             </div>
             <div class="info">
               <p v-if="item.activityType==1">拉新活动</p>
@@ -79,7 +60,8 @@
 <script>
   import {
     api,
-    client
+    client,
+    constant
   } from "../../utils";
   export default {
     onShow() {
@@ -105,7 +87,12 @@
         pageIndex:1,
         currentCount:0,
         currentStatus:-1,
-        canLoadGoods:true
+        canLoadGoods:true,
+        imgs:{
+          lanxinAct: constant.SHost +'/static/order/lanxin-act.png',
+          orderAct: constant.SHost +'/static/order/order-act.png',
+          fanxianAct: constant.SHost +'/static/order/fanxian-act.png'
+        }
       };
     },
     components: {},

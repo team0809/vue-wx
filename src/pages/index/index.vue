@@ -8,8 +8,14 @@
         <span class="icon iconfont iconsousuo"></span>
       </div>
     </div>
+    <div class="banner">
+      <image :src="imgs.bannerA" mode="widthFix" class="back" />
+      <p class="title">网购 先领券 再购买 更省钱</p>
+      <p class="desc"><span>80%</span>以上商品的都有隐藏优惠券<br />网购下单前一定要先领优惠券哦</p>
+      <span class="lock" @click="toExplain">查看领券秘笈</span>
+    </div>
     <!-- banner轮播图 -->
-    <div class="swiper">
+    <!-- <div class="swiper" style="display:none;">
       <swiper class="swiper-container" indicator-dots="true" autoplay="true" interval="3000" circular="true" duration="500">
         <block v-for="(item, index) in banner " :key="index">
           <swiper-item class="swiper-item">
@@ -17,7 +23,7 @@
           </swiper-item>
         </block>
       </swiper>
-    </div>
+    </div> -->
 
     <!-- 大家都在领 -->
     <div class="user-title">
@@ -85,8 +91,7 @@
 
 
 <script>
-import { get,client,userOption,mta } from "../../utils";
-import { api } from "../../utils/api";
+import { get,client,userOption,mta,api,constant } from "../../utils";
 import goodList from '../../components/goodList/goodList';
 export default {
   components:{
@@ -100,7 +105,9 @@ export default {
       weekenGoods:[],
       topicList: [],
       imgs:{
-        layerSerachImg:"/static/images/tanch-title-bg.png",
+        layerSerachImg: constant.SHost+"/static/images/tanch-title-bg.png",
+        bannerA: constant.SHost+"/static/images/banner-2.jpg",
+        iconLogo: constant.SHost+"/static/images/logo.png"
       },
       listLoading:false,
       //参数
@@ -125,7 +132,7 @@ export default {
    mta.Event.stat("home_click_share",{userId:userIdInfo.userId});
     return {
       path: "/pages/index/main?userId="+userIdInfo.userId,
-      imageUrl: '/static/images/img_index_share.png' //拿第一张商品的图片
+      imageUrl: constant.SHost+'/static/images/img_index_share.png' //拿第一张商品的图片
     };
   },
   async mounted() {
@@ -162,6 +169,11 @@ export default {
           this.clipboard.data = clipboardData;
          let success = await client.setClipboardData("  ");
       }
+    },
+    toExplain(){
+      client.navigateTo({
+        url: "/pages/useExplain/main"
+      });
     },
     toSearch() {
       client.navigateTo({

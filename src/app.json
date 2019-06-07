@@ -10,6 +10,7 @@
     "pages/fans/main",
     "pages/search/main",
     "pages/my/main",
+    "pages/useExplain/main",
     "pages/category/main"],
   "window": {
     "backgroundTextStyle": "light",

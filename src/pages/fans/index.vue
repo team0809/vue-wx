@@ -12,7 +12,7 @@
         <div class="con">
           <div class="left">
             <div class="img">
-              <img :src="item.icon||'/static/images/ic_menu_me_nor.png'" alt="">
+              <img :src="item.icon|| imgs.meNor" alt="">
             </div>
             <div class="info">
               <p>{{item.nickName||'未知'}}</p>
@@ -28,7 +28,8 @@
 <script>
   import {
    api,
-   userOption
+   userOption,
+   constant
   } from "../../utils";
   export default {
     data() {
@@ -38,6 +39,9 @@
         searchParams:{
           pageSize:20,
           pageIndex:1
+        },
+        imgs:{
+          meNor: constant.SHost+'/static/images/ic_menu_me_nor.png'
         }
       };
     },

@@ -1,7 +1,7 @@
 <template>
  <div class="page">
    <form @submit="formSubmit" report-submit="true">
-  <img src="/static/activity-img/active-top-bg.png" class="img-background" mode="widthFix" />
+  <img :src="imgs.activeTopBg" class="img-background" mode="widthFix" />
   <div class="div-head">
     <p class="a-title"> {{activityModel.activityName}} </p>
     <p class="a-time">{{activityModel.startTime}} - {{activityModel.endTime}}</p>
@@ -25,10 +25,10 @@
     </div>
     <div class="shjie">
       <div class="s-left">
-        <img src="/static/activity-img/shjie.png" class="img-sj" />
+        <img :src="imgs.shjie" class="img-sj" />
       </div>
       <div class="s-right">
-        <img src="/static/activity-img/shjie.png" class="img-sj" />
+        <img :src="imgs.shjie" class="img-sj" />
       </div>
     </div>
     <div class="cont-box">
@@ -36,7 +36,7 @@
       <div class="monery-warp">
         <span class="m-span" v-for="item in activityModel.newUserDetails" v-bind:key="item">
           <i class="i-text">
-            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+            <img class="hbao" :src="imgs.amountWithdraw" alt="">
             <div class="go-cl">￥{{item.rewardAmount}}</div>
           </i>
           <p class="text-p">
@@ -66,10 +66,10 @@
     </div>
     <div class="shjie">
       <div class="s-left">
-        <img src="/static/activity-img/shjie.png" class="img-sj" />
+        <img :src="imgs.shjie" class="img-sj" />
       </div>
       <div class="s-right">
-        <img src="/static/activity-img/shjie.png" class="img-sj" />
+        <img :src="imgs.shjie" class="img-sj" />
       </div>
     </div>
     <div class="cont-box">
@@ -77,7 +77,7 @@
       <div class="monery-warp">
         <span class="m-span" v-for="item in activityModel.orderDetails" v-bind:key="item">
           <i class="i-text">
-            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+            <img class="hbao" :src="imgs.amountWithdraw" alt="">
             <div class="go-cl">￥{{item.rewardAmount}}</div>
           </i>
           <p class="text-p">
@@ -107,10 +107,10 @@
     </div>
     <div class="shjie">
       <div class="s-left">
-        <img src="/static/activity-img/shjie.png" class="img-sj" />
+        <img :src="imgs.shjie" class="img-sj" />
       </div>
       <div class="s-right">
-        <img src="/static/activity-img/shjie.png" class="img-sj" />
+        <img :src="imgs.shjie" class="img-sj" />
       </div>
     </div>
     <div class="cont-box">
@@ -118,7 +118,7 @@
       <div class="monery-warp">
         <span class="m-span" v-for="item in activityModel.rebateDetails" v-bind:key="item">
           <i class="i-text">
-            <img class="hbao" src="/static/images/icon_amount_withdraw.png" alt="">
+            <img class="hbao" :src="imgs.amountWithdraw" alt="">
             <div class="go-cl">￥{{item.rewardAmount}}</div>
           </i>
           <p class="text-p">
@@ -172,14 +172,20 @@
   import {
    api,
    userOption,
-   client
+   client,
+   constant
   } from "../../utils";
   export default {
     data() {
       return {
         activityModel:{},
         showChannel:false,
-        userInfo:{userType:10}
+        userInfo:{userType:10},
+        imgs:{
+          activeTopBg: constant.SHost + '/static/activity-img/active-top-bg.png',
+          shjie: constant.SHost + '/static/activity-img/shjie.png',
+          amountWithdraw: constant.SHost + '/static/images/icon_amount_withdraw.png',
+        }
       };
     },
     onShow() {

@@ -6,7 +6,7 @@
           <span class="iconfont iconsousuo"></span>
           <input type="text" confirm-type="search" :focus="showCommodity==0" v-model="words" @focus="inputFocus" @input="tipsearch" placeholder="商品搜索">
           <!-- <input name="input" class="keywrod" focus="true" value="{{keyword}}" confirm-type="search" bindinput="inputChange" bindfocus="inputFocus" bindconfirm="onKeywordConfirm" confirm-type="search" placeholder="{{defaultKeyword.keyword}}" /> -->
-          <span @click="clearInput" class="iconfont iconguanbi del" src="/static/images/del-icon.png"></span>
+          <span @click="clearInput" class="iconfont iconguanbi del" :src="imgs.iconDel"></span>
         </div>
         <div @click="cancel">取消</div>
       </div>
@@ -77,7 +77,8 @@ import {
   searchHistory,
   client,
   mta,
-  api
+  api,
+  constant
 } from "../../utils";
 import goodList from '../../components/goodList/goodList';
 export default {
@@ -123,6 +124,9 @@ export default {
         pageSize:20,
         pageIndex:1,
         sortType:0
+      },
+      imgs:{
+        iconDel: constant.SHost + '/static/images/del-icon.png'
       }
     };
   },

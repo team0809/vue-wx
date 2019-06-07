@@ -88,7 +88,8 @@
     login,
     client,
     userOption,
-    api
+    api,
+    constant
   } from "../../utils";
 import goodList from '../../components/goodList/goodList';
 export default {
@@ -97,7 +98,7 @@ export default {
   }, 
     data() {
       return {
-        aouthImg:"/static/images/wechat-aouth.png",
+        aouthImg: constant.SHost + "/static/images/wechat-aouth.png",
         allcheck: false,
         Listids: [],
         userInfo: {},

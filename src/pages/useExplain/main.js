@@ -5,6 +5,6 @@ const app = new Vue(App)
 app.$mount()
 export default {
     config: {
-        "navigationBarTitleText": "赏金活动"
+        "navigationBarTitleText": "西瓜领券秘笈"
       }
 }

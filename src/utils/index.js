@@ -4,8 +4,13 @@ import { api } from "./api";
 import {client} from "./wechat";
 //小程序统计
 var mta = require("./mta_analysis");
+//全局变量
+var constant = {
+  //静态资源文件域名
+  SHost:'http://qn.wxcard.com.cn',
+}
 
-export {client,api,mta}
+export {client,api,mta,constant}
 
 function formatNumber(n) {
   const str = n.toString()
@@ -134,17 +139,7 @@ export function login() {
 }
 
 //----------------------------------------------用户是否登录 未登录跳转到登录页面 -------------------------
-
-
-export function getStorageOpenid() {
-  const openId = wx.getStorageSync("openId");
-  if (openId) {
-    return openId;
-  } else {
-    return ''
-  }
-}
-
+ 
 const userOption = {
   setUserInfo(userInfo){
     let user = {

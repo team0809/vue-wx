@@ -120,6 +120,7 @@ export default {
     async goodsDetail() {
       const data = await api.goodsDetail({goodsId: this.goodsId,goodsType: this.goodsType});
       if(data.goodsId==undefined){
+         client.switchTab({url:'/pages/index/main'});
         return;
       }
       let goodsLinks = data.goodsUrl.split('!@#');

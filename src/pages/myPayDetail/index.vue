@@ -30,7 +30,8 @@
 <script>
   import {
    api,
-   userOption
+   userOption,
+   constant
   } from "../../utils";
   export default {
     data() {
@@ -76,10 +77,10 @@
           this.pageIndex++;
           accountList.forEach(item => {
             switch(item.refType){
-              case 1: item.icon = "/static/images/icon_amount_order.png";item.orderText='订单返利';break;
-              case 2: item.icon = "/static/images/icon_amount_reward.png";item.orderText='活动赏金';break;
-              case 3: item.icon = "/static/images/icon_amount_withdraw.png";item.orderText='提现';break;
-              default: item.icon = "/static/images/icon_amount_order.png";item.orderText='订单返利';break;
+              case 1: item.icon = constant.SHost + "/static/images/icon_amount_order.png";item.orderText='订单返利';break;
+              case 2: item.icon = constant.SHost + "/static/images/icon_amount_reward.png";item.orderText='活动赏金';break;
+              case 3: item.icon = constant.SHost + "/static/images/icon_amount_withdraw.png";item.orderText='提现';break;
+              default: item.icon = constant.SHost + "/static/images/icon_amount_order.png";item.orderText='订单返利';break;
             }
             item.typeText= item.inOrOut==0?'收入':'支出';
             this.listData.push(item);
