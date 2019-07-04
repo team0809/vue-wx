@@ -1,7 +1,6 @@
 <template>
   <section>
-      {{isShow}}---isShow
-    <div class="confirm-warp"
+   <div class="confirm-warp"
         v-if="isShow">
         <header class="h-title">{{ title }}</header>
         <p class="my-contant">
@@ -9,8 +8,8 @@
             <!-- <img src="../assets/images/referralM7/7/pic_1@2x.png" class="bg-img" alt=""> -->
         </p>
         <div class="con-bnt-foot">
-            <button class="ok-bnt" @click="save()">{{ okBntText }}</button>
-            <button class="cancel-bnt _leftbr" @click="close()">{{ cancelBntText }}</button>
+            <button class="ok-bnt" v-if="okBntText" @click="save()">{{ okBntText }}</button>
+            <button class="cancel-bnt _leftbr" v-if="cancelBntText" @click="close()">{{ cancelBntText }}</button>
         </div>
     </div>
     <!--蒙层-->
@@ -20,22 +19,10 @@
 <script>
 export default {
   /**
-   * 参考: https://bootstrap-vue.js.org/docs/components/modal
    * @param {boolean} isShow 是否显示modal框
    * @param {string|number} title 展示内容
-   * @param {boolean} hideHeaderClose 是否展示右上角关闭按钮 默认展示
    * @param {string} cancelBntText 取消按钮文字
    * @param {string} okBntText 确定按钮文字
-   * @param {boolean} noCloseOnBackdrop 能否通过点击外部区域关闭弹框
-   * @param {boolean} noCloseOnEsc 能否通过键盘Esc按键关闭弹框
-   * @param {function} change 事件触发顺序： show -> change -> shown -> cancel | ok -> hide -> change -> hidden
-   * @param {function} show before modal is shown
-   * @param {function} shown modal is shown
-   * @param {function} hide before modal has hidden
-   * @param {function} hidden after modal is hidden
-   * @param {function} ok 点击'确定'按钮
-   * @param {function} cancel 点击'取消'按钮
-   * @param {Boolean} destroy 组件是否销毁 在官方并没有找到手动销毁组件的方法，只能通过v-if来实现
    */
   props: {
     isShow: {
@@ -61,71 +48,9 @@ export default {
     okBntText: {
       type: String,
       default: '确定'
-    },
-    noCloseOnBackdrop: {
-      type: Boolean,
-      default: true
-    },
-    noCloseOnEsc: {
-      type: Boolean,
-      default: true
-    },
-    change: {
-      type: Function,
-      default: null
-    },
-    show: {
-      type: Function,
-      default: null
-    },
-    shown: {
-      type: Function,
-      default: null
-    },
-    hide: {
-      type: Function,
-      default: null
-    },
-    hidden: {
-      type: Function,
-      default: null
-    },
-    ok: {
-      type: Function,
-      default: null
-    },
-    cancel: {
-      type: Function,
-      default: null
-    },
-    destroy: {
-      type: Boolean,
-      default: false
     }
   },
   methods: {
-    modalChange () {
-      if (this.change) this.change()
-    },
-    modalShow () {
-      if (this.show) this.show()
-    },
-    modalShown () {
-      if (this.shown) this.shown()
-    },
-    modalHide () {
-      if (this.hide) this.hide()
-    },
-    modalHidden () {
-      if (this.hidden) this.hidden()
-      this.destroy = true
-    },
-    modalOk () {
-      if (this.ok) this.ok()
-    },
-    modalCancel () {
-      if (this.cancel) this.cancel()
-    },
     save () {},
     close () {}
   }

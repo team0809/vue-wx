@@ -24,7 +24,9 @@ let Confirm = (options) => {
     console.log(instance.isShow)
     // 设置参数
     instance.title = options.title||'设置标题';
-    instance.contant = options.contant||'设置标题';
+    instance.contant = options.contant||'设置内容';
+    instance.okBntText = options.okBntText||'确定';
+    instance.cancelBntText = options.cancelBntText||'取消';
     /* 对 save 函数包裹一层 */
     let save = instance.save;
     let close = instance.close;
