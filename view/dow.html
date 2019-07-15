@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="keywords" content="找优惠，分享链接">
+	<meta name="description" content="找优惠，分享链接">
+	<meta property="og:type" content="webpage">
+	<meta property="og:url" content="https://www.pgyer.com">
+	<meta property="og:title" content="西瓜">
+	<meta property="og:description" content="为开发者提供发版服务">
+	<meta name="apple-mobile-web-app-title" content="蒲公英">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no minimal-ui">
+	<style type="text/css" media="screen">
+		body {
+		    color: #333;
+		    font-size: 14px;
+		    line-height: 1.6;
+		}
+		body {
+		    font-family: NotoSansHans-Regular,AvenirNext-Regular,proxima-nova,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei","Open Sans","Helvetica Neue",Arial,sans-serif;
+		}
+		body {
+		    color: #969b9d;
+		    size: 14px;
+		}
+		*{margin: 0; padding:0;}
+		.dow-mack {
+		  background: rgba(0, 0, 0, 0.68);
+		  width: 100%;
+		  height: 100%;
+		  position: fixed;
+		  top: 0;
+		  right: 0;
+		  bottom: 0;
+		  left: 0;
+		  z-index: 1000;
+		  display: none;
+		}
+		.dow-mack .d-m-img {
+		  text-align: right;
+		  margin-right: 1.6rem;
+		  margin-top: 1rem;
+		}
+		.dow-mack .d-m-img img {
+		  height: 5rem;
+		}
+		.dow-mack .d-m-img span {
+		  font-family: "PingFangSC-Regular";
+		  font-size: .7rem;
+		  color: #FFFFFF;
+		  letter-spacing: 0;
+		  display: block;
+		}
+		.dow-mack .dow-m-close {
+		  position: absolute;
+		  right: 0;
+		  bottom: 1.8rem;
+		  left: 0;
+		  line-height: 60px;
+		  text-align: center;
+		  z-index: 1002;
+		}
+		.dow-mack .dow-m-close button {
+		  background: none;
+		  display: block;
+		  margin: 0 auto;
+		  border: 0;
+		}
+		.dow-mack .dow-m-close img {
+		  height: 2.25rem;
+		}
+
+		.content {
+		    padding-top: 10px;
+		    padding-bottom: 40px;
+		    padding-left: 15px;
+    		padding-right: 15px;
+		}
+		.row {
+		    padding-left: -15px;
+		    padding-right: -15px;
+		    clear: both;
+		}
+		.row:before,.row:after {
+		    content: " ";
+		    display: table;
+		}
+		.row:after {
+		    clear: both;
+		}
+		.apk-icon-bg {
+		    background: url(dow/app_bg.png) top center no-repeat #fff;
+		    width: 160px;
+		    height: 160px;
+		    background-size: 100% auto;
+		    border: none;
+		    margin: 20px auto 30px;
+		    text-align: center;
+		}
+		.apk-icon{
+			border-radius: 24px;
+			border: none;
+		    width: 100px;
+		    height: 100px;
+		    margin-top: 34px;
+		}
+		.span12{
+			text-align: center;
+		}
+		h2{
+			color: #585f69;
+		    margin-top: 5px;
+		    text-shadow: none;
+		    font-weight: 400;
+		    font-family: NotoSansHans-Regular,AvenirNext-Regular,proxima-nova,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei","Open Sans","Helvetica Neue",Arial,sans-serif;
+		    font-size: 24px;
+    		line-height: 33px;
+		}
+		.font-size{
+			color: #333;
+		    size: 24px;
+		    margin-bottom: -5px;
+		}
+		ul.brief-dec {
+		    padding: 0;
+		    top: 10px;
+		    padding-right: 0;
+		    background: 0 0;
+		    position: relative;
+		}
+		.brief-dec {
+		    padding: 8px 15px;
+		    margin-bottom: 20px;
+		    list-style: none;
+		    background-color: #f5f5f5;
+		    border-radius: 4px;
+		}
+		.brief-dec>li {
+		    padding: 0 5px;
+		}
+		.gray-text, .gray-text li {
+		    color: #969b9d;
+		}
+		.brief-dec>li, .pagination {
+		    display: inline-block;
+		}
+		.margin-bottom-30 {
+		    margin-bottom: 30px;
+		}
+		.col-md-12{
+			position: relative;
+		    min-height: 1px;
+		    padding-left: 15px;
+		    padding-right: 15px;
+		    text-align: center;
+		}
+		.qrcode {
+		    width: 150px;
+		    height: 150px;
+		    border: 1px solid #c2c2c2;
+		    margin-top: 16px;
+		    padding: 3px;
+		    margin-bottom: 26px;
+		    cursor: pointer;
+		    transition: all .25s;
+		    vertical-align: middle;
+		    border-radius: 6px;
+		}
+		.mb-10 {
+		    margin-bottom: 10px!important;
+		}
+		.margin-bottom-20 {
+		    margin-bottom: 20px;
+		    clear: both;
+		}
+		.spinner {
+		    height: 45px;
+		}
+		.showtext {
+		    display: none;
+		    font-size: 14px;
+		    color: #1abc9c;
+		    text-align: center;
+		    color: #1abc9c;
+		}
+		.btn-u-lg, a.btn-u-lg {
+		    font-size: 18px;
+		    padding: 8px 60px;
+		    border-radius: 30px;
+		    color: #fff;
+		    text-decoration: none;
+		    min-width: 180px;
+		    display: inline-block;
+		}
+		.btn-u-lg, .btn-u.btn-u-green, a.btn-u-lg {
+		    background-color: #FE0000;
+		    font-weight: bold;
+		}
+		.btn-u-lg, a.btn-u-lg {
+		    font-size: 18px;
+		    padding: 10px 25px;
+		}
+		.btn-u {
+		    background: #1abc9c;
+		}
+		.btn-u {
+		    border: 1px solid #1ABC9C;
+		    cursor: pointer;
+		    padding: 4px 13px;
+		    position: relative;
+		}
+		.btn-u, .btn-u:hover {
+		    color: #fff;
+		    text-decoration: none;
+		}
+		.btn-u, .list-toggle:after {
+		    font-size: 14px;
+		    font-weight: 400;
+		    display: inline-block;
+		}
+		.loading {
+		    display: none;
+		    background-color: transparent;
+		    width: 45px;
+		    height: 45px;
+		    border: 1px solid #1abc9c;
+		    border-radius: 50%;
+		    border-top-color: transparent;
+		    border-left-color: transparent;
+		    -webkit-transition: all .25s;
+		    transition: all .25s;
+		    -webkit-animation: rotate .6s linear infinite;
+		    animation: rotate .6s linear infinite;
+		}
+		@-webkit-keyframes rotate {
+		    0% {
+		        -webkit-transform: rotate(0);
+		        transform: rotate(0)
+		    }
+
+		    100% {
+		        -webkit-transform: rotate(360deg);
+		        transform: rotate(360deg)
+		    }
+		}
+
+		@keyframes rotate {
+		    0% {
+		        -webkit-transform: rotate(0);
+		        transform: rotate(0)
+		    }
+
+		    100% {
+		        -webkit-transform: rotate(360deg);
+		        transform: rotate(360deg)
+		    }
+		}
+		hr{
+			border-top: 1px solid #e7ebed;
+			margin: 30px 0;
+		}
+		h2.content-title{
+			font-size: 20px;
+    		line-height: 25px;
+    		size: 20px;
+		    color: #333;
+		    margin-bottom: 15px;
+		}
+		.up-description {
+		    background: #f2f6f8;
+		    padding: 20px;
+		    border-radius: 5px;
+		    word-break: break-all;
+		}
+		.tag-box {
+		    padding: 20px;
+		    background: #fff;
+		    margin-bottom: 30px;
+		}
+		.dow-copyright {
+		    color: #777;
+		    padding: 30px 0;
+		    background: #f4f4f4;
+		    border-top: solid 1px #e5e5e5;
+		    text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="hed-top">
+		
+	</div>
+	<div class="content">
+		<div class="view row">
+			<div class="apk-icon-bg">
+				<img src="https://appicon.pgyer.com/image/view/app_icons/9307f7209f6caebd25d6ba952f55b68b/120" alt="" class="apk-icon">
+			</div>
+			<div class="span12">
+				<h2><i></i>596_Dev_VIPStudent</h2>
+			</div>
+			<div class="span12">
+				<ul class="brief-dec">
+                    <li>版本：2.9.5 (build 313)</li>
+                    <li>大小：105.1 MB</li>
+                    <li>更新时间：2019-07-10</li>
+                </ul>
+			</div>
+		</div>
+		<div class="view row">
+			<div class="col-md-12">
+				<img src="https://www.pgyer.com/app/qrcode/Jdi5" class="qrcode ">
+			</div>
+			<div class="col-md-12">
+				<div class="row mb-10">
+					<a href="javascript:;" id="dowApk" class="btn-u-lg">点击安装</a>
+				</div>
+			</div>
+			<div class="span12 gray-text" style="text-align:center; ">
+                <p style="padding-top:10px;color:#969b9d;">或者用手机扫描二维码安装</p>
+            </div>
+		</div>
+		<div class="view row">
+			<hr>
+		</div>
+		<div class="view row">
+			<div class="tag-box">
+				<h2 class="content-title">
+					更新说明
+				</h2>
+				<div class="up-description">
+					UploadedUploadedUploadedUploadedUploaded
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="dow-mack" id="dowFlag">
+		<div class="d-m-img">
+			<img class="lo-bg" src="dow/icn_arrow.png" alt="">
+			<span>点击页面右上角按钮<br>
+				  选择“在浏览器打开”</span>
+		</div>
+		<div class="dow-m-close">
+			<button id="closeFun">
+				<img class="lo-bg" src="dow/icn_close.png" alt="">
+			</button>
+		</div>
+	</div>
+	<div class="dow-copyright">
+		<span>未经授权不得私自使用或转发下载</span>
+	</div>
+	<script>
+		function isWeiXin () {
+		    //window.navigator.userAgent属性包含了浏览器类型、版本、操作系统类型、浏览器引擎类型等信息，这个属性可以用来判断浏览器类型
+		    let ua = navigator.userAgent.toLowerCase();
+		    //通过正则表达式匹配ua中是否含有MicroMessenger字符串
+		    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+		        return true;
+		    }else{
+		        return false;
+		    }
+		}
+		window.onload = function () {
+			var dowFlag = document.getElementById('dowFlag'),
+				closeFun =  document.getElementById('closeFun'),
+				dowApk = document.getElementById('dowApk');
+			closeFun.onclick = function () {
+				dowFlag.style.display ='none';
+			}
+			dowApk.onclick = function () {
+				if(isWeiXin()){
+					dowFlag.style.display ='block';
+				}
+			}
+		}
+	</script>
+</body>
+</html>
